@@ -14,19 +14,34 @@
       100% { transform: rotate(-2deg) translateX(0); }
     }
 
+    @keyframes walk {
+      0% { transform: translateX(-80px); opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { transform: translateX(80px); opacity: 0; }
+    }
+
     .phone-animate {
       animation: phoneMove 3s ease-in-out infinite;
+    }
+
+    .person-walk {
+      animation: walk 6s ease-in-out infinite;
+    }
+
+    .person-walk-two {
+      animation: walk 7s ease-in-out infinite reverse;
     }
   </style>
 </head>
 
 <body class="bg-white text-slate-900 overflow-x-hidden">
 
-  <!-- STATIC HEADER - NOT STICKY -->
-  <header class="bg-white shadow-sm">
+  <!-- FIXED HEADER -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
     <div class="max-w-7xl mx-auto px-5 lg:px-10 py-4 flex items-center justify-between">
 
-      <a href="#" class="flex items-center">
+      <a href="#">
         <img
           src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png"
           alt="Reliable Socials"
@@ -60,19 +75,19 @@
 
     <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-slate-100 shadow-lg">
       <nav class="px-5 py-4 flex flex-col gap-3 text-sm font-semibold text-slate-600">
-        <a href="#" class="hover:text-blue-600">Home</a>
-        <a href="#" class="hover:text-blue-600">About Us</a>
-        <a href="#" class="hover:text-blue-600">Contact Us</a>
-        <a href="#" class="hover:text-blue-600">Blogs</a>
-        <a href="#" class="hover:text-blue-600">Web API Documentation</a>
-        <a href="#" class="hover:text-blue-600">Reliable Socials Status</a>
-        <a href="#" class="hover:text-blue-600">Register</a>
+        <a href="#">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Blogs</a>
+        <a href="#">Web API Documentation</a>
+        <a href="#">Reliable Socials Status</a>
+        <a href="#">Register</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="max-w-7xl mx-auto px-5 lg:px-10 pt-8 pb-16 grid lg:grid-cols-2 items-center gap-4 lg:gap-8 min-h-[640px]">
+  <main class="pt-24">
+    <section class="max-w-7xl mx-auto px-5 lg:px-10 pt-8 pb-16 grid lg:grid-cols-2 items-center gap-6 lg:gap-8 min-h-[640px]">
 
       <!-- LEFT CONTENT -->
       <div>
@@ -98,7 +113,7 @@
           Use Reliable Socials!
         </h1>
 
-        <div class="flex flex-col sm:flex-row gap-4 mb-10 lg:mb-0">
+        <div class="flex flex-col sm:flex-row gap-4 mb-14 lg:mb-0">
           <a href="#" class="bg-blue-600 text-white px-7 py-4 rounded-xl font-extrabold text-center hover:bg-blue-700">
             Register →
           </a>
@@ -112,21 +127,34 @@
       <!-- RIGHT CONTENT -->
       <div class="relative flex justify-center items-center">
 
-        <div class="hidden md:block absolute top-0 right-10">
-          <div class="w-16 h-24 border-[5px] border-blue-600 rounded-3xl relative">
-            <div class="w-7 h-2 bg-blue-600 rounded-full mx-auto mt-3"></div>
-            <div class="w-9 h-2 bg-blue-100 rounded-full mx-auto mt-5"></div>
-            <div class="w-7 h-2 bg-blue-100 rounded-full mx-auto mt-3"></div>
+        <div class="phone-animate relative mt-4 sm:mt-10 w-[330px] sm:w-[480px] h-[480px] sm:h-[560px]">
 
-            <div class="absolute -right-7 top-10 w-12 h-12 bg-white rounded-full shadow-xl grid place-items-center text-blue-600 text-xl">
-              $
+          <!-- PEOPLE WALKING BACKGROUND -->
+          <div class="person-walk absolute bottom-8 left-0 z-0 opacity-60">
+            <div class="relative w-20 h-32">
+              <div class="w-10 h-10 bg-slate-800 rounded-full mx-auto"></div>
+              <div class="w-14 h-16 bg-blue-500 rounded-2xl mx-auto mt-1"></div>
+              <div class="absolute top-12 right-0 w-8 h-5 bg-slate-900 rounded-lg rotate-12"></div>
+              <div class="flex justify-center gap-3 mt-1">
+                <div class="w-4 h-12 bg-slate-700 rounded-full rotate-12"></div>
+                <div class="w-4 h-12 bg-slate-700 rounded-full -rotate-12"></div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="phone-animate relative mt-8 sm:mt-10 w-[300px] sm:w-[460px] h-[470px] sm:h-[540px]">
+          <div class="person-walk-two absolute bottom-10 right-0 z-0 opacity-50">
+            <div class="relative w-20 h-32">
+              <div class="w-10 h-10 bg-slate-800 rounded-full mx-auto"></div>
+              <div class="w-14 h-16 bg-pink-500 rounded-2xl mx-auto mt-1"></div>
+              <div class="absolute top-12 left-0 w-8 h-5 bg-slate-900 rounded-lg -rotate-12"></div>
+              <div class="flex justify-center gap-3 mt-1">
+                <div class="w-4 h-12 bg-slate-700 rounded-full -rotate-12"></div>
+                <div class="w-4 h-12 bg-slate-700 rounded-full rotate-12"></div>
+              </div>
+            </div>
+          </div>
 
-          <!-- floating icons -->
+          <!-- FLOATING ICONS -->
           <div class="absolute top-20 right-0 w-28 h-24 bg-red-500 rounded-[45%] rotate-12 shadow-xl grid place-items-center text-4xl z-30">
             ❤
           </div>
@@ -135,20 +163,17 @@
             ▶
           </div>
 
-          <!-- HAND PALM BEHIND PHONE -->
-          <div class="absolute bottom-0 right-8 w-44 h-80 bg-yellow-300 rounded-t-[95px] rounded-b-[55px] rotate-[-7deg] z-0 shadow-lg"></div>
+          <!-- HAND BEHIND PHONE -->
+          <div class="absolute bottom-0 right-10 w-48 h-80 bg-yellow-300 rounded-t-[100px] rounded-b-[55px] rotate-[-8deg] z-10 shadow-lg"></div>
 
-          <!-- FINGERS HOLDING PHONE -->
-          <div class="absolute bottom-28 left-3 w-32 h-16 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
+          <!-- FINGERS -->
+          <div class="absolute bottom-25 left-4 w-32 h-16 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
           <div class="absolute bottom-40 left-1 w-32 h-16 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
-          <div class="absolute bottom-52 left-4 w-32 h-16 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
-          <div class="absolute bottom-16 left-12 w-28 h-14 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
-
-          <!-- THUMB ON RIGHT SIDE -->
-          <div class="absolute bottom-28 right-12 w-24 h-16 bg-yellow-300 rounded-full rotate-[55deg] z-30 shadow-md"></div>
+          <div class="absolute bottom-54 left-4 w-32 h-16 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
+          <div class="absolute bottom-14 left-12 w-28 h-14 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
 
           <!-- MAIN PHONE -->
-          <div class="absolute bottom-0 left-20 sm:left-28 w-[210px] sm:w-[260px] h-[360px] sm:h-[450px] bg-blue-600 rounded-[40px] p-4 rotate-[-4deg] shadow-2xl z-20">
+          <div class="absolute bottom-0 left-20 sm:left-28 w-[220px] sm:w-[270px] h-[380px] sm:h-[470px] bg-blue-600 rounded-[42px] p-4 rotate-[-4deg] shadow-2xl z-20">
             <div class="relative w-full h-full rounded-[30px] overflow-hidden bg-gradient-to-br from-orange-100 via-rose-300 to-orange-100">
 
               <div class="absolute top-4 left-1/2 -translate-x-1/2 w-14 h-2 bg-blue-500 rounded-full"></div>
@@ -180,7 +205,6 @@
               <div class="absolute right-10 bottom-24 w-14 h-14 rounded-2xl bg-pink-400 text-white grid place-items-center text-3xl shadow-xl">
                 ❤
               </div>
-
             </div>
           </div>
 
