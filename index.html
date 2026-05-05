@@ -9,9 +9,9 @@
 
   <style>
     @keyframes phoneMove {
-      0% { transform: rotate(-3deg) translateX(0); }
-      50% { transform: rotate(3deg) translateX(8px); }
-      100% { transform: rotate(-3deg) translateX(0); }
+      0% { transform: rotate(-2deg) translateX(0); }
+      50% { transform: rotate(2deg) translateX(6px); }
+      100% { transform: rotate(-2deg) translateX(0); }
     }
 
     .phone-animate {
@@ -22,21 +22,19 @@
 
 <body class="bg-white text-slate-900 overflow-x-hidden">
 
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-5 lg:px-10 py-5 flex items-center justify-between">
+  <!-- ONE STATIC HEADER ONLY -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-5 lg:px-10 py-4 flex items-center justify-between">
 
-      <!-- LOGO -->
       <a href="#" class="flex items-center">
         <img
           src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png"
           alt="Reliable Socials"
-          class="w-36 md:w-40 object-contain"
+          class="w-28 md:w-32 object-contain"
         />
       </a>
 
-      <!-- DESKTOP MENU -->
-      <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-500">
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-500">
         <a href="#" class="hover:text-blue-600">Home</a>
         <a href="#" class="hover:text-blue-600">About Us</a>
         <a href="#" class="hover:text-blue-600">Contact Us</a>
@@ -46,30 +44,28 @@
         <a href="#" class="hover:text-blue-600">Register</a>
       </nav>
 
-      <!-- RIGHT SIDE -->
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2">
         <a
           href="#"
-          class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700"
+          class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-blue-700"
         >
           Login
         </a>
 
         <button
           id="menuBtn"
-          class="lg:hidden w-11 h-11 rounded-lg border border-slate-200 text-2xl font-bold text-slate-700 grid place-items-center"
+          class="lg:hidden w-10 h-10 rounded-lg border border-slate-200 text-xl font-bold text-slate-700 grid place-items-center"
         >
           ☰
         </button>
       </div>
     </div>
 
-    <!-- MOBILE DROPDOWN -->
     <div
       id="mobileMenu"
       class="hidden lg:hidden bg-white border-t border-slate-100 shadow-lg"
     >
-      <nav class="px-5 py-5 flex flex-col gap-4 text-sm font-semibold text-slate-600">
+      <nav class="px-5 py-4 flex flex-col gap-3 text-sm font-semibold text-slate-600">
         <a href="#" class="hover:text-blue-600">Home</a>
         <a href="#" class="hover:text-blue-600">About Us</a>
         <a href="#" class="hover:text-blue-600">Contact Us</a>
@@ -83,38 +79,38 @@
 
   <!-- HERO SECTION -->
   <main>
-    <section class="max-w-7xl mx-auto px-5 lg:px-10 pt-10 pb-20 grid lg:grid-cols-2 items-center gap-10 min-h-[720px]">
+    <section class="max-w-7xl mx-auto px-5 lg:px-10 pt-8 pb-16 grid lg:grid-cols-2 items-center gap-8 min-h-[640px]">
 
       <!-- LEFT CONTENT -->
       <div>
-        <div id="heroIcon" class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 grid place-items-center text-2xl mb-6">
+        <div id="heroIcon" class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 grid place-items-center text-xl mb-5">
           📶
         </div>
 
-        <h2 id="heroTitle" class="text-3xl font-extrabold mb-4">
+        <h2 id="heroTitle" class="text-2xl font-extrabold mb-3">
           Buy <span class="text-blue-600">Data</span>
         </h2>
 
-        <p id="heroText" class="text-lg text-slate-700 mb-10">
+        <p id="heroText" class="text-base text-slate-700 mb-8">
           Stay Connected with Cheap Data.
         </p>
 
-        <p class="text-blue-600 font-bold text-lg mb-8">
+        <p class="text-blue-600 font-bold text-base mb-6">
           Personal & Business boost with Reliable Socials
         </p>
 
-        <h1 class="text-[48px] sm:text-[70px] lg:text-[88px] leading-[1.05] tracking-[-4px] font-extrabold text-slate-700 mb-14">
+        <h1 class="text-[40px] sm:text-[56px] lg:text-[72px] leading-[1.05] tracking-[-3px] font-extrabold text-slate-700 mb-10">
           <span class="text-blue-600">Grow Faster,</span><br />
           Spend Less.<br />
           Use Reliable Socials!
         </h1>
 
-        <div class="flex flex-col sm:flex-row gap-6">
-          <a href="#" class="bg-blue-600 text-white px-9 py-5 rounded-xl font-extrabold text-center hover:bg-blue-700">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#" class="bg-blue-600 text-white px-7 py-4 rounded-xl font-extrabold text-center hover:bg-blue-700">
             Register →
           </a>
 
-          <a href="#" class="bg-slate-100 text-slate-400 px-9 py-5 rounded-xl font-extrabold text-center hover:bg-slate-200">
+          <a href="#" class="bg-slate-100 text-slate-400 px-7 py-4 rounded-xl font-extrabold text-center hover:bg-slate-200">
             Download App
           </a>
         </div>
@@ -123,82 +119,79 @@
       <!-- RIGHT CONTENT -->
       <div class="relative flex justify-center items-center">
 
-        <!-- TOP SMALL PHONE ICON -->
         <div class="hidden md:block absolute top-0 right-10">
-          <div class="w-20 h-28 border-[6px] border-blue-600 rounded-3xl relative">
-            <div class="w-8 h-3 bg-blue-600 rounded-full mx-auto mt-3"></div>
-            <div class="w-10 h-3 bg-blue-100 rounded-full mx-auto mt-6"></div>
-            <div class="w-8 h-3 bg-blue-100 rounded-full mx-auto mt-3"></div>
+          <div class="w-16 h-24 border-[5px] border-blue-600 rounded-3xl relative">
+            <div class="w-7 h-2 bg-blue-600 rounded-full mx-auto mt-3"></div>
+            <div class="w-9 h-2 bg-blue-100 rounded-full mx-auto mt-5"></div>
+            <div class="w-7 h-2 bg-blue-100 rounded-full mx-auto mt-3"></div>
 
-            <div class="absolute -right-8 top-12 w-14 h-14 bg-white rounded-full shadow-xl grid place-items-center text-blue-600 text-2xl">
+            <div class="absolute -right-7 top-10 w-12 h-12 bg-white rounded-full shadow-xl grid place-items-center text-blue-600 text-xl">
               $
             </div>
           </div>
         </div>
 
-        <!-- PHONE ANIMATION -->
-        <div class="phone-animate relative mt-24 w-[350px] sm:w-[540px] h-[520px] sm:h-[640px]">
+        <div class="phone-animate relative mt-16 w-[300px] sm:w-[460px] h-[450px] sm:h-[540px]">
 
-          <div class="absolute top-24 right-0 w-36 h-28 bg-red-500 rounded-[45%] rotate-12 shadow-xl grid place-items-center text-5xl z-20">
+          <div class="absolute top-20 right-0 w-28 h-22 bg-red-500 rounded-[45%] rotate-12 shadow-xl grid place-items-center text-4xl z-20">
             ❤
           </div>
 
-          <div class="absolute top-2 right-32 w-24 h-24 bg-orange-400 rounded-full shadow-xl grid place-items-center text-4xl z-20">
+          <div class="absolute top-2 right-24 w-20 h-20 bg-orange-400 rounded-full shadow-xl grid place-items-center text-3xl z-20">
             ▶
           </div>
 
           <!-- HAND -->
-          <div class="absolute bottom-0 right-12 w-56 h-96 bg-yellow-300 rounded-t-[110px] rounded-b-[60px] rotate-[-8deg]"></div>
+          <div class="absolute bottom-0 right-10 w-44 h-80 bg-yellow-300 rounded-t-[90px] rounded-b-[50px] rotate-[-8deg]"></div>
 
-          <div class="absolute bottom-28 left-8 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
-          <div class="absolute bottom-44 left-5 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
-          <div class="absolute bottom-60 left-9 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
+          <div class="absolute bottom-24 left-6 w-30 h-16 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
+          <div class="absolute bottom-38 left-4 w-30 h-16 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
+          <div class="absolute bottom-52 left-7 w-30 h-16 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
 
           <!-- MAIN PHONE -->
-          <div class="absolute bottom-0 left-24 sm:left-32 w-[250px] sm:w-[310px] h-[430px] sm:h-[540px] bg-blue-600 rounded-[48px] p-5 rotate-[-4deg] shadow-2xl z-10">
-            <div class="relative w-full h-full rounded-[36px] overflow-hidden bg-gradient-to-br from-orange-100 via-rose-300 to-orange-100">
+          <div class="absolute bottom-0 left-20 sm:left-28 w-[210px] sm:w-[260px] h-[360px] sm:h-[450px] bg-blue-600 rounded-[40px] p-4 rotate-[-4deg] shadow-2xl z-10">
+            <div class="relative w-full h-full rounded-[30px] overflow-hidden bg-gradient-to-br from-orange-100 via-rose-300 to-orange-100">
 
-              <div class="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-2 bg-blue-500 rounded-full"></div>
+              <div class="absolute top-4 left-1/2 -translate-x-1/2 w-14 h-2 bg-blue-500 rounded-full"></div>
 
-              <div class="absolute -left-10 top-28 w-20 h-20 rounded-2xl bg-red-500 text-white grid place-items-center text-4xl shadow-xl">
+              <div class="absolute -left-8 top-24 w-16 h-16 rounded-2xl bg-red-500 text-white grid place-items-center text-3xl shadow-xl">
                 ◎
               </div>
 
-              <div class="absolute left-12 top-40 w-20 h-20 rounded-full bg-sky-400 text-white grid place-items-center text-4xl shadow-xl">
+              <div class="absolute left-10 top-34 w-16 h-16 rounded-full bg-sky-400 text-white grid place-items-center text-3xl shadow-xl">
                 𝕏
               </div>
 
-              <div class="absolute right-5 top-36 w-24 h-24 rounded-full bg-blue-600 text-white grid place-items-center text-5xl shadow-xl">
+              <div class="absolute right-4 top-32 w-20 h-20 rounded-full bg-blue-600 text-white grid place-items-center text-4xl shadow-xl">
                 👍
               </div>
 
-              <div class="absolute left-24 top-24 w-16 h-16 rounded-full bg-pink-700 text-white grid place-items-center text-3xl shadow-xl">
+              <div class="absolute left-20 top-20 w-12 h-12 rounded-full bg-pink-700 text-white grid place-items-center text-2xl shadow-xl">
                 ◉
               </div>
 
-              <div class="absolute right-5 top-10 w-12 h-12 rounded-xl bg-orange-500 text-white grid place-items-center text-2xl shadow-xl">
+              <div class="absolute right-4 top-10 w-10 h-10 rounded-xl bg-orange-500 text-white grid place-items-center text-xl shadow-xl">
                 ◎
               </div>
 
-              <div class="absolute left-14 bottom-28 w-20 h-20 rounded-3xl bg-pink-100 text-slate-900 grid place-items-center text-5xl shadow-xl">
+              <div class="absolute left-10 bottom-24 w-16 h-16 rounded-3xl bg-pink-100 text-slate-900 grid place-items-center text-4xl shadow-xl">
                 ⌣
               </div>
 
-              <div class="absolute right-12 bottom-28 w-16 h-16 rounded-2xl bg-pink-400 text-white grid place-items-center text-4xl shadow-xl">
+              <div class="absolute right-10 bottom-24 w-14 h-14 rounded-2xl bg-pink-400 text-white grid place-items-center text-3xl shadow-xl">
                 ❤
               </div>
 
             </div>
           </div>
 
-          <div class="absolute top-20 left-44 text-6xl z-30">💗</div>
-          <div class="absolute top-32 left-32 text-5xl z-30">💗</div>
+          <div class="absolute top-16 left-36 text-5xl z-30">💗</div>
+          <div class="absolute top-28 left-26 text-4xl z-30">💗</div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- JAVASCRIPT -->
   <script>
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
