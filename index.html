@@ -1,3 +1,29 @@
+<style>
+  @keyframes phoneTurn {
+    0% {
+      transform: rotate(-3deg) translateX(0);
+    }
+    50% {
+      transform: rotate(3deg) translateX(8px);
+    }
+    100% {
+      transform: rotate(-3deg) translateX(0);
+    }
+  }
+
+  .phone-animate {
+    animation: phoneTurn 3s ease-in-out infinite;
+  }
+</style>
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,3 +103,146 @@
   <script src="script.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+<!-- HERO SECTION -->
+<section class="max-w-7xl mx-auto px-5 lg:px-10 pt-10 pb-20 grid lg:grid-cols-2 items-center gap-10 min-h-[720px]">
+
+  <!-- LEFT CONTENT -->
+  <div>
+    <div id="heroIcon" class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 grid place-items-center text-2xl mb-6">
+      📶
+    </div>
+
+    <h2 id="heroSmallTitle" class="text-3xl font-extrabold text-slate-950 mb-4">
+      Buy <span class="text-blue-600">Data</span>
+    </h2>
+
+    <p id="heroSmallText" class="text-lg text-slate-700 mb-10">
+      Stay Connected with Cheap Data.
+    </p>
+
+    <p class="text-blue-600 font-bold text-lg mb-8">
+      Personal & Business boost with Reliable Socials
+    </p>
+
+    <h1 class="text-[52px] sm:text-[72px] lg:text-[88px] leading-[1.05] tracking-[-5px] font-extrabold text-slate-700 mb-16">
+      <span class="text-blue-600">Grow Faster,</span><br>
+      Spend Less.<br>
+      Use Reliable Socials!
+    </h1>
+
+    <div class="flex flex-col sm:flex-row gap-6">
+      <a href="#" class="bg-blue-600 text-white px-9 py-5 rounded-xl font-extrabold text-center hover:bg-blue-700">
+        Register →
+      </a>
+
+      <a href="#" class="bg-slate-100 text-slate-400 px-9 py-5 rounded-xl font-extrabold text-center hover:bg-slate-200">
+        Download App
+      </a>
+    </div>
+  </div>
+
+  <!-- RIGHT CONTENT -->
+  <div class="relative flex justify-center lg:justify-end items-center">
+
+    <!-- SMALL TOP ICON -->
+    <div class="absolute top-0 right-10 hidden md:flex items-center justify-center w-28 h-28">
+      <div class="w-20 h-28 border-[6px] border-blue-600 rounded-3xl relative">
+        <div class="w-8 h-3 bg-blue-600 rounded-full mx-auto mt-3"></div>
+        <div class="w-10 h-3 bg-blue-100 rounded-full mx-auto mt-6"></div>
+        <div class="w-8 h-3 bg-blue-100 rounded-full mx-auto mt-3"></div>
+        <div class="w-10 h-3 bg-blue-100 rounded-full mx-auto mt-3"></div>
+        <div class="absolute -right-8 top-12 w-14 h-14 bg-white rounded-full shadow-xl grid place-items-center text-blue-600 text-2xl">
+          $
+        </div>
+      </div>
+    </div>
+
+    <!-- PHONE IMAGE/ILLUSTRATION -->
+    <div class="phone-animate relative mt-24 w-[360px] sm:w-[540px] h-[520px] sm:h-[640px]">
+
+      <!-- red heart blob -->
+      <div class="absolute top-24 right-0 w-36 h-28 bg-red-500 rounded-[45%] rotate-12 shadow-2xl grid place-items-center text-5xl z-20">
+        ❤
+      </div>
+
+      <!-- play circle -->
+      <div class="absolute top-2 right-32 w-24 h-24 bg-orange-400 rounded-full shadow-2xl grid place-items-center text-4xl rotate-12 z-20">
+        ▶
+      </div>
+
+      <!-- yellow hand -->
+      <div class="absolute bottom-0 right-12 w-56 h-96 bg-yellow-300 rounded-t-[110px] rounded-b-[60px] rotate-[-8deg] z-0"></div>
+
+      <div class="absolute bottom-28 left-8 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
+      <div class="absolute bottom-42 left-5 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
+      <div class="absolute bottom-56 left-9 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
+      <div class="absolute bottom-16 left-16 w-32 h-16 bg-yellow-300 rounded-full rotate-[-18deg] z-20"></div>
+
+      <!-- main phone -->
+      <div class="absolute bottom-0 left-24 sm:left-32 w-[250px] sm:w-[310px] h-[430px] sm:h-[540px] bg-blue-600 rounded-[48px] p-5 rotate-[-4deg] shadow-2xl z-10">
+        <div class="relative w-full h-full rounded-[36px] overflow-hidden bg-gradient-to-br from-orange-100 via-rose-300 to-orange-100">
+
+          <div class="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-2 bg-blue-500 rounded-full"></div>
+
+          <div class="absolute -left-12 top-28 w-20 h-20 rounded-2xl bg-red-500 text-white grid place-items-center text-4xl shadow-xl">
+            ◎
+          </div>
+
+          <div class="absolute left-12 top-40 w-20 h-20 rounded-full bg-sky-400 text-white grid place-items-center text-4xl shadow-xl">
+            𝕏
+          </div>
+
+          <div class="absolute right-5 top-36 w-24 h-24 rounded-full bg-blue-600 text-white grid place-items-center text-5xl shadow-xl">
+            👍
+          </div>
+
+          <div class="absolute left-24 top-24 w-16 h-16 rounded-full bg-pink-700 text-white grid place-items-center text-3xl shadow-xl">
+            ◉
+          </div>
+
+          <div class="absolute right-5 top-10 w-12 h-12 rounded-xl bg-orange-500 text-white grid place-items-center text-2xl shadow-xl">
+            ◎
+          </div>
+
+          <div class="absolute left-14 bottom-28 w-20 h-20 rounded-3xl bg-pink-100 text-slate-900 grid place-items-center text-5xl shadow-xl">
+            ⌣
+          </div>
+
+          <div class="absolute right-12 bottom-30 w-16 h-16 rounded-2xl bg-pink-400 text-white grid place-items-center text-4xl shadow-xl">
+            ❤
+          </div>
+
+          <div class="absolute left-24 bottom-10 w-18 h-18 rounded-full bg-sky-400 text-white grid place-items-center text-4xl shadow-xl">
+            𝕏
+          </div>
+
+          <div class="absolute right-8 bottom-8 w-14 h-14 rounded-2xl bg-blue-600 text-white grid place-items-center text-2xl shadow-xl">
+            ∿
+          </div>
+        </div>
+      </div>
+
+      <!-- floating hearts -->
+      <div class="absolute top-20 left-44 text-6xl z-30">💗</div>
+      <div class="absolute top-32 left-32 text-5xl z-30">💗</div>
+      <div class="absolute bottom-40 right-20 w-20 h-20 rounded-3xl bg-pink-500 grid place-items-center text-4xl shadow-xl z-30">
+        ❤
+      </div>
+      <div class="absolute bottom-24 right-44 w-14 h-14 rounded-full bg-blue-400 text-white grid place-items-center text-2xl shadow-xl z-30">
+        𝕏
+      </div>
+    </div>
+  </div>
+</section>
+
