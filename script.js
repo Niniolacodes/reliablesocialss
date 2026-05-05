@@ -51,4 +51,11 @@ setInterval(() => {
 
 
 
+slideLeft: "slideLeft 1s ease forwards",
+slideRight: "slideRight 1s ease forwards",
+slideDown: "slideDown 1s ease forwards",
+slideUp: "slideUp 1s ease forwards",
+
+
+
 
