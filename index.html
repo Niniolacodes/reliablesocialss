@@ -14,16 +14,24 @@
       100% { transform: rotate(-2deg) translateX(0); }
     }
 
-    @keyframes socialMove {
-      0% { transform: translateX(-35px) translateY(0); }
-      50% { transform: translateX(35px) translateY(-10px); }
-      100% { transform: translateX(-35px) translateY(0); }
-    }
+    @keyframes socialSlide {
+      0% {
+        transform: translateX(-170px);
+        opacity: 0;
+      }
 
-    @keyframes socialMoveReverse {
-      0% { transform: translateX(35px) translateY(0); }
-      50% { transform: translateX(-35px) translateY(10px); }
-      100% { transform: translateX(35px) translateY(0); }
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateX(560px);
+        opacity: 0;
+      }
     }
 
     .phone-animate {
@@ -31,11 +39,21 @@
     }
 
     .social-float {
-      animation: socialMove 4s ease-in-out infinite;
+      animation: socialSlide 6s linear infinite;
     }
 
-    .social-float-reverse {
-      animation: socialMoveReverse 5s ease-in-out infinite;
+    .social-float-slow {
+      animation: socialSlide 8s linear infinite;
+    }
+
+    .social-float-delay {
+      animation: socialSlide 7s linear infinite;
+      animation-delay: 1.5s;
+    }
+
+    .social-float-delay-two {
+      animation: socialSlide 9s linear infinite;
+      animation-delay: 2.5s;
     }
   </style>
 </head>
@@ -134,35 +152,35 @@
 
         <div class="phone-animate relative mt-4 sm:mt-10 w-[330px] sm:w-[480px] h-[480px] sm:h-[560px] overflow-hidden">
 
-          <!-- MOVING SOCIAL LOGOS BEHIND PHONE -->
-          <div class="absolute inset-0 z-0 opacity-80">
+          <!-- SOCIAL LOGOS MOVING LEFT TO RIGHT BEHIND PHONE -->
+          <div class="absolute inset-0 z-0 opacity-80 overflow-hidden">
 
-            <div class="social-float absolute top-8 left-2 w-14 h-14 rounded-2xl bg-red-500 text-white grid place-items-center text-3xl shadow-xl">
+            <div class="social-float absolute top-8 left-0 w-14 h-14 rounded-2xl bg-red-500 text-white grid place-items-center text-3xl shadow-xl">
               ◎
             </div>
 
-            <div class="social-float-reverse absolute top-28 right-4 w-14 h-14 rounded-full bg-sky-400 text-white grid place-items-center text-2xl shadow-xl">
+            <div class="social-float-slow absolute top-28 left-0 w-14 h-14 rounded-full bg-sky-400 text-white grid place-items-center text-2xl shadow-xl">
               𝕏
             </div>
 
-            <div class="social-float absolute top-48 left-4 w-16 h-16 rounded-full bg-blue-600 text-white grid place-items-center text-3xl shadow-xl">
+            <div class="social-float-delay absolute top-48 left-0 w-16 h-16 rounded-full bg-blue-600 text-white grid place-items-center text-3xl shadow-xl">
               👍
             </div>
 
-            <div class="social-float-reverse absolute bottom-24 right-6 w-14 h-14 rounded-2xl bg-pink-500 text-white grid place-items-center text-3xl shadow-xl">
+            <div class="social-float-delay-two absolute bottom-24 left-0 w-14 h-14 rounded-2xl bg-pink-500 text-white grid place-items-center text-3xl shadow-xl">
               ❤
             </div>
 
-            <div class="social-float absolute bottom-10 left-10 w-12 h-12 rounded-full bg-blue-500 text-white grid place-items-center text-2xl font-black shadow-xl">
+            <div class="social-float-slow absolute bottom-10 left-0 w-12 h-12 rounded-full bg-blue-500 text-white grid place-items-center text-2xl font-black shadow-xl">
               f
             </div>
 
-            <div class="social-float-reverse absolute top-4 right-28 w-16 h-16 rounded-full bg-orange-400 text-white grid place-items-center text-3xl shadow-xl">
+            <div class="social-float-delay absolute top-4 left-0 w-16 h-16 rounded-full bg-orange-400 text-white grid place-items-center text-3xl shadow-xl">
               ▶
             </div>
           </div>
 
-          <!-- FLOATING ICONS FRONT -->
+          <!-- FRONT FLOATING ICONS -->
           <div class="absolute top-20 right-0 w-28 h-24 bg-red-500 rounded-[45%] rotate-12 shadow-xl grid place-items-center text-4xl z-30">
             ❤
           </div>
