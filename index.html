@@ -4,22 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ReliableSocials</title>
-
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-white text-slate-800">
+<body class="bg-white text-slate-900 overflow-x-hidden">
 
-  <!-- Navbar -->
-  <header class="w-full max-w-7xl mx-auto px-6 lg:px-10 py-7 flex items-center justify-between">
-    <div class="flex items-center gap-2 text-blue-600 font-extrabold text-xl">
-      <div class="w-7 h-7 rounded-lg bg-blue-600 text-white grid place-items-center text-sm">
-        ↗
-      </div>
-      <span>ReliableSocials</span>
-    </div>
+  <!-- Header -->
+  <header class="w-full max-w-7xl mx-auto px-5 lg:px-10 py-6 flex items-center justify-between">
+    
+    <!-- Logo Image -->
+    <a href="#" class="flex items-center">
+      <img 
+        src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" 
+        alt="ReliableSocials Logo"
+        class="w-32 md:w-40 object-contain"
+      />
+    </a>
 
+    <!-- Desktop Menu -->
     <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-400">
       <a href="#" class="hover:text-blue-600">Home</a>
       <a href="#" class="hover:text-blue-600">About Us</a>
@@ -30,25 +32,46 @@
       <a href="#" class="hover:text-blue-600">Register</a>
     </nav>
 
-    <a href="#" class="login-btn bg-blue-600 text-white px-7 py-4 rounded-xl font-bold hover:bg-blue-700">
-      Login
-    </a>
+    <div class="flex items-center gap-3">
+      <a href="#" class="login-btn hidden sm:inline-block bg-blue-600 text-white px-7 py-4 rounded-xl font-bold hover:bg-blue-700">
+        Login
+      </a>
+
+      <!-- Mobile Menu Button -->
+      <button id="menuBtn" class="lg:hidden w-11 h-11 rounded-xl bg-blue-600 text-white text-2xl grid place-items-center">
+        ☰
+      </button>
+    </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="max-w-7xl mx-auto px-6 lg:px-10 py-10 lg:py-16 grid lg:grid-cols-2 items-center gap-12 min-h-[720px]">
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden lg:hidden mx-5 mb-5 rounded-2xl bg-white shadow-xl border border-slate-100 p-5">
+    <nav class="flex flex-col gap-4 text-sm font-bold text-slate-600">
+      <a href="#">Home</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Blogs</a>
+      <a href="#">Web API Documentation</a>
+      <a href="#">Status</a>
+      <a href="#">Register</a>
+      <a href="#" class="bg-blue-600 text-white px-5 py-3 rounded-xl text-center">Login</a>
+    </nav>
+  </div>
 
-    <!-- Left Content -->
+  <!-- Hero -->
+  <section class="max-w-7xl mx-auto px-5 lg:px-10 pt-4 lg:pt-8 pb-20 grid lg:grid-cols-[1fr_0.95fr] items-center gap-6 lg:gap-10 min-h-[720px]">
+
+    <!-- Left Side -->
     <div>
-      <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 grid place-items-center text-2xl mb-6">
+      <div id="switchIcon" class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 grid place-items-center text-2xl mb-6">
         📶
       </div>
 
-      <h3 class="text-3xl font-extrabold text-slate-900 mb-3">
+      <h3 id="switchTitle" class="text-3xl font-extrabold text-slate-950 mb-3">
         Buy <span class="text-blue-600">Data</span>
       </h3>
 
-      <p class="text-lg text-slate-600 mb-10">
+      <p id="switchText" class="text-lg text-slate-600 mb-10">
         Stay Connected with Cheap Data.
       </p>
 
@@ -73,57 +96,68 @@
       </div>
     </div>
 
-    <!-- Right Image Design -->
-    <div class="relative flex justify-center items-center">
-      <div class="relative w-[340px] sm:w-[500px] h-[450px] sm:h-[560px]">
+    <!-- Right Side -->
+    <div class="relative flex justify-center lg:justify-end items-center">
 
-        <!-- Phone -->
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 w-[240px] sm:w-[300px] h-[380px] sm:h-[470px] bg-gradient-to-br from-blue-500 to-blue-800 rounded-[42px] p-5 rotate-[-3deg] shadow-2xl shadow-blue-200">
-          <div class="relative w-full h-full rounded-[30px] overflow-hidden bg-gradient-to-br from-orange-100 via-rose-300 to-orange-200">
+      <!-- OTP box under login/top-right -->
+      <div class="hidden md:block absolute top-0 right-0 bg-white px-6 py-4 rounded-2xl shadow-2xl z-20">
+        <p class="font-extrabold text-slate-950">Your OTP code:</p>
+        <p class="text-blue-600 font-bold">742091</p>
+        <span class="absolute -bottom-3 right-2 w-4 h-4 bg-blue-100 rounded-full"></span>
+      </div>
 
-            <div class="absolute -left-8 top-28 w-14 h-14 rounded-2xl bg-red-500 text-white grid place-items-center text-3xl font-bold shadow-xl">
-              ◎
-            </div>
+      <!-- Phone illustration -->
+      <div class="relative w-[340px] sm:w-[520px] h-[460px] sm:h-[590px] mt-12 lg:mt-16">
 
-            <div class="absolute left-20 top-40 w-14 h-14 rounded-2xl bg-sky-400 text-white grid place-items-center text-2xl font-bold shadow-xl">
-              𝕏
-            </div>
-
-            <div class="absolute right-8 top-32 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-blue-600 text-white grid place-items-center text-4xl shadow-xl">
-              👍
-            </div>
-
-            <div class="absolute right-6 bottom-28 w-16 h-16 rounded-2xl bg-pink-500 text-white grid place-items-center text-3xl shadow-xl">
-              ❤
-            </div>
-
-            <div class="absolute left-12 bottom-24 w-16 h-16 rounded-2xl bg-pink-100 text-slate-900 grid place-items-center text-4xl shadow-xl">
-              ⌣
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Floating Icons -->
-        <div class="absolute top-10 left-36 text-5xl">
+        <!-- Big red love blob -->
+        <div class="absolute top-24 right-0 w-28 h-24 sm:w-36 sm:h-28 bg-red-500 rounded-[40%] rotate-12 shadow-xl grid place-items-center text-4xl">
           ❤
         </div>
 
-        <div class="absolute top-28 left-16 text-4xl">
-          💗
-        </div>
-
-        <div class="absolute top-2 right-4 w-20 h-20 rounded-full bg-white text-blue-600 grid place-items-center text-3xl font-black shadow-xl">
-          $
-        </div>
-
-        <div class="absolute top-28 right-20 w-20 h-20 rounded-full bg-orange-400 text-slate-900 grid place-items-center text-3xl font-black shadow-xl">
+        <!-- Orange play -->
+        <div class="absolute top-10 right-28 w-20 h-20 rounded-full bg-orange-400 shadow-xl grid place-items-center text-3xl rotate-12">
           ▶
         </div>
 
+        <!-- Hand shape -->
+        <div class="absolute bottom-0 right-8 w-44 h-72 sm:w-56 sm:h-80 bg-yellow-300 rounded-t-[90px] rounded-b-[50px] rotate-[-8deg] shadow-lg"></div>
+
+        <div class="absolute bottom-24 left-10 w-32 h-16 bg-yellow-300 rounded-full rotate-[-20deg] shadow-lg"></div>
+        <div class="absolute bottom-36 left-8 w-32 h-16 bg-yellow-300 rounded-full rotate-[-20deg] shadow-lg"></div>
+        <div class="absolute bottom-48 left-10 w-32 h-16 bg-yellow-300 rounded-full rotate-[-20deg] shadow-lg"></div>
+
+        <!-- Phone -->
+        <div class="absolute bottom-0 left-24 sm:left-28 w-[230px] sm:w-[290px] h-[380px] sm:h-[500px] bg-blue-600 rounded-[42px] p-5 rotate-[-3deg] shadow-2xl z-10">
+          <div class="relative w-full h-full rounded-[30px] overflow-hidden bg-gradient-to-br from-orange-100 via-rose-300 to-orange-200">
+
+            <!-- top speaker -->
+            <div class="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-2 bg-blue-500 rounded-full"></div>
+
+            <!-- icons inside/on phone -->
+            <div class="absolute -left-10 top-24 w-16 h-16 rounded-2xl bg-red-500 text-white grid place-items-center text-3xl shadow-xl">◎</div>
+
+            <div class="absolute left-14 top-36 w-16 h-16 rounded-full bg-sky-400 text-white grid place-items-center text-3xl shadow-xl">𝕏</div>
+
+            <div class="absolute right-5 top-32 w-24 h-24 rounded-full bg-blue-600 text-white grid place-items-center text-4xl shadow-xl">👍</div>
+
+            <div class="absolute right-8 bottom-28 w-16 h-16 rounded-2xl bg-pink-500 text-white grid place-items-center text-3xl shadow-xl">❤</div>
+
+            <div class="absolute left-10 bottom-24 w-16 h-16 rounded-2xl bg-pink-100 text-slate-900 grid place-items-center text-4xl shadow-xl">⌣</div>
+
+            <div class="absolute left-24 bottom-10 w-16 h-16 rounded-full bg-sky-400 text-white grid place-items-center text-3xl shadow-xl">𝕏</div>
+
+            <div class="absolute right-10 top-4 w-10 h-10 rounded-xl bg-orange-500 text-white grid place-items-center text-xl shadow-xl">◎</div>
+          </div>
+        </div>
+
+        <!-- Floating hearts -->
+        <div class="absolute top-12 left-40 text-5xl z-20">💗</div>
+        <div class="absolute top-24 left-28 text-4xl z-20">💗</div>
+        <div class="absolute bottom-28 right-14 w-16 h-16 rounded-2xl bg-pink-500 grid place-items-center text-3xl shadow-xl z-20">❤</div>
+        <div class="absolute bottom-16 right-40 w-12 h-12 rounded-full bg-blue-400 text-white grid place-items-center text-xl shadow-xl z-20">𝕏</div>
+
       </div>
     </div>
-
   </section>
 
   <script src="script.js"></script>
