@@ -22,7 +22,7 @@
 
 <body class="bg-white text-slate-900 overflow-x-hidden">
 
-  <!-- HEADER -->
+  <!-- STATIC HEADER - NOT STICKY -->
   <header class="bg-white shadow-sm">
     <div class="max-w-7xl mx-auto px-5 lg:px-10 py-4 flex items-center justify-between">
 
@@ -45,10 +45,7 @@
       </nav>
 
       <div class="flex items-center gap-2">
-        <a
-          href="#"
-          class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-blue-700"
-        >
+        <a href="#" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-blue-700">
           Login
         </a>
 
@@ -61,10 +58,7 @@
       </div>
     </div>
 
-    <div
-      id="mobileMenu"
-      class="hidden lg:hidden bg-white border-t border-slate-100 shadow-lg"
-    >
+    <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-slate-100 shadow-lg">
       <nav class="px-5 py-4 flex flex-col gap-3 text-sm font-semibold text-slate-600">
         <a href="#" class="hover:text-blue-600">Home</a>
         <a href="#" class="hover:text-blue-600">About Us</a>
@@ -77,9 +71,8 @@
     </div>
   </header>
 
-  <!-- HERO SECTION -->
   <main>
-    <section class="max-w-7xl mx-auto px-5 lg:px-10 pt-8 pb-16 grid lg:grid-cols-2 items-center gap-2 lg:gap-8 min-h-[640px]">
+    <section class="max-w-7xl mx-auto px-5 lg:px-10 pt-8 pb-16 grid lg:grid-cols-2 items-center gap-4 lg:gap-8 min-h-[640px]">
 
       <!-- LEFT CONTENT -->
       <div>
@@ -105,7 +98,7 @@
           Use Reliable Socials!
         </h1>
 
-        <div class="flex flex-col sm:flex-row gap-4">
+        <div class="flex flex-col sm:flex-row gap-4 mb-10 lg:mb-0">
           <a href="#" class="bg-blue-600 text-white px-7 py-4 rounded-xl font-extrabold text-center hover:bg-blue-700">
             Register →
           </a>
@@ -131,23 +124,31 @@
           </div>
         </div>
 
-        <div class="phone-animate relative mt-2 sm:mt-10 w-[300px] sm:w-[460px] h-[450px] sm:h-[540px]">
+        <div class="phone-animate relative mt-8 sm:mt-10 w-[300px] sm:w-[460px] h-[470px] sm:h-[540px]">
 
-          <div class="absolute top-20 right-0 w-28 h-22 bg-red-500 rounded-[45%] rotate-12 shadow-xl grid place-items-center text-4xl z-20">
+          <!-- floating icons -->
+          <div class="absolute top-20 right-0 w-28 h-24 bg-red-500 rounded-[45%] rotate-12 shadow-xl grid place-items-center text-4xl z-30">
             ❤
           </div>
 
-          <div class="absolute top-2 right-24 w-20 h-20 bg-orange-400 rounded-full shadow-xl grid place-items-center text-3xl z-20">
+          <div class="absolute top-2 right-24 w-20 h-20 bg-orange-400 rounded-full shadow-xl grid place-items-center text-3xl z-30">
             ▶
           </div>
 
-          <div class="absolute bottom-0 right-10 w-44 h-80 bg-yellow-300 rounded-t-[90px] rounded-b-[50px] rotate-[-8deg]"></div>
+          <!-- HAND PALM BEHIND PHONE -->
+          <div class="absolute bottom-0 right-8 w-44 h-80 bg-yellow-300 rounded-t-[95px] rounded-b-[55px] rotate-[-7deg] z-0 shadow-lg"></div>
 
-          <div class="absolute bottom-24 left-6 w-30 h-16 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
-          <div class="absolute bottom-38 left-4 w-30 h-16 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
-          <div class="absolute bottom-52 left-7 w-30 h-16 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
+          <!-- FINGERS HOLDING PHONE -->
+          <div class="absolute bottom-28 left-3 w-32 h-16 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
+          <div class="absolute bottom-40 left-1 w-32 h-16 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
+          <div class="absolute bottom-52 left-4 w-32 h-16 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
+          <div class="absolute bottom-16 left-12 w-28 h-14 bg-yellow-300 rounded-full rotate-[-18deg] z-30 shadow-md"></div>
 
-          <div class="absolute bottom-0 left-20 sm:left-28 w-[210px] sm:w-[260px] h-[360px] sm:h-[450px] bg-blue-600 rounded-[40px] p-4 rotate-[-4deg] shadow-2xl z-10">
+          <!-- THUMB ON RIGHT SIDE -->
+          <div class="absolute bottom-28 right-12 w-24 h-16 bg-yellow-300 rounded-full rotate-[55deg] z-30 shadow-md"></div>
+
+          <!-- MAIN PHONE -->
+          <div class="absolute bottom-0 left-20 sm:left-28 w-[210px] sm:w-[260px] h-[360px] sm:h-[450px] bg-blue-600 rounded-[40px] p-4 rotate-[-4deg] shadow-2xl z-20">
             <div class="relative w-full h-full rounded-[30px] overflow-hidden bg-gradient-to-br from-orange-100 via-rose-300 to-orange-100">
 
               <div class="absolute top-4 left-1/2 -translate-x-1/2 w-14 h-2 bg-blue-500 rounded-full"></div>
@@ -156,7 +157,7 @@
                 ◎
               </div>
 
-              <div class="absolute left-10 top-34 w-16 h-16 rounded-full bg-sky-400 text-white grid place-items-center text-3xl shadow-xl">
+              <div class="absolute left-10 top-32 w-16 h-16 rounded-full bg-sky-400 text-white grid place-items-center text-3xl shadow-xl">
                 𝕏
               </div>
 
@@ -183,8 +184,8 @@
             </div>
           </div>
 
-          <div class="absolute top-16 left-36 text-5xl z-30">💗</div>
-          <div class="absolute top-28 left-26 text-4xl z-30">💗</div>
+          <div class="absolute top-16 left-36 text-5xl z-40">💗</div>
+          <div class="absolute top-28 left-24 text-4xl z-40">💗</div>
         </div>
       </div>
     </section>
@@ -196,12 +197,7 @@
 
     menuBtn.addEventListener("click", () => {
       mobileMenu.classList.toggle("hidden");
-
-      if (mobileMenu.classList.contains("hidden")) {
-        menuBtn.textContent = "☰";
-      } else {
-        menuBtn.textContent = "×";
-      }
+      menuBtn.textContent = mobileMenu.classList.contains("hidden") ? "☰" : "×";
     });
 
     const heroSlides = [
@@ -230,7 +226,6 @@
 
     setInterval(() => {
       heroIndex = (heroIndex + 1) % heroSlides.length;
-
       heroIcon.textContent = heroSlides[heroIndex].icon;
       heroTitle.innerHTML = heroSlides[heroIndex].title;
       heroText.textContent = heroSlides[heroIndex].text;
