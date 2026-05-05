@@ -304,6 +304,45 @@
 
 
 
+<!-- BENEFITS ANIMATION CSS -->
+<style>
+  @keyframes benefitSlideLeft {
+    from { opacity: 0; transform: translateX(-70px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes benefitSlideRight {
+    from { opacity: 0; transform: translateX(70px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes benefitSlideDown {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes benefitSlideUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .benefit-slide-left {
+    animation: benefitSlideLeft 1s ease forwards;
+  }
+
+  .benefit-slide-right {
+    animation: benefitSlideRight 1s ease forwards;
+  }
+
+  .benefit-slide-down {
+    animation: benefitSlideDown 1s ease forwards;
+  }
+
+  .benefit-slide-up {
+    animation: benefitSlideUp 1s ease forwards;
+  }
+</style>
+
 <!-- SECTION DIVIDER -->
 <div class="relative bg-white">
   <div class="absolute inset-x-0 bottom-0 h-24 bg-[#eef3fb]"></div>
@@ -323,21 +362,19 @@
 <!-- BENEFITS SECTION -->
 <section class="relative bg-[#eef3fb] py-20 overflow-hidden border-t border-blue-100">
 
-  <!-- DECORATIVE BACKGROUND -->
   <div class="absolute -top-20 -left-20 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl"></div>
   <div class="absolute top-20 -right-24 w-80 h-80 bg-orange-200/40 rounded-full blur-3xl"></div>
   <div class="absolute bottom-10 left-1/2 w-72 h-72 bg-white/50 rounded-full blur-3xl"></div>
 
   <div class="relative max-w-7xl mx-auto px-5 lg:px-10">
 
-    <h2 class="animate-slideDown text-center text-2xl md:text-3xl font-extrabold text-slate-500 mb-20">
+    <h2 class="benefit-slide-down text-center text-2xl md:text-3xl font-extrabold text-slate-500 mb-20">
       Join over 200,000 satisfied customers who enjoy our service!
     </h2>
 
     <div class="grid lg:grid-cols-2 gap-14 items-center">
 
-      <!-- LEFT IMAGE -->
-      <div class="animate-slideLeft relative flex justify-center">
+      <div class="benefit-slide-left relative flex justify-center">
         <div class="relative bg-white rounded-[36px] p-6 w-full max-w-[420px] shadow-xl shadow-blue-100/60 border border-white/80">
 
           <img
@@ -346,8 +383,7 @@
             class="w-full object-contain rounded-[28px]"
           />
 
-          <!-- 100% CARD -->
-          <div class="animate-slideUp absolute -right-4 md:-right-10 -bottom-10 w-40 h-40 md:w-48 md:h-48 bg-gradient-to-br from-orange-400 to-orange-500 rounded-[36px] flex flex-col items-center justify-center text-white shadow-2xl">
+          <div class="benefit-slide-up absolute -right-4 md:-right-10 -bottom-10 w-40 h-40 md:w-48 md:h-48 bg-gradient-to-br from-orange-400 to-orange-500 rounded-[36px] flex flex-col items-center justify-center text-white shadow-2xl">
             <h3 class="text-4xl md:text-5xl font-extrabold mb-4">100%</h3>
             <p class="text-center text-sm md:text-base font-semibold leading-6 px-4">
               Security in your transactions
@@ -356,8 +392,7 @@
         </div>
       </div>
 
-      <!-- RIGHT TEXT -->
-      <div class="animate-slideRight">
+      <div class="benefit-slide-right">
         <h2 class="text-[38px] md:text-[56px] leading-tight tracking-[-3px] font-extrabold text-blue-600 mb-10">
           Exclusive Benefits of<br />
           Using Reliable Socials
@@ -365,7 +400,7 @@
 
         <div class="space-y-8">
 
-          <div class="animate-slideUp flex gap-6">
+          <div class="benefit-slide-up flex gap-6">
             <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.08)]"></div>
             <div>
               <h3 class="text-xl font-extrabold text-blue-600 mb-4">
@@ -377,7 +412,7 @@
             </div>
           </div>
 
-          <div class="animate-slideUp [animation-delay:0.3s] flex gap-6">
+          <div class="benefit-slide-up flex gap-6" style="animation-delay: 0.3s;">
             <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.08)]"></div>
             <div>
               <h3 class="text-xl font-extrabold text-blue-600 mb-4">
@@ -389,7 +424,7 @@
             </div>
           </div>
 
-          <div class="animate-slideUp [animation-delay:0.6s] flex gap-6">
+          <div class="benefit-slide-up flex gap-6" style="animation-delay: 0.6s;">
             <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.08)]"></div>
             <div>
               <h3 class="text-xl font-extrabold text-blue-600 mb-4">
@@ -397,11 +432,6 @@
               </h3>
               <p class="text-slate-500 text-lg leading-8">
                 Your security, our priority - guaranteed protection for every transaction.
-
-                slideLeft: "slideLeft 1s ease forwards",
-slideRight: "slideRight 1s ease forwards",
-slideDown: "slideDown 1s ease forwards",
-slideUp: "slideUp 1s ease forwards",
               </p>
             </div>
           </div>
