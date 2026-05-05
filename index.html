@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,12 +6,24 @@
   <title>Reliable Socials</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @keyframes phoneMove {
+      0% { transform: rotate(-3deg) translateX(0); }
+      50% { transform: rotate(3deg) translateX(8px); }
+      100% { transform: rotate(-3deg) translateX(0); }
+    }
+
+    .phone-animate {
+      animation: phoneMove 3s ease-in-out infinite;
+    }
+  </style>
 </head>
 
-<body class="bg-white">
+<body class="bg-white text-slate-900 overflow-x-hidden">
 
-  <!-- STATIC HEADER -->
-  <header class="sticky top-0 z-50 bg-white">
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white shadow-sm">
     <div class="max-w-7xl mx-auto px-5 lg:px-10 py-5 flex items-center justify-between">
 
       <!-- LOGO -->
@@ -25,7 +36,7 @@
       </a>
 
       <!-- DESKTOP MENU -->
-      <nav class="hidden lg:flex items-center gap-10 text-sm font-semibold text-slate-500">
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-500">
         <a href="#" class="hover:text-blue-600">Home</a>
         <a href="#" class="hover:text-blue-600">About Us</a>
         <a href="#" class="hover:text-blue-600">Contact Us</a>
@@ -44,7 +55,6 @@
           Login
         </a>
 
-        <!-- MOBILE MENU BUTTON -->
         <button
           id="menuBtn"
           class="lg:hidden w-11 h-11 rounded-lg border border-slate-200 text-2xl font-bold text-slate-700 grid place-items-center"
@@ -71,208 +81,129 @@
     </div>
   </header>
 
-  <main class="min-h-screen">
-    <!-- Next section will start here -->
+  <!-- HERO SECTION -->
+  <main>
+    <section class="max-w-7xl mx-auto px-5 lg:px-10 pt-10 pb-20 grid lg:grid-cols-2 items-center gap-10 min-h-[720px]">
+
+      <!-- LEFT CONTENT -->
+      <div>
+        <div id="heroIcon" class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 grid place-items-center text-2xl mb-6">
+          📶
+        </div>
+
+        <h2 id="heroTitle" class="text-3xl font-extrabold mb-4">
+          Buy <span class="text-blue-600">Data</span>
+        </h2>
+
+        <p id="heroText" class="text-lg text-slate-700 mb-10">
+          Stay Connected with Cheap Data.
+        </p>
+
+        <p class="text-blue-600 font-bold text-lg mb-8">
+          Personal & Business boost with Reliable Socials
+        </p>
+
+        <h1 class="text-[48px] sm:text-[70px] lg:text-[88px] leading-[1.05] tracking-[-4px] font-extrabold text-slate-700 mb-14">
+          <span class="text-blue-600">Grow Faster,</span><br />
+          Spend Less.<br />
+          Use Reliable Socials!
+        </h1>
+
+        <div class="flex flex-col sm:flex-row gap-6">
+          <a href="#" class="bg-blue-600 text-white px-9 py-5 rounded-xl font-extrabold text-center hover:bg-blue-700">
+            Register →
+          </a>
+
+          <a href="#" class="bg-slate-100 text-slate-400 px-9 py-5 rounded-xl font-extrabold text-center hover:bg-slate-200">
+            Download App
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT CONTENT -->
+      <div class="relative flex justify-center items-center">
+
+        <!-- TOP SMALL PHONE ICON -->
+        <div class="hidden md:block absolute top-0 right-10">
+          <div class="w-20 h-28 border-[6px] border-blue-600 rounded-3xl relative">
+            <div class="w-8 h-3 bg-blue-600 rounded-full mx-auto mt-3"></div>
+            <div class="w-10 h-3 bg-blue-100 rounded-full mx-auto mt-6"></div>
+            <div class="w-8 h-3 bg-blue-100 rounded-full mx-auto mt-3"></div>
+
+            <div class="absolute -right-8 top-12 w-14 h-14 bg-white rounded-full shadow-xl grid place-items-center text-blue-600 text-2xl">
+              $
+            </div>
+          </div>
+        </div>
+
+        <!-- PHONE ANIMATION -->
+        <div class="phone-animate relative mt-24 w-[350px] sm:w-[540px] h-[520px] sm:h-[640px]">
+
+          <div class="absolute top-24 right-0 w-36 h-28 bg-red-500 rounded-[45%] rotate-12 shadow-xl grid place-items-center text-5xl z-20">
+            ❤
+          </div>
+
+          <div class="absolute top-2 right-32 w-24 h-24 bg-orange-400 rounded-full shadow-xl grid place-items-center text-4xl z-20">
+            ▶
+          </div>
+
+          <!-- HAND -->
+          <div class="absolute bottom-0 right-12 w-56 h-96 bg-yellow-300 rounded-t-[110px] rounded-b-[60px] rotate-[-8deg]"></div>
+
+          <div class="absolute bottom-28 left-8 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
+          <div class="absolute bottom-44 left-5 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
+          <div class="absolute bottom-60 left-9 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
+
+          <!-- MAIN PHONE -->
+          <div class="absolute bottom-0 left-24 sm:left-32 w-[250px] sm:w-[310px] h-[430px] sm:h-[540px] bg-blue-600 rounded-[48px] p-5 rotate-[-4deg] shadow-2xl z-10">
+            <div class="relative w-full h-full rounded-[36px] overflow-hidden bg-gradient-to-br from-orange-100 via-rose-300 to-orange-100">
+
+              <div class="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-2 bg-blue-500 rounded-full"></div>
+
+              <div class="absolute -left-10 top-28 w-20 h-20 rounded-2xl bg-red-500 text-white grid place-items-center text-4xl shadow-xl">
+                ◎
+              </div>
+
+              <div class="absolute left-12 top-40 w-20 h-20 rounded-full bg-sky-400 text-white grid place-items-center text-4xl shadow-xl">
+                𝕏
+              </div>
+
+              <div class="absolute right-5 top-36 w-24 h-24 rounded-full bg-blue-600 text-white grid place-items-center text-5xl shadow-xl">
+                👍
+              </div>
+
+              <div class="absolute left-24 top-24 w-16 h-16 rounded-full bg-pink-700 text-white grid place-items-center text-3xl shadow-xl">
+                ◉
+              </div>
+
+              <div class="absolute right-5 top-10 w-12 h-12 rounded-xl bg-orange-500 text-white grid place-items-center text-2xl shadow-xl">
+                ◎
+              </div>
+
+              <div class="absolute left-14 bottom-28 w-20 h-20 rounded-3xl bg-pink-100 text-slate-900 grid place-items-center text-5xl shadow-xl">
+                ⌣
+              </div>
+
+              <div class="absolute right-12 bottom-28 w-16 h-16 rounded-2xl bg-pink-400 text-white grid place-items-center text-4xl shadow-xl">
+                ❤
+              </div>
+
+            </div>
+          </div>
+
+          <div class="absolute top-20 left-44 text-6xl z-30">💗</div>
+          <div class="absolute top-32 left-32 text-5xl z-30">💗</div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <script src="script.js"></script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reliable Socials</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    @keyframes phoneMove {
-      0% { transform: rotate(-3deg); }
-      50% { transform: rotate(3deg); }
-      100% { transform: rotate(-3deg); }
-    }
-
-    .phone-animate {
-      animation: phoneMove 3s ease-in-out infinite;
-    }
-  </style>
-</head>
-
-<body class="bg-white text-slate-900">
-
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 bg-white">
-    <div class="max-w-7xl mx-auto px-5 lg:px-10 py-5 flex items-center justify-between">
-
-      <a href="#">
-        <img 
-          src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png"
-          alt="Reliable Socials"
-          class="w-36 md:w-40"
-        />
-      </a>
-
-      <nav class="hidden lg:flex items-center gap-10 text-sm font-semibold text-slate-500">
-        <a href="#">Home</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact Us</a>
-        <a href="#">Blogs</a>
-        <a href="#">Web API Documentation</a>
-        <a href="#">Reliable Socials Status</a>
-        <a href="#">Register</a>
-      </nav>
-
-      <div class="flex items-center gap-3">
-        <a href="#" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold">
-          Login
-        </a>
-
-        <button id="menuBtn" class="lg:hidden text-3xl font-bold">
-          ☰
-        </button>
-      </div>
-    </div>
-
-    <div id="mobileMenu" class="hidden lg:hidden bg-white shadow-lg px-5 py-5">
-      <nav class="flex flex-col gap-4 font-semibold text-slate-600">
-        <a href="#">Home</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact Us</a>
-        <a href="#">Blogs</a>
-        <a href="#">Web API Documentation</a>
-        <a href="#">Reliable Socials Status</a>
-        <a href="#">Register</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section class="max-w-7xl mx-auto px-5 lg:px-10 pt-10 pb-20 grid lg:grid-cols-2 items-center gap-10 min-h-[720px]">
-
-    <div>
-      <div id="heroIcon" class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 grid place-items-center text-2xl mb-6">
-        📶
-      </div>
-
-      <h2 id="heroTitle" class="text-3xl font-extrabold mb-4">
-        Buy <span class="text-blue-600">Data</span>
-      </h2>
-
-      <p id="heroText" class="text-lg text-slate-700 mb-10">
-        Stay Connected with Cheap Data.
-      </p>
-
-      <p class="text-blue-600 font-bold text-lg mb-8">
-        Personal & Business boost with Reliable Socials
-      </p>
-
-      <h1 class="text-[48px] sm:text-[70px] lg:text-[88px] leading-[1.05] tracking-[-4px] font-extrabold text-slate-700 mb-14">
-        <span class="text-blue-600">Grow Faster,</span><br>
-        Spend Less.<br>
-        Use Reliable Socials!
-      </h1>
-
-      <div class="flex flex-col sm:flex-row gap-6">
-        <a href="#" class="bg-blue-600 text-white px-9 py-5 rounded-xl font-extrabold text-center">
-          Register →
-        </a>
-
-        <a href="#" class="bg-slate-100 text-slate-400 px-9 py-5 rounded-xl font-extrabold text-center">
-          Download App
-        </a>
-      </div>
-    </div>
-
-    <div class="relative flex justify-center items-center">
-
-      <div class="hidden md:block absolute top-0 right-10">
-        <div class="w-20 h-28 border-[6px] border-blue-600 rounded-3xl relative">
-          <div class="w-8 h-3 bg-blue-600 rounded-full mx-auto mt-3"></div>
-          <div class="w-10 h-3 bg-blue-100 rounded-full mx-auto mt-6"></div>
-          <div class="w-8 h-3 bg-blue-100 rounded-full mx-auto mt-3"></div>
-          <div class="absolute -right-8 top-12 w-14 h-14 bg-white rounded-full shadow-xl grid place-items-center text-blue-600 text-2xl">
-            $
-          </div>
-        </div>
-      </div>
-
-      <div class="phone-animate relative mt-24 w-[350px] sm:w-[540px] h-[520px] sm:h-[640px]">
-
-        <div class="absolute top-24 right-0 w-36 h-28 bg-red-500 rounded-[45%] rotate-12 shadow-xl grid place-items-center text-5xl z-20">
-          ❤
-        </div>
-
-        <div class="absolute top-2 right-32 w-24 h-24 bg-orange-400 rounded-full shadow-xl grid place-items-center text-4xl z-20">
-          ▶
-        </div>
-
-        <div class="absolute bottom-0 right-12 w-56 h-96 bg-yellow-300 rounded-t-[110px] rounded-b-[60px] rotate-[-8deg]"></div>
-
-        <div class="absolute bottom-28 left-8 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
-        <div class="absolute bottom-44 left-5 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
-        <div class="absolute bottom-60 left-9 w-36 h-20 bg-yellow-300 rounded-full rotate-[-20deg] z-20"></div>
-
-        <div class="absolute bottom-0 left-24 sm:left-32 w-[250px] sm:w-[310px] h-[430px] sm:h-[540px] bg-blue-600 rounded-[48px] p-5 rotate-[-4deg] shadow-2xl z-10">
-          <div class="relative w-full h-full rounded-[36px] overflow-hidden bg-gradient-to-br from-orange-100 via-rose-300 to-orange-100">
-
-            <div class="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-2 bg-blue-500 rounded-full"></div>
-
-            <div class="absolute -left-10 top-28 w-20 h-20 rounded-2xl bg-red-500 text-white grid place-items-center text-4xl shadow-xl">
-              ◎
-            </div>
-
-            <div class="absolute left-12 top-40 w-20 h-20 rounded-full bg-sky-400 text-white grid place-items-center text-4xl shadow-xl">
-              𝕏
-            </div>
-
-            <div class="absolute right-5 top-36 w-24 h-24 rounded-full bg-blue-600 text-white grid place-items-center text-5xl shadow-xl">
-              👍
-            </div>
-
-            <div class="absolute left-24 top-24 w-16 h-16 rounded-full bg-pink-700 text-white grid place-items-center text-3xl shadow-xl">
-              ◉
-            </div>
-
-            <div class="absolute right-5 top-10 w-12 h-12 rounded-xl bg-orange-500 text-white grid place-items-center text-2xl shadow-xl">
-              ◎
-            </div>
-
-            <div class="absolute left-14 bottom-28 w-20 h-20 rounded-3xl bg-pink-100 text-slate-900 grid place-items-center text-5xl shadow-xl">
-              ⌣
-            </div>
-
-            <div class="absolute right-12 bottom-28 w-16 h-16 rounded-2xl bg-pink-400 text-white grid place-items-center text-4xl shadow-xl">
-              ❤
-            </div>
-
-          </div>
-        </div>
-
-        <div class="absolute top-20 left-44 text-6xl z-30">💗</div>
-        <div class="absolute top-32 left-32 text-5xl z-30">💗</div>
-
-      </div>
-    </div>
-  </section>
-
+  <!-- JAVASCRIPT -->
   <script>
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
 
-    menuBtn.addEventListener("click", function () {
+    menuBtn.addEventListener("click", () => {
       mobileMenu.classList.toggle("hidden");
 
       if (mobileMenu.classList.contains("hidden")) {
@@ -282,66 +213,38 @@
       }
     });
 
-    const slides = [
+    const heroSlides = [
       {
         icon: "📶",
         title: 'Buy <span class="text-blue-600">Data</span>',
-        text: "Stay Connected with Cheap Data."
+        text: "Stay Connected with Cheap Data.",
       },
       {
         icon: "🛡️",
         title: 'SMS <span class="text-blue-600">Verification</span>',
-        text: "Temp number for seamless OTP."
+        text: "Temp numbers for seamless OTP.",
       },
       {
         icon: "🚀",
         title: 'Social <span class="text-blue-600">Boost</span>',
-        text: "Buy engagements for TikToks, Instagrams, etc."
-      }
+        text: "Buy engagements for TikToks, Instagrams, etc.",
+      },
     ];
 
-    let index = 0;
+    let heroIndex = 0;
 
     const heroIcon = document.getElementById("heroIcon");
     const heroTitle = document.getElementById("heroTitle");
     const heroText = document.getElementById("heroText");
 
-    setInterval(function () {
-      index = (index + 1) % slides.length;
+    setInterval(() => {
+      heroIndex = (heroIndex + 1) % heroSlides.length;
 
-      heroIcon.textContent = slides[index].icon;
-      heroTitle.innerHTML = slides[index].title;
-      heroText.textContent = slides[index].text;
+      heroIcon.textContent = heroSlides[heroIndex].icon;
+      heroTitle.innerHTML = heroSlides[heroIndex].title;
+      heroText.textContent = heroSlides[heroIndex].text;
     }, 1500);
   </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-<style>
-  @keyframes phoneTurn {
-    0% {
-      transform: rotate(-3deg) translateX(0);
-    }
-    50% {
-      transform: rotate(3deg) translateX(8px);
-    }
-    100% {
-      transform: rotate(-3deg) translateX(0);
-    }
-  }
-
-  .phone-animate {
-    animation: phoneTurn 3s ease-in-out infinite;
-  }
-</style>
