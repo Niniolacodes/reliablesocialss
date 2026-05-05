@@ -304,81 +304,29 @@
 
 
 
-<!-- BENEFITS SCROLL ANIMATION CSS -->
-<style>
-  .benefit-animate {
-    opacity: 0;
-    transition: all 1s ease;
-  }
-
-  .from-left {
-    transform: translateX(-80px);
-  }
-
-  .from-right {
-    transform: translateX(80px);
-  }
-
-  .from-down {
-    transform: translateY(-60px);
-  }
-
-  .from-up {
-    transform: translateY(60px);
-  }
-
-  .benefit-animate.show {
-    opacity: 1;
-    transform: translate(0, 0);
-  }
-</style>
-
-<!-- SECTION DIVIDER -->
-<div class="relative bg-white">
-  <div class="absolute inset-x-0 bottom-0 h-24 bg-[#eef3fb]"></div>
-
-  <svg
-    class="relative w-full h-24 text-[#eef3fb]"
-    viewBox="0 0 1440 120"
-    preserveAspectRatio="none"
-  >
-    <path
-      fill="currentColor"
-      d="M0,64 C240,120 480,0 720,56 C960,112 1200,32 1440,80 L1440,120 L0,120 Z"
-    ></path>
-  </svg>
-</div>
-
 <!-- BENEFITS SECTION -->
-<section class="relative bg-[#eef3fb] py-20 overflow-hidden border-t border-blue-100">
+<section class="bg-[#eef3fb] py-20 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 lg:px-10">
 
-  <!-- DECORATIVE BACKGROUND -->
-  <div class="absolute -top-20 -left-20 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl"></div>
-  <div class="absolute top-20 -right-24 w-80 h-80 bg-orange-200/40 rounded-full blur-3xl"></div>
-  <div class="absolute bottom-10 left-1/2 w-72 h-72 bg-white/50 rounded-full blur-3xl"></div>
-
-  <div class="relative max-w-7xl mx-auto px-5 lg:px-10">
-
-    <h2 class="benefit-animate from-down text-center text-2xl md:text-3xl font-extrabold text-slate-500 mb-20">
+    <h2 class="animate-slide-down text-center text-2xl md:text-3xl font-extrabold text-slate-500 mb-20">
       Join over 200,000 satisfied customers who enjoy our service!
     </h2>
 
     <div class="grid lg:grid-cols-2 gap-14 items-center">
 
       <!-- LEFT IMAGE -->
-      <div class="benefit-animate from-left relative flex justify-center">
-        <div class="relative bg-white rounded-[36px] p-6 w-full max-w-[420px] shadow-xl shadow-blue-100/60 border border-white/80">
-
+      <div class="animate-slide-left relative flex justify-center">
+        <div class="relative bg-white rounded-[36px] p-6 w-full max-w-[420px] shadow-sm">
           <img
             src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778017995/Screenshot_1881_uahbtn.png"
             alt="Reliable Socials Benefits"
-            class="w-full object-contain rounded-[28px]"
+            class="w-full object-contain"
           />
 
           <!-- 100% CARD -->
-          <div class="benefit-animate from-up absolute -right-4 md:-right-10 -bottom-10 w-40 h-40 md:w-48 md:h-48 bg-gradient-to-br from-orange-400 to-orange-500 rounded-[36px] flex flex-col items-center justify-center text-white shadow-2xl">
-            <h3 class="text-4xl md:text-5xl font-extrabold mb-4">100%</h3>
-            <p class="text-center text-sm md:text-base font-semibold leading-6 px-4">
+          <div class="animate-slide-up absolute -right-10 -bottom-10 w-48 h-48 bg-gradient-to-br from-orange-400 to-orange-500 rounded-[36px] flex flex-col items-center justify-center text-white shadow-xl">
+            <h3 class="text-5xl font-extrabold mb-5">100%</h3>
+            <p class="text-center text-base font-semibold leading-7 px-5">
               Security in your transactions
             </p>
           </div>
@@ -386,16 +334,16 @@
       </div>
 
       <!-- RIGHT TEXT -->
-      <div class="benefit-animate from-right">
-        <h2 class="text-[38px] md:text-[56px] leading-tight tracking-[-3px] font-extrabold text-blue-600 mb-10">
+      <div class="animate-slide-right">
+        <h2 class="text-[42px] md:text-[56px] leading-tight tracking-[-3px] font-extrabold text-blue-600 mb-10">
           Exclusive Benefits of<br />
           Using Reliable Socials
         </h2>
 
         <div class="space-y-8">
 
-          <div class="benefit-animate from-up flex gap-6">
-            <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.08)]"></div>
+          <div class="animate-fade-up flex gap-6">
+            <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.05)]"></div>
             <div>
               <h3 class="text-xl font-extrabold text-blue-600 mb-4">
                 Instant Transactions
@@ -406,8 +354,8 @@
             </div>
           </div>
 
-          <div class="benefit-animate from-up flex gap-6" style="transition-delay: 0.2s;">
-            <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.08)]"></div>
+          <div class="animate-fade-up-delay flex gap-6">
+            <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.05)]"></div>
             <div>
               <h3 class="text-xl font-extrabold text-blue-600 mb-4">
                 Most Affordable in the Market
@@ -418,8 +366,8 @@
             </div>
           </div>
 
-          <div class="benefit-animate from-up flex gap-6" style="transition-delay: 0.4s;">
-            <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.08)]"></div>
+          <div class="animate-fade-up-delay-two flex gap-6">
+            <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.05)]"></div>
             <div>
               <h3 class="text-xl font-extrabold text-blue-600 mb-4">
                 Guaranteed Security
