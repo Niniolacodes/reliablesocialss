@@ -323,6 +323,46 @@
       border-bottom: 2px solid currentColor;
       transform: rotate(-45deg);
     }
+
+    @keyframes ctaFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes ctaProgress {
+      0% {
+        width: 36%;
+      }
+
+      50% {
+        width: 82%;
+      }
+
+      100% {
+        width: 58%;
+      }
+    }
+
+    .market-cta-panel {
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(135deg, #064e3b 0%, #0f766e 42%, #1e3a8a 100%);
+      background-size: 56px 56px, 56px 56px, cover;
+    }
+
+    .market-cta-visual {
+      animation: ctaFloat 5s ease-in-out infinite;
+    }
+
+    .market-cta-progress {
+      animation: ctaProgress 4s ease-in-out infinite;
+    }
   </style>
 </head>
 
@@ -926,6 +966,119 @@
           You can reach us through our support mail at support@reliablesocials.com or create a ticket so we can attend to you effectively.
         </p>
       </details>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET CTA SECTION -->
+<section class="bg-white px-5 py-20 lg:px-10">
+  <div class="market-cta-panel relative mx-auto max-w-7xl overflow-hidden rounded-[38px] px-6 py-16 text-white shadow-[0_28px_70px_rgba(15,118,110,0.24)] sm:px-10 lg:px-20 lg:py-24">
+    <div class="relative z-10 grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr]">
+      <div class="text-center lg:text-left">
+        <p class="scroll-animate opacity-0 -translate-y-12 transition-all duration-1000 ease-out mb-5 inline-flex rounded-full border border-white/15 bg-white/10 px-5 py-2 text-xs font-black uppercase tracking-[0.18em] text-emerald-100">
+          Reliable Socials Advantage
+        </p>
+
+        <h2 class="scroll-animate opacity-0 -translate-x-20 transition-all duration-1000 ease-out mx-auto max-w-4xl text-4xl font-black leading-tight md:text-5xl lg:mx-0 lg:text-6xl">
+          Buy Like a Pro -<br />
+          Let Reliable Socials Move You Faster.
+        </h2>
+
+        <p class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out mx-auto mt-8 max-w-2xl text-lg font-medium leading-8 text-emerald-50/85 lg:mx-0">
+          Get social boosts, SMS verification, and bill payments from one smart dashboard built for speed, clarity, and real delivery.
+        </p>
+
+        <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out mt-10 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
+          <a href="#" class="inline-flex items-center justify-center gap-3 rounded-xl bg-white px-8 py-4 text-sm font-black text-blue-700 shadow-[0_20px_40px_rgba(15,23,42,0.18)] hover:bg-emerald-50">
+            Register
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a href="#faq" class="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/10 px-8 py-4 text-sm font-black text-white backdrop-blur hover:bg-white/15">
+            Learn More
+          </a>
+        </div>
+      </div>
+
+      <div class="scroll-animate opacity-0 translate-x-20 transition-all duration-1000 ease-out">
+        <div class="market-cta-visual relative mx-auto h-[460px] max-w-[430px]">
+          <div class="absolute left-0 right-0 top-12 rounded-[28px] border border-white/15 bg-white/95 p-4 text-slate-900 shadow-[0_28px_70px_rgba(15,23,42,0.22)] sm:left-2 sm:right-auto sm:w-[320px]">
+            <div class="mb-4 flex items-center justify-between">
+              <div>
+                <p class="text-[11px] font-black uppercase tracking-[0.16em] text-emerald-600">Live Orders</p>
+                <p class="text-xl font-black text-slate-900">Dashboard</p>
+              </div>
+              <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-600">Online</span>
+            </div>
+
+            <div class="space-y-3">
+              <div class="rounded-2xl bg-slate-50 p-3">
+                <div class="mb-2 flex items-center justify-between text-xs font-black text-slate-500">
+                  <span>Instagram Followers</span>
+                  <span class="text-emerald-500">82%</span>
+                </div>
+                <div class="h-2 overflow-hidden rounded-full bg-slate-200">
+                  <div class="market-cta-progress h-full rounded-full bg-gradient-to-r from-emerald-400 to-blue-500"></div>
+                </div>
+              </div>
+
+              <div class="rounded-2xl bg-slate-50 p-3">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-black text-slate-900">SMS Verification</p>
+                    <p class="text-xs font-bold text-slate-400">OTP delivered instantly</p>
+                  </div>
+                  <span class="rounded-xl bg-blue-50 px-3 py-2 text-xs font-black text-blue-600">Done</span>
+                </div>
+              </div>
+
+              <div class="rounded-2xl bg-slate-50 p-3">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-black text-slate-900">Wallet Balance</p>
+                    <p class="text-xs font-bold text-slate-400">Ready for the next order</p>
+                  </div>
+                  <span class="text-lg font-black text-slate-900">NGN 48k</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute bottom-0 right-0 h-[330px] w-[170px] rounded-[34px] bg-slate-950 p-2 shadow-[0_28px_70px_rgba(15,23,42,0.3)] sm:right-2">
+            <div class="relative h-full overflow-hidden rounded-[28px] bg-gradient-to-b from-blue-600 via-emerald-500 to-orange-300 p-4">
+              <div class="mx-auto mb-8 h-2 w-14 rounded-full bg-white/70"></div>
+              <div class="rounded-2xl bg-white/90 p-3 text-slate-900 shadow-lg">
+                <p class="text-[10px] font-black uppercase tracking-[0.16em] text-blue-600">Boost</p>
+                <p class="mt-1 text-2xl font-black">+12.8k</p>
+                <p class="mt-1 text-xs font-bold text-slate-500">Engagements delivered</p>
+              </div>
+
+              <div class="mt-4 grid grid-cols-2 gap-2">
+                <div class="rounded-2xl bg-white/20 p-3 text-center backdrop-blur">
+                  <p class="text-lg font-black">4.9</p>
+                  <p class="text-[10px] font-bold text-white/80">Rate</p>
+                </div>
+                <div class="rounded-2xl bg-white/20 p-3 text-center backdrop-blur">
+                  <p class="text-lg font-black">99%</p>
+                  <p class="text-[10px] font-bold text-white/80">Secure</p>
+                </div>
+              </div>
+
+              <div class="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/90 px-3 py-2 text-center text-xs font-black text-emerald-600">
+                Processing fast
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute right-2 top-0 rounded-2xl border border-white/20 bg-white/15 px-4 py-3 text-sm font-black text-white backdrop-blur sm:right-14 sm:top-4">
+            24/7 Service
+          </div>
+
+          <div class="absolute bottom-16 left-0 rounded-2xl border border-white/20 bg-orange-400 px-4 py-3 text-sm font-black text-white shadow-[0_20px_45px_rgba(245,158,11,0.28)]">
+            Instant Deposit
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
