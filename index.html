@@ -173,6 +173,27 @@
       background: #2563eb;
       box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
     }
+
+    .faq-item summary {
+      list-style: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-arrow {
+      transition:
+        transform 0.28s ease,
+        background-color 0.28s ease,
+        color 0.28s ease;
+    }
+
+    .faq-item[open] .faq-arrow {
+      transform: rotate(90deg);
+      background: #f59e0b;
+      color: #ffffff;
+    }
   </style>
 </head>
 
@@ -679,8 +700,74 @@
   </div>
 </section>
 
+<!-- FAQ SECTION -->
+<section id="faq" class="bg-[#f5f8fc] px-5 py-20 lg:px-10">
+  <div class="mx-auto max-w-5xl">
+    <div class="mb-16 text-center">
+      <h2 class="scroll-animate opacity-0 -translate-y-12 transition-all duration-1000 ease-out text-4xl font-extrabold leading-tight text-blue-600 md:text-5xl">
+        Explore Our Frequently<br class="hidden sm:block" />
+        Asked Questions
+      </h2>
+      <p class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out mx-auto mt-8 max-w-xl text-lg leading-8 text-slate-500">
+        Find quick and clear answers to common questions about Reliable Socials.
+      </p>
+    </div>
+
+    <div class="space-y-6">
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out rounded-2xl bg-white/70 px-6 py-5 shadow-sm" open>
+        <summary class="flex cursor-pointer items-center justify-between gap-6">
+          <h3 class="text-lg font-extrabold text-blue-600 md:text-xl">
+            How can I create an account on Reliable Socials?
+          </h3>
+          <span class="faq-arrow grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#effafa] text-2xl font-black text-blue-600">&rsaquo;</span>
+        </summary>
+        <p class="mt-6 max-w-3xl text-base leading-8 text-slate-500 md:text-lg">
+          Create an account with Reliable Socials by clicking on the "Create Account" or "Register" button.
+        </p>
+      </details>
+
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-100 rounded-2xl bg-white/70 px-6 py-5 shadow-sm">
+        <summary class="flex cursor-pointer items-center justify-between gap-6">
+          <h3 class="text-lg font-extrabold text-blue-600 md:text-xl">
+            How do I deposit on Reliable Socials?
+          </h3>
+          <span class="faq-arrow grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#effafa] text-2xl font-black text-blue-600">&rsaquo;</span>
+        </summary>
+        <p class="mt-6 max-w-3xl text-base leading-8 text-slate-500 md:text-lg">
+          Once you are logged in, click on the "Deposit" button for instant funding. All deposits are automated.
+        </p>
+      </details>
+
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-200 rounded-2xl bg-white/70 px-6 py-5 shadow-sm">
+        <summary class="flex cursor-pointer items-center justify-between gap-6">
+          <h3 class="text-lg font-extrabold text-blue-600 md:text-xl">
+            How fast will Reliable Socials process my order?
+          </h3>
+          <span class="faq-arrow grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#effafa] text-2xl font-black text-blue-600">&rsaquo;</span>
+        </summary>
+        <p class="mt-6 max-w-3xl text-base leading-8 text-slate-500 md:text-lg">
+          Your orders are processed immediately after you place them. Order statuses show how each order is being delivered, and different services may have different delivery timelines.
+        </p>
+      </details>
+
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-300 rounded-2xl bg-white/70 px-6 py-5 shadow-sm">
+        <summary class="flex cursor-pointer items-center justify-between gap-6">
+          <h3 class="text-lg font-extrabold text-blue-600 md:text-xl">
+            How can I contact Reliable Socials support?
+          </h3>
+          <span class="faq-arrow grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#effafa] text-2xl font-black text-blue-600">&rsaquo;</span>
+        </summary>
+        <p class="mt-6 max-w-3xl text-base leading-8 text-slate-500 md:text-lg">
+          You can reach us through our support mail at support@reliablesocials.com or create a ticket so we can attend to you effectively.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
 <script>
   const animatedItems = document.querySelectorAll(".scroll-animate");
+  const faqItems = document.querySelectorAll(".faq-item");
   const animationStartClasses = [
     "-translate-y-12",
     "-translate-x-20",
@@ -721,6 +808,20 @@
 
   animatedItems.forEach((item) => {
     scrollObserver.observe(item);
+  });
+
+  faqItems.forEach((item) => {
+    item.addEventListener("toggle", () => {
+      if (!item.open) {
+        return;
+      }
+
+      faqItems.forEach((otherItem) => {
+        if (otherItem !== item) {
+          otherItem.removeAttribute("open");
+        }
+      });
+    });
   });
 </script>
 </body>
