@@ -363,6 +363,58 @@
     .market-cta-progress {
       animation: ctaProgress 4s ease-in-out infinite;
     }
+
+    @keyframes scrollTopGlow {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.45;
+      }
+
+      50% {
+        transform: scale(1.22);
+        opacity: 0.18;
+      }
+    }
+
+    .scroll-top-button {
+      position: fixed;
+      right: clamp(1rem, 2.4vw, 2rem);
+      bottom: clamp(1rem, 2.4vw, 2rem);
+      z-index: 70;
+      display: grid;
+      width: 58px;
+      height: 58px;
+      place-items: center;
+      border: 0;
+      border-radius: 9999px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #f59e0b 0%, #2563eb 100%);
+      box-shadow: 0 18px 45px rgba(37, 99, 235, 0.28), 0 12px 28px rgba(245, 158, 11, 0.24);
+      cursor: pointer;
+      transition:
+        transform 0.24s ease,
+        box-shadow 0.24s ease;
+    }
+
+    .scroll-top-button::before {
+      content: "";
+      position: absolute;
+      inset: -9px;
+      z-index: -1;
+      border-radius: inherit;
+      background: rgba(245, 158, 11, 0.48);
+      animation: scrollTopGlow 2.8s ease-in-out infinite;
+    }
+
+    .scroll-top-button:hover {
+      transform: translateY(-5px) scale(1.04);
+      box-shadow: 0 24px 55px rgba(37, 99, 235, 0.34), 0 16px 35px rgba(245, 158, 11, 0.3);
+    }
+
+    .scroll-top-button svg {
+      width: 25px;
+      height: 25px;
+    }
   </style>
 </head>
 
@@ -1135,9 +1187,17 @@
   </div>
 </footer>
 
+<button id="scrollTopButton" class="scroll-top-button" type="button" aria-label="Scroll back to top">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M12 19V5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" />
+    <path d="m6.5 10.5 5.5-5.5 5.5 5.5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+</button>
+
 <script>
   const animatedItems = document.querySelectorAll(".scroll-animate");
   const faqItems = document.querySelectorAll(".faq-item");
+  const scrollTopButton = document.getElementById("scrollTopButton");
   const animationStartClasses = [
     "-translate-y-12",
     "-translate-x-20",
@@ -1191,6 +1251,13 @@
           otherItem.removeAttribute("open");
         }
       });
+    });
+  });
+
+  scrollTopButton.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
     });
   });
 </script>
