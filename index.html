@@ -143,6 +143,36 @@
         0 30px 65px rgba(37, 99, 235, 0.28),
         inset 0 0 0 1px rgba(255, 255, 255, 0.28);
     }
+
+    .hero-switch-item {
+      transition:
+        opacity 0.36s ease,
+        transform 0.36s ease,
+        filter 0.36s ease;
+    }
+
+    .hero-switch-item.is-switching {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+      filter: blur(3px);
+    }
+
+    .hero-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #cbd5e1;
+      transition:
+        width 0.28s ease,
+        background-color 0.28s ease,
+        box-shadow 0.28s ease;
+    }
+
+    .hero-dot.is-active {
+      width: 24px;
+      background: #2563eb;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+    }
   </style>
 </head>
 
@@ -202,17 +232,23 @@
 
       <!-- LEFT CONTENT -->
       <div>
-        <div id="heroIcon" class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 grid place-items-center text-xl mb-5">
+        <div id="heroIcon" class="hero-switch-item w-10 h-10 rounded-xl bg-blue-100 text-blue-600 grid place-items-center text-xl mb-5">
           📶
         </div>
 
-        <h2 id="heroTitle" class="text-2xl font-extrabold mb-3">
+        <h2 id="heroTitle" class="hero-switch-item text-2xl font-extrabold mb-3">
           Buy <span class="text-blue-600">Data</span>
         </h2>
 
-        <p id="heroText" class="text-base text-slate-700 mb-8">
+        <p id="heroText" class="hero-switch-item text-base text-slate-700 mb-4">
           Stay Connected with Cheap Data.
         </p>
+
+        <div id="heroSlideDots" class="mb-8 flex items-center gap-2" aria-hidden="true">
+          <span class="hero-dot is-active"></span>
+          <span class="hero-dot"></span>
+          <span class="hero-dot"></span>
+        </div>
 
         <p class="text-blue-600 font-bold text-base mb-6">
           Personal & Business boost with Reliable Socials
@@ -438,6 +474,8 @@
     const heroIcon = document.getElementById("heroIcon");
     const heroTitle = document.getElementById("heroTitle");
     const heroText = document.getElementById("heroText");
+    const heroSwitchItems = [heroIcon, heroTitle, heroText];
+    const heroDots = document.querySelectorAll(".hero-dot");
     const otpDigits = document.querySelectorAll(".otp-digit");
 
     const updateOtpDigits = () => {
@@ -449,12 +487,30 @@
       });
     };
 
-    setInterval(() => {
-      heroIndex = (heroIndex + 1) % heroSlides.length;
-      heroIcon.textContent = heroSlides[heroIndex].icon;
-      heroTitle.innerHTML = heroSlides[heroIndex].title;
-      heroText.textContent = heroSlides[heroIndex].text;
-    }, 1500);
+    const setHeroSlide = (index) => {
+      heroIcon.textContent = heroSlides[index].icon;
+      heroTitle.innerHTML = heroSlides[index].title;
+      heroText.textContent = heroSlides[index].text;
+
+      heroDots.forEach((dot, dotIndex) => {
+        dot.classList.toggle("is-active", dotIndex === index);
+      });
+    };
+
+    const showNextHeroSlide = () => {
+      heroSwitchItems.forEach((item) => item.classList.add("is-switching"));
+
+      setTimeout(() => {
+        heroIndex = (heroIndex + 1) % heroSlides.length;
+        setHeroSlide(heroIndex);
+
+        requestAnimationFrame(() => {
+          heroSwitchItems.forEach((item) => item.classList.remove("is-switching"));
+        });
+      }, 360);
+    };
+
+    setInterval(showNextHeroSlide, 2800);
 
     updateOtpDigits();
     setInterval(updateOtpDigits, 950);
