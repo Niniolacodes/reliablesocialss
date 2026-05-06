@@ -182,17 +182,146 @@
       display: none;
     }
 
+    .faq-section {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      margin-top: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition:
+        max-height 0.34s ease,
+        opacity 0.28s ease,
+        transform 0.28s ease;
+    }
+
+    .faq-item[open] .faq-answer {
+      max-height: 220px;
+      margin-top: 1.25rem;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .faq-arrow {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      place-items: center;
+      border-radius: 16px;
+      color: #2563eb;
+      background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        linear-gradient(135deg, rgba(37, 99, 235, 0.28), rgba(245, 158, 11, 0.38)) border-box;
+      border: 1px solid transparent;
+      box-shadow: 0 14px 32px rgba(37, 99, 235, 0.12);
       transition:
         transform 0.28s ease,
-        background-color 0.28s ease,
-        color 0.28s ease;
+        background 0.28s ease,
+        color 0.28s ease,
+        box-shadow 0.28s ease;
+    }
+
+    .faq-arrow svg {
+      width: 20px;
+      height: 20px;
     }
 
     .faq-item[open] .faq-arrow {
-      transform: rotate(90deg);
-      background: #f59e0b;
+      transform: rotate(180deg);
+      background: linear-gradient(135deg, #2563eb, #f59e0b);
       color: #ffffff;
+      box-shadow: 0 18px 38px rgba(245, 158, 11, 0.28);
+    }
+
+    .menu-button {
+      transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .menu-button.is-open {
+      border-color: rgba(37, 99, 235, 0.25);
+      background: #eff6ff;
+      box-shadow: 0 12px 25px rgba(37, 99, 235, 0.12);
+    }
+
+    .menu-line {
+      display: block;
+      width: 18px;
+      height: 2px;
+      border-radius: 9999px;
+      background: #1e293b;
+      transition:
+        transform 0.25s ease,
+        opacity 0.2s ease,
+        background-color 0.25s ease;
+    }
+
+    .menu-button.is-open .menu-line {
+      background: #2563eb;
+    }
+
+    .menu-button.is-open .menu-line:first-child {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .menu-button.is-open .menu-line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-button.is-open .menu-line:last-child {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .mobile-menu-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 16px;
+      padding: 14px 16px;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      transition:
+        color 0.22s ease,
+        border-color 0.22s ease,
+        transform 0.22s ease,
+        box-shadow 0.22s ease;
+    }
+
+    .mobile-menu-link:hover {
+      color: #2563eb;
+      border-color: rgba(37, 99, 235, 0.24);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+    }
+
+    .mobile-menu-link.is-primary {
+      color: #ffffff;
+      background: #2563eb;
+      border-color: #2563eb;
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.18);
+    }
+
+    .mobile-menu-link.is-primary:hover {
+      color: #ffffff;
+      background: #1d4ed8;
+    }
+
+    .mobile-menu-link::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(-45deg);
     }
   </style>
 </head>
@@ -228,22 +357,29 @@
 
         <button
           id="menuBtn"
-          class="lg:hidden w-10 h-10 rounded-lg border border-slate-200 text-xl font-bold text-slate-700 grid place-items-center"
+          class="menu-button lg:hidden grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
         >
-          ☰
+          <span class="grid gap-1">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </span>
         </button>
       </div>
     </div>
 
-    <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-slate-100 shadow-lg">
-      <nav class="px-5 py-4 flex flex-col gap-3 text-sm font-semibold text-slate-600">
-        <a href="#">Home</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact Us</a>
-        <a href="#">Blogs</a>
-        <a href="#">Web API Documentation</a>
-        <a href="#">Reliable Socials Status</a>
-        <a href="#">Register</a>
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-100 bg-white/95 px-5 pb-5 pt-2 shadow-[0_24px_50px_rgba(15,23,42,0.1)] backdrop-blur">
+      <nav class="mx-auto flex max-w-md flex-col gap-2 rounded-[24px] border border-blue-50 bg-[#f7fbff] p-3">
+        <a href="#" class="mobile-menu-link">Home</a>
+        <a href="#" class="mobile-menu-link">About Us</a>
+        <a href="#" class="mobile-menu-link">Contact Us</a>
+        <a href="#" class="mobile-menu-link">Blogs</a>
+        <a href="#" class="mobile-menu-link">Web API Documentation</a>
+        <a href="#" class="mobile-menu-link">Reliable Socials Status</a>
+        <a href="#" class="mobile-menu-link is-primary">Register</a>
       </nav>
     </div>
   </header>
@@ -469,7 +605,20 @@
 
     menuBtn.addEventListener("click", () => {
       mobileMenu.classList.toggle("hidden");
-      menuBtn.textContent = mobileMenu.classList.contains("hidden") ? "☰" : "×";
+      const isOpen = !mobileMenu.classList.contains("hidden");
+
+      menuBtn.classList.toggle("is-open", isOpen);
+      menuBtn.setAttribute("aria-expanded", isOpen);
+      menuBtn.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+    });
+
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+        menuBtn.classList.remove("is-open");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.setAttribute("aria-label", "Open menu");
+      });
     });
 
     const heroSlides = [
@@ -701,63 +850,79 @@
 </section>
 
 <!-- FAQ SECTION -->
-<section id="faq" class="bg-[#f5f8fc] px-5 py-20 lg:px-10">
+<section id="faq" class="faq-section bg-[#f5f8fc] px-5 py-20 lg:px-10">
   <div class="mx-auto max-w-5xl">
     <div class="mb-16 text-center">
-      <h2 class="scroll-animate opacity-0 -translate-y-12 transition-all duration-1000 ease-out text-4xl font-extrabold leading-tight text-blue-600 md:text-5xl">
+      <h2 class="scroll-animate opacity-0 -translate-y-12 transition-all duration-1000 ease-out text-4xl font-black leading-tight text-blue-600 md:text-5xl">
         Explore Our Frequently<br class="hidden sm:block" />
         Asked Questions
       </h2>
-      <p class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out mx-auto mt-8 max-w-xl text-lg leading-8 text-slate-500">
+      <p class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out mx-auto mt-8 max-w-xl text-lg font-medium leading-8 text-slate-500">
         Find quick and clear answers to common questions about Reliable Socials.
       </p>
     </div>
 
     <div class="space-y-6">
-      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out rounded-2xl bg-white/70 px-6 py-5 shadow-sm" open>
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out rounded-[26px] border border-white/80 bg-white px-6 py-5 shadow-[0_18px_45px_rgba(15,23,42,0.05)]" open>
         <summary class="flex cursor-pointer items-center justify-between gap-6">
-          <h3 class="text-lg font-extrabold text-blue-600 md:text-xl">
+          <h3 class="faq-question text-lg font-black leading-snug text-blue-600 md:text-xl">
             How can I create an account on Reliable Socials?
           </h3>
-          <span class="faq-arrow grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#effafa] text-2xl font-black text-blue-600">&rsaquo;</span>
+          <span class="faq-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
         </summary>
-        <p class="mt-6 max-w-3xl text-base leading-8 text-slate-500 md:text-lg">
+        <p class="faq-answer max-w-3xl text-base font-medium leading-8 text-slate-500 md:text-lg">
           Create an account with Reliable Socials by clicking on the "Create Account" or "Register" button.
         </p>
       </details>
 
-      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-100 rounded-2xl bg-white/70 px-6 py-5 shadow-sm">
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-100 rounded-[26px] border border-white/80 bg-white px-6 py-5 shadow-[0_18px_45px_rgba(15,23,42,0.05)]">
         <summary class="flex cursor-pointer items-center justify-between gap-6">
-          <h3 class="text-lg font-extrabold text-blue-600 md:text-xl">
+          <h3 class="faq-question text-lg font-black leading-snug text-blue-600 md:text-xl">
             How do I deposit on Reliable Socials?
           </h3>
-          <span class="faq-arrow grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#effafa] text-2xl font-black text-blue-600">&rsaquo;</span>
+          <span class="faq-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
         </summary>
-        <p class="mt-6 max-w-3xl text-base leading-8 text-slate-500 md:text-lg">
+        <p class="faq-answer max-w-3xl text-base font-medium leading-8 text-slate-500 md:text-lg">
           Once you are logged in, click on the "Deposit" button for instant funding. All deposits are automated.
         </p>
       </details>
 
-      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-200 rounded-2xl bg-white/70 px-6 py-5 shadow-sm">
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-200 rounded-[26px] border border-white/80 bg-white px-6 py-5 shadow-[0_18px_45px_rgba(15,23,42,0.05)]">
         <summary class="flex cursor-pointer items-center justify-between gap-6">
-          <h3 class="text-lg font-extrabold text-blue-600 md:text-xl">
+          <h3 class="faq-question text-lg font-black leading-snug text-blue-600 md:text-xl">
             How fast will Reliable Socials process my order?
           </h3>
-          <span class="faq-arrow grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#effafa] text-2xl font-black text-blue-600">&rsaquo;</span>
+          <span class="faq-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
         </summary>
-        <p class="mt-6 max-w-3xl text-base leading-8 text-slate-500 md:text-lg">
+        <p class="faq-answer max-w-3xl text-base font-medium leading-8 text-slate-500 md:text-lg">
           Your orders are processed immediately after you place them. Order statuses show how each order is being delivered, and different services may have different delivery timelines.
         </p>
       </details>
 
-      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-300 rounded-2xl bg-white/70 px-6 py-5 shadow-sm">
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-300 rounded-[26px] border border-white/80 bg-white px-6 py-5 shadow-[0_18px_45px_rgba(15,23,42,0.05)]">
         <summary class="flex cursor-pointer items-center justify-between gap-6">
-          <h3 class="text-lg font-extrabold text-blue-600 md:text-xl">
+          <h3 class="faq-question text-lg font-black leading-snug text-blue-600 md:text-xl">
             How can I contact Reliable Socials support?
           </h3>
-          <span class="faq-arrow grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#effafa] text-2xl font-black text-blue-600">&rsaquo;</span>
+          <span class="faq-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
         </summary>
-        <p class="mt-6 max-w-3xl text-base leading-8 text-slate-500 md:text-lg">
+        <p class="faq-answer max-w-3xl text-base font-medium leading-8 text-slate-500 md:text-lg">
           You can reach us through our support mail at support@reliablesocials.com or create a ticket so we can attend to you effectively.
         </p>
       </details>
