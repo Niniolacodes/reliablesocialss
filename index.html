@@ -150,6 +150,22 @@
       <!-- RIGHT CONTENT -->
       <div class="relative flex justify-center items-center">
 
+        <div class="absolute top-0 right-1 sm:right-6 lg:right-0 z-50 pointer-events-none">
+          <div class="rounded-2xl border border-blue-100 bg-white/95 p-3 shadow-[0_18px_45px_rgba(37,99,235,0.15)] backdrop-blur">
+            <p class="mb-2 text-[10px] font-extrabold uppercase text-blue-600">
+              OTP Code
+            </p>
+            <div id="heroOtp" class="grid grid-cols-6 gap-1.5">
+              <span class="otp-digit grid h-9 w-8 place-items-center rounded-lg bg-blue-50 text-sm font-extrabold text-blue-700">0</span>
+              <span class="otp-digit grid h-9 w-8 place-items-center rounded-lg bg-blue-50 text-sm font-extrabold text-blue-700">0</span>
+              <span class="otp-digit grid h-9 w-8 place-items-center rounded-lg bg-blue-50 text-sm font-extrabold text-blue-700">0</span>
+              <span class="otp-digit grid h-9 w-8 place-items-center rounded-lg bg-blue-50 text-sm font-extrabold text-blue-700">0</span>
+              <span class="otp-digit grid h-9 w-8 place-items-center rounded-lg bg-blue-50 text-sm font-extrabold text-blue-700">0</span>
+              <span class="otp-digit grid h-9 w-8 place-items-center rounded-lg bg-blue-50 text-sm font-extrabold text-blue-700">0</span>
+            </div>
+          </div>
+        </div>
+
         <div class="phone-animate relative mt-4 sm:mt-10 w-[330px] sm:w-[480px] h-[480px] sm:h-[560px] overflow-hidden">
 
           <!-- SOCIAL LOGOS MOVING LEFT TO RIGHT BEHIND PHONE -->
@@ -273,6 +289,13 @@
     const heroIcon = document.getElementById("heroIcon");
     const heroTitle = document.getElementById("heroTitle");
     const heroText = document.getElementById("heroText");
+    const otpDigits = document.querySelectorAll(".otp-digit");
+
+    const updateOtpDigits = () => {
+      otpDigits.forEach((digit) => {
+        digit.textContent = Math.floor(Math.random() * 10);
+      });
+    };
 
     setInterval(() => {
       heroIndex = (heroIndex + 1) % heroSlides.length;
@@ -280,6 +303,9 @@
       heroTitle.innerHTML = heroSlides[heroIndex].title;
       heroText.textContent = heroSlides[heroIndex].text;
     }, 1500);
+
+    updateOtpDigits();
+    setInterval(updateOtpDigits, 350);
   </script>
 
 
