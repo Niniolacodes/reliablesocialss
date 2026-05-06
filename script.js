@@ -53,7 +53,53 @@ setInterval(() => {
 
 
 
+const animatedItems = document.querySelectorAll(".scroll-animate");
 
+const scrollObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      const item = entry.target;
+
+      if (entry.isIntersecting) {
+        item.classList.remove(
+          "opacity-0",
+          "-translate-y-12",
+          "-translate-x-20",
+          "translate-x-20",
+          "translate-y-14"
+        );
+
+        item.classList.add("opacity-100", "translate-x-0", "translate-y-0");
+      } else {
+        item.classList.remove("opacity-100", "translate-x-0", "translate-y-0");
+        item.classList.add("opacity-0");
+
+        if (item.classList.contains("from-left")) {
+          item.classList.add("-translate-x-20");
+        }
+
+        if (item.classList.contains("from-right")) {
+          item.classList.add("translate-x-20");
+        }
+
+        if (item.classList.contains("from-down")) {
+          item.classList.add("-translate-y-12");
+        }
+
+        if (item.classList.contains("from-up")) {
+          item.classList.add("translate-y-14");
+        }
+      }
+    });
+  },
+  {
+    threshold: 0.25,
+  }
+);
+
+animatedItems.forEach((item) => {
+  scrollObserver.observe(item);
+});
 
 
 
