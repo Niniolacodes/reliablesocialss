@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Reliable Socials</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: "Plus Jakarta Sans", sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+  <div class="relative min-h-screen overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.35),_transparent_45%),radial-gradient(circle_at_80%_30%,_rgba(14,165,233,0.3),_transparent_40%),linear-gradient(120deg,_#020617_0%,_#0f172a_55%,_#082f49_100%)]"></div>
+    <div class="absolute -left-24 top-20 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl"></div>
+    <div class="absolute -right-16 bottom-10 h-80 w-80 rounded-full bg-cyan-400/20 blur-3xl"></div>
+
+    <main class="relative mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center px-5 py-12 lg:px-10">
+      <section class="grid w-full max-w-5xl overflow-hidden rounded-[32px] border border-white/15 bg-white/10 shadow-[0_30px_120px_rgba(15,23,42,0.45)] backdrop-blur-xl lg:grid-cols-2">
+        <div class="hidden p-10 lg:flex lg:flex-col lg:justify-between">
+          <a href="index.html" class="inline-flex items-center gap-3">
+            <img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-10 w-auto" />
+          </a>
+          <div>
+            <p class="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-200">Reliable Socials</p>
+            <h1 class="mt-6 text-4xl font-extrabold leading-tight">Welcome back to your growth dashboard.</h1>
+            <p class="mt-5 max-w-md text-base text-slate-200/90">Login to continue with social boosts, OTP verification, and instant wallet operations.</p>
+          </div>
+          <p class="text-sm text-slate-300/80">Fast. Secure. Built for Nigeria.</p>
+        </div>
+
+        <div class="bg-white p-7 text-slate-900 sm:p-10">
+          <a href="index.html" class="inline-flex items-center gap-3 lg:hidden">
+            <img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-9 w-auto" />
+          </a>
+
+          <h2 class="mt-6 text-3xl font-extrabold text-slate-900">Login</h2>
+          <p class="mt-2 text-sm text-slate-500">Sign in to your Reliable Socials account.</p>
+
+          <form class="mt-8 space-y-5">
+            <div>
+              <label class="mb-2 block text-sm font-bold text-slate-700" for="email">Email</label>
+              <input id="email" type="email" placeholder="you@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+            </div>
+
+            <div>
+              <div class="mb-2 flex items-center justify-between">
+                <label class="block text-sm font-bold text-slate-700" for="password">Password</label>
+                <a href="#" class="text-xs font-bold text-blue-600 hover:text-blue-700">Forgot password?</a>
+              </div>
+              <div class="relative">
+                <input id="password" type="password" placeholder="Enter your password" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 pr-12 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+                <button id="togglePassword" type="button" class="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg px-2 py-1 text-xs font-bold text-slate-500 hover:bg-slate-200">Show</button>
+              </div>
+            </div>
+
+            <label class="flex items-center gap-3 text-sm font-medium text-slate-600">
+              <input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+              Remember me
+            </label>
+
+            <button type="submit" class="h-12 w-full rounded-xl bg-blue-600 text-sm font-extrabold text-white shadow-[0_16px_36px_rgba(37,99,235,0.35)] transition hover:bg-blue-700">Sign In</button>
+          </form>
+
+          <p class="mt-7 text-center text-sm text-slate-500">
+            New here?
+            <a href="register.html" class="font-extrabold text-blue-600 hover:text-blue-700">Create account</a>
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const togglePassword = document.getElementById("togglePassword");
+    const password = document.getElementById("password");
+    togglePassword.addEventListener("click", () => {
+      const isHidden = password.type === "password";
+      password.type = isHidden ? "text" : "password";
+      togglePassword.textContent = isHidden ? "Hide" : "Show";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | Reliable Socials</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: "Plus Jakarta Sans", sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen bg-[#f4f8ff] text-slate-900">
+  <div class="relative min-h-screen overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,_rgba(37,99,235,0.16),_transparent_40%),radial-gradient(circle_at_90%_70%,_rgba(14,165,233,0.18),_transparent_42%),linear-gradient(180deg,_#f8fbff_0%,_#eef6ff_100%)]"></div>
+
+    <main class="relative mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center px-5 py-12 lg:px-10">
+      <section class="w-full max-w-3xl rounded-[32px] border border-blue-100 bg-white/95 p-7 shadow-[0_30px_90px_rgba(37,99,235,0.16)] backdrop-blur sm:p-10">
+        <a href="index.html" class="mx-auto block w-fit">
+          <img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-11 w-auto" />
+        </a>
+
+        <h1 class="mt-6 text-center text-3xl font-extrabold text-slate-900">Create Account</h1>
+        <p class="mt-2 text-center text-sm text-slate-500">Join Reliable Socials and start growing smarter today.</p>
+
+        <form class="mt-8 grid gap-5 sm:grid-cols-2">
+          <div class="sm:col-span-2">
+            <label for="regEmail" class="mb-2 block text-sm font-bold text-slate-700">Email Address</label>
+            <input id="regEmail" type="email" placeholder="you@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+          </div>
+
+          <div>
+            <label for="firstName" class="mb-2 block text-sm font-bold text-slate-700">First Name</label>
+            <input id="firstName" type="text" placeholder="Niniola" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+          </div>
+
+          <div>
+            <label for="lastName" class="mb-2 block text-sm font-bold text-slate-700">Last Name</label>
+            <input id="lastName" type="text" placeholder="A." class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+          </div>
+
+          <div class="sm:col-span-2">
+            <label for="phone" class="mb-2 block text-sm font-bold text-slate-700">Phone Number</label>
+            <input id="phone" type="tel" placeholder="+234 800 000 0000" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+          </div>
+
+          <div>
+            <label for="regPassword" class="mb-2 block text-sm font-bold text-slate-700">Password</label>
+            <input id="regPassword" type="password" placeholder="Create password" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="mb-2 block text-sm font-bold text-slate-700">Confirm Password</label>
+            <input id="confirmPassword" type="password" placeholder="Confirm password" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+          </div>
+
+          <label class="sm:col-span-2 flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm font-medium text-slate-600">
+            <input type="checkbox" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+            I agree to Reliable Socials terms and privacy policy.
+          </label>
+
+          <button type="submit" class="sm:col-span-2 h-12 w-full rounded-xl bg-blue-600 text-sm font-extrabold text-white shadow-[0_16px_36px_rgba(37,99,235,0.3)] transition hover:bg-blue-700">Create Account</button>
+        </form>
+
+        <p class="mt-7 text-center text-sm text-slate-500">
+          Already have an account?
+          <a href="login.html" class="font-extrabold text-blue-600 hover:text-blue-700">Login</a>
+        </p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
