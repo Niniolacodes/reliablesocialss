@@ -26,7 +26,7 @@
         <h1 class="mt-6 text-center text-3xl font-extrabold text-slate-900">Create Account</h1>
         <p class="mt-2 text-center text-sm text-slate-500">Join Reliable Socials and start growing smarter today.</p>
 
-        <form class="mt-8 grid gap-5 sm:grid-cols-2">
+        <form id="registerForm" class="mt-8 grid gap-5 sm:grid-cols-2">
           <div class="sm:col-span-2">
             <label for="regEmail" class="mb-2 block text-sm font-bold text-slate-700">Email Address</label>
             <input id="regEmail" type="email" placeholder="you@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
@@ -72,5 +72,19 @@
       </section>
     </main>
   </div>
+  <script src="firebase-config.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    const registerForm = document.getElementById("registerForm");
+    registerForm?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      window.ReliableAuth.setUser({
+        email: document.getElementById("regEmail")?.value || "",
+        firstName: document.getElementById("firstName")?.value || "",
+        lastName: document.getElementById("lastName")?.value || "",
+      });
+      window.location.href = "dashboard.html";
+    });
+  </script>
 </body>
 </html>

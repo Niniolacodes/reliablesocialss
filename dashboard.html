@@ -88,8 +88,10 @@
     </main>
   </div>
 
+  <script src="firebase-config.js"></script>
+  <script src="auth.js"></script>
   <script>
-    if (localStorage.getItem("rs_auth") !== "1") { window.location.href = "login.html"; }
+    window.ReliableAuth.requireAuth("login.html");
     const openSidebarBtn = document.getElementById("openSidebarBtn");
     const closeSidebarBtn = document.getElementById("closeSidebarBtn");
     const mobileSidebar = document.getElementById("mobileSidebar");
@@ -97,7 +99,7 @@
     const openMenu = () => { mobileBackdrop.classList.remove("hidden"); requestAnimationFrame(() => { mobileBackdrop.classList.remove("opacity-0"); mobileSidebar.classList.remove("-translate-x-full"); }); openSidebarBtn?.setAttribute("aria-expanded", "true"); document.body.style.overflow = "hidden"; };
     const closeMenu = () => { mobileBackdrop.classList.add("opacity-0"); mobileSidebar.classList.add("-translate-x-full"); openSidebarBtn?.setAttribute("aria-expanded", "false"); setTimeout(() => mobileBackdrop.classList.add("hidden"), 280); document.body.style.overflow = ""; };
     openSidebarBtn?.addEventListener("click", openMenu); closeSidebarBtn?.addEventListener("click", closeMenu); mobileBackdrop?.addEventListener("click", closeMenu);
-    document.querySelectorAll("[data-logout]").forEach((el) => el.addEventListener("click", (e) => { e.preventDefault(); localStorage.removeItem("rs_auth"); window.location.href = "login.html"; }));
+    window.ReliableAuth.bindLogout("[data-logout]", "login.html");
     window.addEventListener("resize", () => { if (window.innerWidth >= 1024) { mobileBackdrop.classList.add("hidden", "opacity-0"); mobileSidebar.classList.remove("-translate-x-full"); document.body.style.overflow = ""; } else { mobileSidebar.classList.add("-translate-x-full"); } });
   </script>
 </body>

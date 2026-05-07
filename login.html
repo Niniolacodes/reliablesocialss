@@ -99,6 +99,8 @@
     </main>
   </div>
 
+  <script src="firebase-config.js"></script>
+  <script src="auth.js"></script>
   <script>
     const togglePassword = document.getElementById("togglePassword");
     const password = document.getElementById("password");
@@ -109,7 +111,9 @@
       togglePassword.textContent = isHidden ? "Hide" : "Show";
     });
     loginForm?.addEventListener("submit", () => {
-      localStorage.setItem("rs_auth", "1");
+      window.ReliableAuth.setUser({
+        email: document.getElementById("email")?.value || "",
+      });
     });
   </script>
 </body>
