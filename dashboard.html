@@ -8,60 +8,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    body { font-family: "Plus Jakarta Sans", sans-serif; }
-    html, body { margin: 0; padding: 0; }
-  </style>
+  <style>body{font-family:"Plus Jakarta Sans",sans-serif;}html,body{margin:0;padding:0;}</style>
 </head>
 <body class="bg-slate-100 text-slate-900">
   <div class="min-h-screen lg:grid lg:grid-cols-[270px_1fr]">
     <div id="mobileBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/45 opacity-0 transition-opacity duration-300 lg:hidden"></div>
-
     <aside id="mobileSidebar" class="fixed left-0 top-0 z-40 h-screen w-[272px] -translate-x-full overflow-y-auto bg-slate-900 text-slate-200 transition-transform duration-300 ease-out lg:static lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen">
       <div class="border-b border-slate-800 px-6 py-6">
         <div class="flex items-center justify-between">
-          <a href="index.html" class="inline-flex items-center">
-            <img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-10 w-auto" />
-          </a>
-          <button id="closeSidebarBtn" type="button" class="grid h-9 w-9 place-items-center rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 lg:hidden" aria-label="Close menu">
-            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true">
-              <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-            </svg>
-          </button>
+          <a href="dashboard.html" class="inline-flex items-center"><img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-10 w-auto" /></a>
+          <button id="closeSidebarBtn" type="button" class="grid h-9 w-9 place-items-center rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 lg:hidden" aria-label="Close menu">?</button>
         </div>
       </div>
       <nav class="space-y-2 px-4 py-5 text-sm font-semibold">
         <p class="px-3 pb-1 pt-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Menu</p>
-        <a href="#" class="block rounded-xl bg-blue-600 px-4 py-3 text-white">Dashboard</a>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Add Fund</a>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Become a Reseller</a>
-        <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Our Services</p>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Social Boost</a>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Reward Center</a>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">SMS Verification</a>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Pay Utilities Bills</a>
-        <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Cryptocurrency</p>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Sell Crypto</a>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Support Ticket</a>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Knowledge Base</a>
-        <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Rewards</p>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Referrals</a>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Swap Points</a>
-        <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Account Settings</p>
-        <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Account Settings</a>
-        <a href="index.html" class="mt-2 block rounded-xl px-4 py-3 text-rose-300 hover:bg-slate-800">Logout</a>
+        <a href="dashboard.html" class="block rounded-xl bg-blue-600 px-4 py-3 text-white">Dashboard</a>
+        <a href="transactions.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Transactions</a>
+        <a href="notifications.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Notifications</a>
+        <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Account</p>
+        <a href="profile.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Profile</a>
+        <a href="settings.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Settings</a>
+        <a href="#" data-logout class="mt-2 block rounded-xl px-4 py-3 text-rose-300 hover:bg-slate-800">Logout</a>
       </nav>
     </aside>
 
-    <main class="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 sm:pt-0 lg:h-screen lg:overflow-y-auto lg:px-8 lg:pb-8 lg:pt-0">
+    <main class="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 lg:h-screen lg:overflow-y-auto lg:px-8 lg:pb-8">
       <header class="sticky top-0 z-20 -mx-4 mb-3 flex items-center justify-between border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:hidden">
-        <button id="openSidebarBtn" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100" aria-label="Open menu" aria-expanded="false">
-          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true">
-            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <button id="openSidebarBtn" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100" aria-label="Open menu" aria-expanded="false">?</button>
         <p class="text-sm font-extrabold text-slate-700">Reliable Socials</p>
-        <div class="grid h-9 w-9 place-items-center rounded-full bg-slate-200 text-xs font-bold text-slate-700">NA</div>
+        <a href="notifications.html" class="grid h-9 w-9 place-items-center rounded-full bg-slate-200 text-xs font-bold text-slate-700">3</a>
       </header>
 
       <div class="-mx-1 mb-4 grid grid-cols-2 gap-2 px-1 lg:hidden">
@@ -72,23 +47,13 @@
       </div>
 
       <header class="mb-5 hidden items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6 lg:flex">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">Reliable Socials</p>
-          <h1 class="mt-1 text-xl font-extrabold sm:text-2xl">User Dashboard</h1>
-        </div>
-        <div class="flex items-center gap-3">
-          <button class="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-extrabold text-white hover:bg-blue-700">Deposit</button>
-          <div class="grid h-10 w-10 place-items-center rounded-full bg-slate-200 font-bold text-slate-700">NA</div>
-        </div>
+        <div><p class="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">Reliable Socials</p><h1 class="mt-1 text-xl font-extrabold sm:text-2xl">User Dashboard</h1></div>
+        <div class="flex items-center gap-3"><a href="notifications.html" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-bold">Notifications</a><button class="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-extrabold text-white hover:bg-blue-700">Deposit</button></div>
       </header>
 
       <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <div class="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p class="text-sm font-bold text-slate-500">Total Balance</p>
-            <h2 class="mt-2 text-4xl font-extrabold text-slate-900">&#8358;23.96</h2>
-            <p class="mt-2 text-sm font-bold text-emerald-600">31 Points Available</p>
-          </div>
+          <div><p class="text-sm font-bold text-slate-500">Total Balance</p><h2 class="mt-2 text-4xl font-extrabold text-slate-900">&#8358;23.96</h2><p class="mt-2 text-sm font-bold text-emerald-600">31 Points Available</p></div>
           <button class="rounded-xl border border-blue-100 bg-blue-50 px-4 py-2 text-sm font-extrabold text-blue-700 hover:bg-blue-100">Hide Balance</button>
         </div>
       </section>
@@ -96,97 +61,28 @@
       <section class="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <h3 class="text-lg font-extrabold text-slate-900">Quick Services</h3>
         <div class="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-blue-300 hover:bg-blue-50/40">
-            <p class="text-sm font-black text-blue-700">Social Boost</p>
-            <p class="mt-1 text-xs text-slate-500">Grow Instagram, TikTok and more.</p>
-          </a>
-          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-cyan-300 hover:bg-cyan-50/40">
-            <p class="text-sm font-black text-cyan-700">Data Bundle</p>
-            <p class="mt-1 text-xs text-slate-500">Fast airtime and data purchase.</p>
-          </a>
-          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-violet-300 hover:bg-violet-50/40">
-            <p class="text-sm font-black text-violet-700">SMS Verification</p>
-            <p class="mt-1 text-xs text-slate-500">Receive OTP securely in seconds.</p>
-          </a>
-          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-amber-300 hover:bg-amber-50/40">
-            <p class="text-sm font-black text-amber-700">Pay Bills</p>
-            <p class="mt-1 text-xs text-slate-500">Electricity, cable and utility bills.</p>
-          </a>
-          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-emerald-300 hover:bg-emerald-50/40">
-            <p class="text-sm font-black text-emerald-700">Sell Crypto</p>
-            <p class="mt-1 text-xs text-slate-500">Convert crypto to naira quickly.</p>
-          </a>
-          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-rose-300 hover:bg-rose-50/40">
-            <p class="text-sm font-black text-rose-700">Support Ticket</p>
-            <p class="mt-1 text-xs text-slate-500">Get help from our support team.</p>
-          </a>
-        </div>
-      </section>
-
-      <section class="mt-5 overflow-hidden rounded-2xl bg-gradient-to-r from-blue-700 via-blue-600 to-cyan-500 p-6 text-white shadow-sm">
-        <p class="text-xs font-black uppercase tracking-[0.16em] text-cyan-100">Referral Program</p>
-        <h3 class="mt-2 text-3xl font-extrabold leading-tight">Refer friends and earn rewards instantly.</h3>
-        <p class="mt-2 max-w-2xl text-sm text-cyan-50/90">Share your link, get bonus points and wallet credits when they complete their first order.</p>
-      </section>
-
-      <section class="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <h3 class="text-lg font-extrabold text-slate-900">Recent Activity</h3>
-        <div class="mt-4 space-y-3">
-          <div class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3">
-            <p class="text-sm font-semibold text-slate-700">Wallet Deposit</p>
-            <p class="text-sm font-extrabold text-emerald-600">+ &#8358;5,000</p>
-          </div>
-          <div class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3">
-            <p class="text-sm font-semibold text-slate-700">Instagram Followers Order</p>
-            <p class="text-sm font-extrabold text-blue-600">Completed</p>
-          </div>
-          <div class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3">
-            <p class="text-sm font-semibold text-slate-700">SMS Verification Purchase</p>
-            <p class="text-sm font-extrabold text-amber-600">Processing</p>
-          </div>
+          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-blue-300 hover:bg-blue-50/40"><p class="text-sm font-black text-blue-700">Social Boost</p><p class="mt-1 text-xs text-slate-500">Grow Instagram, TikTok and more.</p></a>
+          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-cyan-300 hover:bg-cyan-50/40"><p class="text-sm font-black text-cyan-700">Data Bundle</p><p class="mt-1 text-xs text-slate-500">Fast airtime and data purchase.</p></a>
+          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-violet-300 hover:bg-violet-50/40"><p class="text-sm font-black text-violet-700">SMS Verification</p><p class="mt-1 text-xs text-slate-500">Receive OTP securely in seconds.</p></a>
+          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-amber-300 hover:bg-amber-50/40"><p class="text-sm font-black text-amber-700">Pay Bills</p><p class="mt-1 text-xs text-slate-500">Electricity and utility bills.</p></a>
+          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-emerald-300 hover:bg-emerald-50/40"><p class="text-sm font-black text-emerald-700">Sell Crypto</p><p class="mt-1 text-xs text-slate-500">Convert crypto to naira quickly.</p></a>
+          <a href="#" class="rounded-2xl border border-slate-200 p-4 hover:border-rose-300 hover:bg-rose-50/40"><p class="text-sm font-black text-rose-700">Support</p><p class="mt-1 text-xs text-slate-500">Get help from our support team.</p></a>
         </div>
       </section>
     </main>
   </div>
+
   <script>
+    if (localStorage.getItem("rs_auth") !== "1") { window.location.href = "login.html"; }
     const openSidebarBtn = document.getElementById("openSidebarBtn");
     const closeSidebarBtn = document.getElementById("closeSidebarBtn");
     const mobileSidebar = document.getElementById("mobileSidebar");
     const mobileBackdrop = document.getElementById("mobileBackdrop");
-
-    const openMenu = () => {
-      mobileBackdrop.classList.remove("hidden");
-      requestAnimationFrame(() => {
-        mobileBackdrop.classList.remove("opacity-0");
-        mobileSidebar.classList.remove("-translate-x-full");
-      });
-      openSidebarBtn?.setAttribute("aria-expanded", "true");
-      document.body.style.overflow = "hidden";
-    };
-
-    const closeMenu = () => {
-      mobileBackdrop.classList.add("opacity-0");
-      mobileSidebar.classList.add("-translate-x-full");
-      openSidebarBtn?.setAttribute("aria-expanded", "false");
-      setTimeout(() => {
-        mobileBackdrop.classList.add("hidden");
-      }, 280);
-      document.body.style.overflow = "";
-    };
-
-    openSidebarBtn?.addEventListener("click", openMenu);
-    closeSidebarBtn?.addEventListener("click", closeMenu);
-    mobileBackdrop?.addEventListener("click", closeMenu);
-
-    window.addEventListener("resize", () => {
-      if (window.innerWidth >= 1024) {
-        mobileBackdrop.classList.add("hidden", "opacity-0");
-        mobileSidebar.classList.remove("-translate-x-full");
-        document.body.style.overflow = "";
-      } else {
-        mobileSidebar.classList.add("-translate-x-full");
-      }
-    });
+    const openMenu = () => { mobileBackdrop.classList.remove("hidden"); requestAnimationFrame(() => { mobileBackdrop.classList.remove("opacity-0"); mobileSidebar.classList.remove("-translate-x-full"); }); openSidebarBtn?.setAttribute("aria-expanded", "true"); document.body.style.overflow = "hidden"; };
+    const closeMenu = () => { mobileBackdrop.classList.add("opacity-0"); mobileSidebar.classList.add("-translate-x-full"); openSidebarBtn?.setAttribute("aria-expanded", "false"); setTimeout(() => mobileBackdrop.classList.add("hidden"), 280); document.body.style.overflow = ""; };
+    openSidebarBtn?.addEventListener("click", openMenu); closeSidebarBtn?.addEventListener("click", closeMenu); mobileBackdrop?.addEventListener("click", closeMenu);
+    document.querySelectorAll("[data-logout]").forEach((el) => el.addEventListener("click", (e) => { e.preventDefault(); localStorage.removeItem("rs_auth"); window.location.href = "login.html"; }));
+    window.addEventListener("resize", () => { if (window.innerWidth >= 1024) { mobileBackdrop.classList.add("hidden", "opacity-0"); mobileSidebar.classList.remove("-translate-x-full"); document.body.style.overflow = ""; } else { mobileSidebar.classList.add("-translate-x-full"); } });
   </script>
 </body>
 </html>
