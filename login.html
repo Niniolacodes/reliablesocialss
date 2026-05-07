@@ -14,22 +14,33 @@
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100">
   <div class="relative min-h-screen overflow-hidden">
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.35),_transparent_45%),radial-gradient(circle_at_80%_30%,_rgba(14,165,233,0.3),_transparent_40%),linear-gradient(120deg,_#020617_0%,_#0f172a_55%,_#082f49_100%)]"></div>
-    <div class="absolute -left-24 top-20 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl"></div>
-    <div class="absolute -right-16 bottom-10 h-80 w-80 rounded-full bg-cyan-400/20 blur-3xl"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(59,130,246,0.34),_transparent_48%),radial-gradient(circle_at_80%_25%,_rgba(6,182,212,0.3),_transparent_42%),linear-gradient(135deg,_#020617_0%,_#0b1223_45%,_#082f49_100%)]"></div>
+    <div class="absolute -left-28 top-12 h-72 w-72 rounded-full bg-blue-600/20 blur-3xl"></div>
+    <div class="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-cyan-400/20 blur-3xl"></div>
 
-    <main class="relative mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center px-5 py-12 lg:px-10">
-      <section class="grid w-full max-w-5xl overflow-hidden rounded-[32px] border border-white/15 bg-white/10 shadow-[0_30px_120px_rgba(15,23,42,0.45)] backdrop-blur-xl lg:grid-cols-2">
+    <main class="relative mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center px-5 py-10 lg:px-10">
+      <section class="grid w-full max-w-6xl overflow-hidden rounded-[32px] border border-white/15 bg-white/10 shadow-[0_30px_110px_rgba(8,47,73,0.45)] backdrop-blur-xl lg:grid-cols-[1.1fr_0.9fr]">
         <div class="hidden p-10 lg:flex lg:flex-col lg:justify-between">
           <a href="index.html" class="inline-flex items-center gap-3">
             <img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-10 w-auto" />
           </a>
+
           <div>
-            <p class="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-200">Reliable Socials</p>
-            <h1 class="mt-6 text-4xl font-extrabold leading-tight">Welcome back to your growth dashboard.</h1>
-            <p class="mt-5 max-w-md text-base text-slate-200/90">Login to continue with social boosts, OTP verification, and instant wallet operations.</p>
+            <p class="inline-flex rounded-full border border-cyan-200/35 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-200">Reliable Socials Access</p>
+            <h1 class="mt-6 max-w-lg text-5xl font-extrabold leading-tight">One login. Full control over your social growth.</h1>
+            <p class="mt-5 max-w-xl text-base text-slate-200/90">Track orders, fund wallet, and launch services fast from your Reliable Socials dashboard.</p>
+            <div class="mt-7 grid max-w-md grid-cols-2 gap-3 text-sm font-semibold text-slate-100">
+              <p class="rounded-xl border border-white/20 bg-white/10 px-4 py-3">Realtime order tracking</p>
+              <p class="rounded-xl border border-white/20 bg-white/10 px-4 py-3">Automated delivery</p>
+              <p class="rounded-xl border border-white/20 bg-white/10 px-4 py-3">Wallet + transactions</p>
+              <p class="rounded-xl border border-white/20 bg-white/10 px-4 py-3">24/7 support</p>
+            </div>
           </div>
-          <p class="text-sm text-slate-300/80">Fast. Secure. Built for Nigeria.</p>
+
+          <div class="rounded-2xl border border-emerald-300/30 bg-emerald-400/10 p-4 text-sm text-emerald-100">
+            <p class="font-bold">Secure sign-in enabled</p>
+            <p class="mt-1 text-emerald-50/90">Your credentials are encrypted and protected.</p>
+          </div>
         </div>
 
         <div class="bg-white p-7 text-slate-900 sm:p-10">
@@ -37,8 +48,8 @@
             <img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-9 w-auto" />
           </a>
 
-          <h2 class="mt-6 text-3xl font-extrabold text-slate-900">Login</h2>
-          <p class="mt-2 text-sm text-slate-500">Sign in to your Reliable Socials account.</p>
+          <h2 class="mt-6 text-3xl font-extrabold text-slate-900">Welcome Back</h2>
+          <p class="mt-2 text-sm text-slate-500">Login to continue to your Reliable Socials account.</p>
 
           <form class="mt-8 space-y-5">
             <div>
@@ -59,11 +70,24 @@
 
             <label class="flex items-center gap-3 text-sm font-medium text-slate-600">
               <input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
-              Remember me
+              Keep me signed in
             </label>
 
             <button type="submit" class="h-12 w-full rounded-xl bg-blue-600 text-sm font-extrabold text-white shadow-[0_16px_36px_rgba(37,99,235,0.35)] transition hover:bg-blue-700">Sign In</button>
           </form>
+
+          <div class="my-6 flex items-center gap-3">
+            <span class="h-px flex-1 bg-slate-200"></span>
+            <span class="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">or continue with</span>
+            <span class="h-px flex-1 bg-slate-200"></span>
+          </div>
+
+          <button type="button" class="inline-flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-700 transition hover:bg-slate-50">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+              <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.9-5.5 3.9-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.8 1.4l2.6-2.5C16.8 3.3 14.6 2.4 12 2.4 6.7 2.4 2.4 6.7 2.4 12S6.7 21.6 12 21.6c6.9 0 9.6-4.8 9.6-7.3 0-.5-.1-.8-.1-1.2H12Z"/>
+            </svg>
+            Continue with Google
+          </button>
 
           <p class="mt-7 text-center text-sm text-slate-500">
             New here?
