@@ -190,14 +190,30 @@
     return page.active === active;
   }
 
+  function routeFromHref(href) {
+    if (!href || href === "#") return "";
+    const url = new URL(href, window.location.href);
+    const file = url.pathname.split("/").filter(Boolean).pop() || "dashboard.html";
+    return `${file}${url.hash}`;
+  }
+
+  function currentRoute() {
+    const file = window.location.pathname.split("/").filter(Boolean).pop() || "dashboard.html";
+    return `${file}${window.location.hash}`;
+  }
+
+  function isCurrentHref(href) {
+    return routeFromHref(href) === currentRoute();
+  }
+
   function navLink(page, active, href, label, extraClass = "") {
     const activeClass = isActive(page, active) ? "bg-blue-600 text-white" : "hover:bg-slate-800";
     return `<a href="${href}" class="block rounded-xl px-4 py-3 ${activeClass} ${extraClass}">${label}</a>`;
   }
 
   function childLink(page, active, href, label) {
-    const activeClass = isActive(page, active) ? "bg-blue-600 text-white" : "hover:bg-slate-800/80 hover:text-white";
-    return `<a href="${href}" class="block rounded-lg px-3 py-2 ${activeClass}">${label}</a>`;
+    const activeClass = isCurrentHref(href) ? "bg-blue-600 text-white" : "hover:bg-slate-800/80 hover:text-white";
+    return `<a href="${href}" data-nav-child class="block rounded-lg px-3 py-2 ${activeClass}">${label}</a>`;
   }
 
   function navGroup(page, id, label, children) {
@@ -236,7 +252,7 @@
           <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Our Services</p>
           ${navGroup(page, "social-boost", "Social Boost", [
             { active: "social-boost", href: pageLinks.socialBoost, label: "New Order" },
-            { active: "social-boost", href: pageLinks.socialBoost, label: "Social Boost Services" },
+            { active: "social-boost", href: `${pageLinks.socialBoost}#services`, label: "Social Boost Services" },
             { active: "transactions", href: pageLinks.transactions, label: "Transactions History" },
           ])}
           <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Reward Center</a>
@@ -246,8 +262,8 @@
           ])}
           ${navGroup(page, "pay-utilities", "Pay Utilities Bills", [
             { active: "data-bundle", href: pageLinks.dataBundle, label: "Data Bundle" },
-            { active: "pay-bills", href: pageLinks.payBills, label: "Cable TV" },
-            { active: "pay-bills", href: pageLinks.payBills, label: "Streaming TV" },
+            { active: "pay-bills", href: `${pageLinks.payBills}#cable-tv`, label: "Cable TV" },
+            { active: "pay-bills", href: `${pageLinks.payBills}#streaming-tv`, label: "Streaming TV" },
             { active: "transactions", href: pageLinks.transactions, label: "Transactions History" },
           ])}
           <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Cryptocurrency</p>
@@ -397,6 +413,18 @@
         }
       });
     }
+
+    const updateSidebarActiveLinks = () => {
+      document.querySelectorAll("[data-nav-child]").forEach((link) => {
+        const active = isCurrentHref(link.getAttribute("href"));
+        link.classList.toggle("bg-blue-600", active);
+        link.classList.toggle("text-white", active);
+        link.classList.toggle("hover:bg-slate-800/80", !active);
+        link.classList.toggle("hover:text-white", !active);
+      });
+    };
+    window.addEventListener("hashchange", updateSidebarActiveLinks);
+    updateSidebarActiveLinks();
   }
 
   function render(page) {
