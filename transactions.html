@@ -5,7 +5,7 @@
   <a href="dashboard.html" class="block rounded-xl bg-blue-600 px-4 py-3 text-white">Dashboard</a>
   <button type="button" class="add-fund-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
   <span>Add Fund</span>
-  <span class="add-fund-caret text-xs text-slate-400">?</span>
+  <span class="add-fund-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
 </button>
 <div class="add-fund-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
   <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Deposit</a>
@@ -47,11 +47,12 @@ const search=document.getElementById("txSearch");const filters=document.querySel
       menu.classList.toggle("hidden", open);
       btn.setAttribute("aria-expanded", open ? "false" : "true");
       const caret = btn.querySelector(".add-fund-caret");
-      if (caret) caret.textContent = open ? "?" : "?";
+      if (caret) caret.classList.toggle("rotate-180", !open);
     });
   });
 </script>
 </body></html>
+
 
 
 
