@@ -1,120 +1,20 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Profile | Reliable Socials</title><script src="https://cdn.tailwindcss.com"></script><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" /><style>body{font-family:"Plus Jakarta Sans",sans-serif;}html,body{margin:0;padding:0;}</style></head>
-<body class="bg-slate-100 text-slate-900"><div class="min-h-screen lg:grid lg:grid-cols-[270px_1fr]"><div id="mobileBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/45 opacity-0 transition-opacity duration-300 lg:hidden"></div><aside id="mobileSidebar" class="fixed left-0 top-0 z-40 h-screen w-[272px] -translate-x-full overflow-y-auto bg-slate-900 text-slate-200 transition-transform duration-300 ease-out lg:static lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen"><div class="border-b border-slate-800 px-6 py-6"><div class="flex items-center justify-between"><a href="dashboard.html"><img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" class="h-10 w-auto" alt="Reliable Socials" /></a><button id="closeSidebarBtn" type="button" class="grid h-9 w-9 place-items-center rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 lg:hidden" aria-label="Close menu"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></div></div><nav class="space-y-2 px-4 py-5 text-sm font-semibold">
-  <p class="px-3 pb-1 pt-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Menu</p>
-  <a href="dashboard.html" class="block rounded-xl bg-blue-600 px-4 py-3 text-white">Dashboard</a>
-  <button type="button" class="add-fund-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
-  <span>Add Fund</span>
-  <span class="add-fund-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-</button>
-<div class="add-fund-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-  <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Deposit</a>
-  <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Payment Transactions</a>
-</div>
-  <a href="reseller.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Become a Reseller</a>
-  <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Our Services</p>
-  <button type="button" class="social-boost-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
-  <span>Social Boost</span>
-  <span class="social-boost-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-</button>
-<div class="social-boost-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-  <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">New Order</a>
-  <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Social Boost Services</a>
-  <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Transactions History</a>
-</div>
-  <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Reward Center</a>
-  <button type="button" class="sms-verification-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
-    <span>SMS Verification</span>
-    <span class="sms-verification-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-  </button>
-  <div class="sms-verification-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">New Order</a>
-    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">SMS Verification Inbox</a>
-  </div>
-  <button type="button" class="pay-utilities-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
-    <span>Pay Utilities Bills</span>
-    <span class="pay-utilities-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-  </button>
-  <div class="pay-utilities-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-    <a href="data-bundle.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Data Bundle</a>
-    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Cable TV</a>
-    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Streaming TV</a>
-    <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Transactions History</a>
-  </div>
-  <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Cryptocurrency</p>
-  <button type="button" class="sell-crypto-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
-    <span>Sell Crypto</span>
-    <span class="sell-crypto-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-  </button>
-  <div class="sell-crypto-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Sell Crypto</a>
-    <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Crypto Transactions</a>
-  </div>
-  <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Support Ticket</a>
-  <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Knowledge Base</a>
-  <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Rewards</p>
-  <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Referrals</a>
-  <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Swap Points</a>
-  <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">User App</p>
-  <a href="transactions.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Transactions</a>
-  <a href="profile.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Profile</a>
-  <a href="settings.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Settings</a>
-  <a href="notifications.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Notifications</a>
-  <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Account Settings</p>
-  <button type="button" class="account-settings-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
-    <span>Account Settings</span>
-    <span class="account-settings-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-  </button>
-  <div class="account-settings-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">API Settings</a>
-    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Account Settings</a>
-    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Account Security</a>
-    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Change Password</a>
-    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Delete Account</a>
-  </div>
-  <a href="#" data-logout class="mt-2 block rounded-xl px-4 py-3 text-rose-300 hover:bg-slate-800">Logout</a>
-</nav></aside>
-<main class="px-4 pb-4 sm:px-6 lg:h-screen lg:overflow-y-auto lg:px-8 lg:pb-8"><header class="sticky top-0 z-20 -mx-4 mb-3 flex items-center justify-between border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:hidden"><button id="openSidebarBtn" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button><p class="text-sm font-extrabold">Profile</p><button type="button" class="relative grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-slate-600" aria-label="Notifications"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-rose-500"></span></button></header><header class="mb-5 hidden items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6 lg:flex"><div><p class="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">Reliable Socials</p><h1 class="mt-1 text-xl font-extrabold sm:text-2xl">Profile</h1></div></header>
-<section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"><form class="grid gap-4 sm:grid-cols-2"><div><label class="mb-2 block text-sm font-bold">First Name</label><input class="h-11 w-full rounded-xl border border-slate-200 px-3" value="Niniola" /></div><div><label class="mb-2 block text-sm font-bold">Last Name</label><input class="h-11 w-full rounded-xl border border-slate-200 px-3" value="Codes" /></div><div class="sm:col-span-2"><label class="mb-2 block text-sm font-bold">Email</label><input class="h-11 w-full rounded-xl border border-slate-200 px-3" value="niniolaifeoluwa54@gmail.com" /></div><div><label class="mb-2 block text-sm font-bold">Phone</label><input class="h-11 w-full rounded-xl border border-slate-200 px-3" value="+2348000000000" /></div><div><label class="mb-2 block text-sm font-bold">Country</label><input class="h-11 w-full rounded-xl border border-slate-200 px-3" value="Nigeria" /></div><div class="sm:col-span-2"><label class="mb-2 block text-sm font-bold">Bio</label><textarea class="w-full rounded-xl border border-slate-200 p-3" rows="4">Reliable Socials user and reseller partner.</textarea></div><div class="sm:col-span-2"><button type="button" class="h-11 rounded-xl bg-blue-600 px-6 text-sm font-extrabold text-white">Save Profile</button></div></form></section></main></div>
-<script>if(localStorage.getItem("rs_auth")!=="1"){window.location.href="login.html";}const b=document.getElementById("mobileBackdrop"),s=document.getElementById("mobileSidebar");document.getElementById("openSidebarBtn")?.addEventListener("click",()=>{b.classList.remove("hidden");requestAnimationFrame(()=>{b.classList.remove("opacity-0");s.classList.remove("-translate-x-full");});document.body.style.overflow="hidden";});const close=()=>{b.classList.add("opacity-0");s.classList.add("-translate-x-full");setTimeout(()=>b.classList.add("hidden"),280);document.body.style.overflow="";};document.getElementById("closeSidebarBtn")?.addEventListener("click",close);b?.addEventListener("click",close);document.querySelectorAll("[data-logout]").forEach((el)=>el.addEventListener("click",(e)=>{e.preventDefault();localStorage.removeItem("rs_auth");window.location.href="login.html";}));</script><script>const notifBtnDesktop=document.getElementById("notifBtnDesktop");const notifPanelDesktop=document.getElementById("notifPanelDesktop");if(notifBtnDesktop&&notifPanelDesktop){notifBtnDesktop.addEventListener("click",()=>notifPanelDesktop.classList.toggle("hidden"));document.addEventListener("click",(e)=>{if(!notifBtnDesktop.contains(e.target)&&!notifPanelDesktop.contains(e.target)){notifPanelDesktop.classList.add("hidden");}});}</script><script id="add-fund-dropdown-init">
-  (function () {
-    const groups = [
-      { toggle: ".add-fund-toggle", menu: ".add-fund-menu", caret: ".add-fund-caret" },
-      { toggle: ".social-boost-toggle", menu: ".social-boost-menu", caret: ".social-boost-caret" },
-      { toggle: ".sms-verification-toggle", menu: ".sms-verification-menu", caret: ".sms-verification-caret" },
-      { toggle: ".pay-utilities-toggle", menu: ".pay-utilities-menu", caret: ".pay-utilities-caret" },
-      { toggle: ".sell-crypto-toggle", menu: ".sell-crypto-menu", caret: ".sell-crypto-caret" },
-      { toggle: ".account-settings-toggle", menu: ".account-settings-menu", caret: ".account-settings-caret" }
-    ];
-
-    groups.forEach(({ toggle, menu, caret }) => {
-      const button = document.querySelector(toggle);
-      const panel = document.querySelector(menu);
-      const icon = document.querySelector(caret);
-      if (!button || !panel) return;
-
-      button.addEventListener("click", () => {
-        const isOpen = !panel.classList.contains("hidden");
-        panel.classList.toggle("hidden", isOpen);
-        button.setAttribute("aria-expanded", isOpen ? "false" : "true");
-        if (icon) icon.classList.toggle("rotate-180", !isOpen);
-      });
-    });
-  })();
-</script>
-</body></html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile | Reliable Socials</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>body{font-family:"Plus Jakarta Sans",sans-serif;}html,body{margin:0;padding:0;}</style>
+</head>
+<body class="bg-slate-100 text-slate-900">
+  <div id="app"></div>
+  <script src="./auth.js"></script>
+  <script src="./dashboard-shell.js"></script>
+  <script>window.ReliablePageId = "profile";</script>
+  <script src="./dashboard-pages.js"></script>
+</body>
+</html>
