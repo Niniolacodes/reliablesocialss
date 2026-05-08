@@ -92,9 +92,9 @@
           Facebook: { Followers: 1100, Likes: 780, Views: 350, Comments: 2200 },
         };
         const defaults = [
-          { date: "2026-05-08 09:20", platform: "Instagram", service: "Likes", quantity: 1200, amount: 1020, status: "Completed" },
-          { date: "2026-05-07 16:44", platform: "TikTok", service: "Views", quantity: 8000, amount: 1440, status: "Processing" },
-          { date: "2026-05-06 12:15", platform: "YouTube", service: "Subscribers", quantity: 500, amount: 1200, status: "Completed" },
+          { date: "2026-05-08 09:20", platform: "Instagram", service: "Likes", quantity: 1200, amount: 1020, status: "Successful" },
+          { date: "2026-05-07 16:44", platform: "TikTok", service: "Views", quantity: 8000, amount: 1440, status: "Pending" },
+          { date: "2026-05-06 12:15", platform: "YouTube", service: "Subscribers", quantity: 500, amount: 1200, status: "Successful" },
         ];
         const els = {
           platform: document.getElementById("platform"),
@@ -125,7 +125,7 @@
             { render: (row) => row.service },
             { render: (row) => Number(row.quantity).toLocaleString("en-NG") },
             { render: (row) => D.money(row.amount), className: "font-extrabold text-slate-900" },
-            { render: (row) => `<span class="${D.badge(row.status)}">${row.status}</span>` },
+            { render: (row) => `<span class="${D.badge(row.status)}">${D.normalizeStatus(row.status)}</span>` },
           ]);
         };
         ["change", "input"].forEach((eventName) => {
@@ -149,9 +149,15 @@
           if (!els.platform.value || !els.service.value) return D.message(els.message, "error", "Select a platform and service.");
           if (Number(els.quantity.value) < 50) return D.message(els.message, "error", "Quantity must be at least 50.");
           if (!/^https?:\/\/.+\..+/i.test(els.link.value.trim())) return D.message(els.message, "error", "Enter a valid profile or post link.");
-          if (D.readWallet() < total) return D.message(els.message, "error", "Insufficient wallet balance for this order.");
-          D.writeWallet(D.readWallet() - total);
-          const order = { date: D.nowStamp(), platform: els.platform.value, service: els.service.value, quantity: Number(els.quantity.value), amount: total, status: "Processing" };
+          const spend = D.spendWallet(total, {
+            type: "Social Boost",
+            description: `${els.platform.value} ${els.service.value} x${Number(els.quantity.value).toLocaleString("en-NG")}`,
+          }, "Pending");
+          if (!spend.ok) {
+            calc();
+            return D.message(els.message, "error", "Insufficient balance");
+          }
+          const order = { date: D.nowStamp(), reference: spend.transaction.reference, platform: els.platform.value, service: els.service.value, quantity: Number(els.quantity.value), amount: total, status: "Pending" };
           const rows = [order, ...D.readJson("rs_social_orders", defaults)].slice(0, 10);
           D.writeJson("rs_social_orders", rows);
           D.message(els.message, "success", "Social boost order submitted successfully.");
@@ -206,8 +212,8 @@
         const base = { Nigeria: 420, "United States": 850, "United Kingdom": 780, Ghana: 500, Kenya: 460 };
         const serviceExtra = { WhatsApp: 180, Telegram: 120, Instagram: 150, Facebook: 140, Google: 220 };
         const defaults = [
-          { date: "2026-05-08 11:12", country: "Nigeria", service: "WhatsApp", number: "+234 803 555 0181", price: 600, status: "Completed" },
-          { date: "2026-05-07 14:05", country: "United States", service: "Google", number: "+1 646 555 0198", price: 1070, status: "Completed" },
+          { date: "2026-05-08 11:12", country: "Nigeria", service: "WhatsApp", number: "+234 803 555 0181", price: 600, status: "Successful" },
+          { date: "2026-05-07 14:05", country: "United States", service: "Google", number: "+1 646 555 0198", price: 1070, status: "Successful" },
         ];
         const country = document.getElementById("smsCountry");
         const service = document.getElementById("smsService");
@@ -231,7 +237,7 @@
             { render: (row) => row.service },
             { render: (row) => row.number },
             { render: (row) => D.money(row.price), className: "font-extrabold text-slate-900" },
-            { render: (row) => `<span class="${D.badge(row.status)}">${row.status}</span>` },
+            { render: (row) => `<span class="${D.badge(row.status)}">${D.normalizeStatus(row.status)}</span>` },
           ]);
         };
         [country, service].forEach((el) => el.addEventListener("change", () => {
@@ -242,15 +248,18 @@
           event.preventDefault();
           const price = calc();
           if (!country.value || !service.value) return D.message(msg, "error", "Select country and service.");
-          if (D.readWallet() < price) return D.message(msg, "error", "Insufficient wallet balance.");
-          D.writeWallet(D.readWallet() - price);
+          const spend = D.spendWallet(price, {
+            type: "SMS Verification",
+            description: `${service.value} number in ${country.value}`,
+          }, "Pending");
+          if (!spend.ok) return D.message(msg, "error", "Insufficient balance");
           const prefixes = { Nigeria: "+234 803", "United States": "+1 646", "United Kingdom": "+44 7700", Ghana: "+233 54", Kenya: "+254 71" };
           const number = `${prefixes[country.value]} ${Math.floor(100000 + Math.random() * 899999)}`;
           numberEl.textContent = number;
           statusEl.textContent = "Waiting for OTP...";
           statusEl.className = "text-sm font-extrabold text-amber-700";
           codeEl.textContent = "------";
-          const item = { date: D.nowStamp(), country: country.value, service: service.value, number, price, status: "Waiting" };
+          const item = { date: D.nowStamp(), reference: spend.transaction.reference, country: country.value, service: service.value, number, price, status: "Pending" };
           D.writeJson("rs_sms_history", [item, ...D.readJson("rs_sms_history", defaults)].slice(0, 10));
           D.message(msg, "success", "Number reserved. OTP will appear in the waiting section.");
           render();
@@ -307,8 +316,8 @@
           Internet: ["Spectranet", "Smile", "Swift", "Tizeti"],
         };
         const defaults = [
-          { date: "2026-05-07 18:01", type: "Electricity", provider: "IKEDC", customer: "04123456789", amount: 5000, status: "Completed" },
-          { date: "2026-05-06 20:33", type: "Cable TV", provider: "DSTV", customer: "7030123456", amount: 7400, status: "Completed" },
+          { date: "2026-05-07 18:01", type: "Electricity", provider: "IKEDC", customer: "04123456789", amount: 5000, status: "Successful" },
+          { date: "2026-05-06 20:33", type: "Cable TV", provider: "DSTV", customer: "7030123456", amount: 7400, status: "Successful" },
         ];
         const typeEl = document.getElementById("billType");
         const providerEl = document.getElementById("billProvider");
@@ -339,7 +348,7 @@
             { render: (row) => row.provider },
             { render: (row) => row.customer },
             { render: (row) => D.money(row.amount), className: "font-extrabold text-slate-900" },
-            { render: (row) => `<span class="${D.badge(row.status)}">${row.status}</span>` },
+            { render: (row) => `<span class="${D.badge(row.status)}">${D.normalizeStatus(row.status)}</span>` },
           ]);
         };
         document.getElementById("billForm").addEventListener("submit", (event) => {
@@ -348,9 +357,15 @@
           if (!typeEl.value || !providerEl.value) return D.message(msg, "error", "Select bill type and provider.");
           if (customerEl.value.trim().length < 6) return D.message(msg, "error", "Enter a valid customer, meter, or smartcard number.");
           if (amount < 100) return D.message(msg, "error", "Amount must be at least \u20a6100.");
-          if (D.readWallet() < amount) return D.message(msg, "error", "Insufficient wallet balance.");
-          D.writeWallet(D.readWallet() - amount);
-          const row = { date: D.nowStamp(), type: typeEl.value, provider: providerEl.value, customer: customerEl.value.trim(), amount, status: "Completed" };
+          const spend = D.spendWallet(amount, {
+            type: "Bill Payment",
+            description: `${providerEl.value} ${typeEl.value} payment`,
+          }, "Successful");
+          if (!spend.ok) {
+            update();
+            return D.message(msg, "error", "Insufficient balance");
+          }
+          const row = { date: D.nowStamp(), reference: spend.transaction.reference, type: typeEl.value, provider: providerEl.value, customer: customerEl.value.trim(), amount, status: "Successful" };
           D.writeJson("rs_bill_history", [row, ...D.readJson("rs_bill_history", defaults)].slice(0, 10));
           D.message(msg, "success", "Bill payment completed successfully.");
           document.getElementById("billForm").reset();
@@ -400,8 +415,8 @@
       },
       init() {
         const defaults = [
-          { date: "2026-05-08 08:45", method: "Bank Transfer", amount: 10000, ref: "RS-FD-1042", status: "Completed" },
-          { date: "2026-05-06 13:18", method: "Card Payment", amount: 5000, ref: "RS-FD-0978", status: "Completed" },
+          { date: "2026-05-08 08:45", method: "Bank Transfer", amount: 10000, ref: "RS-2026-0004", status: "Successful" },
+          { date: "2026-05-06 13:18", method: "Card Payment", amount: 5000, ref: "RS-2026-0003", status: "Successful" },
         ];
         let selectedMethod = "Bank Transfer";
         const walletEl = document.getElementById("fundWallet");
@@ -415,7 +430,7 @@
             { render: (row) => row.method, className: "font-extrabold text-slate-900" },
             { render: (row) => D.money(row.amount), className: "font-extrabold text-slate-900" },
             { render: (row) => row.ref },
-            { render: (row) => `<span class="${D.badge(row.status)}">${row.status}</span>` },
+            { render: (row) => `<span class="${D.badge(row.status)}">${D.normalizeStatus(row.status)}</span>` },
           ]);
         };
         document.querySelectorAll(".fund-method").forEach((button) => {
@@ -429,8 +444,11 @@
           event.preventDefault();
           const amount = Number(amountEl.value || 0);
           if (amount < 500) return D.message(msg, "error", "Deposit amount must be at least \u20a6500.");
-          D.writeWallet(D.readWallet() + amount);
-          const row = { date: D.nowStamp(), method: selectedMethod, amount, ref: `RS-FD-${Math.floor(1000 + Math.random() * 9000)}`, status: "Completed" };
+          const transaction = D.depositWallet(amount, {
+            type: "Wallet Deposit",
+            description: selectedMethod,
+          });
+          const row = { date: D.nowStamp(), method: selectedMethod, amount, ref: transaction.reference, status: "Successful" };
           D.writeJson("rs_fund_history", [row, ...D.readJson("rs_fund_history", defaults)].slice(0, 10));
           D.message(msg, "success", `Wallet funded with ${D.money(amount)} using ${selectedMethod}.`);
           amountEl.value = "";
@@ -486,8 +504,8 @@
         const rates = { USDT: 1480, BTC: 93000000, ETH: 4500000 };
         const addresses = { USDT: "TRxReliablesocialsUSDTDepositOnly91", BTC: "bc1qreliablesocialssamplebtcaddress", ETH: "0xReliableSocialsSampleEthAddress" };
         const defaults = [
-          { date: "2026-05-08 10:05", asset: "USDT", network: "TRC20", amount: 150, payout: 222000, status: "Completed" },
-          { date: "2026-05-05 15:22", asset: "ETH", network: "ERC20", amount: 0.08, payout: 360000, status: "Processing" },
+          { date: "2026-05-08 10:05", asset: "USDT", network: "TRC20", amount: 150, payout: 222000, status: "Pending" },
+          { date: "2026-05-05 15:22", asset: "ETH", network: "ERC20", amount: 0.08, payout: 360000, status: "Pending" },
         ];
         const asset = document.getElementById("cryptoAsset");
         const network = document.getElementById("cryptoNetwork");
@@ -514,7 +532,7 @@
             { render: (row) => row.network },
             { render: (row) => Number(row.amount).toLocaleString("en-NG") },
             { render: (row) => D.money(row.payout), className: "font-extrabold text-slate-900" },
-            { render: (row) => `<span class="${D.badge(row.status)}">${row.status}</span>` },
+            { render: (row) => `<span class="${D.badge(row.status)}">${D.normalizeStatus(row.status)}</span>` },
           ]);
         };
         asset.addEventListener("change", () => {
@@ -530,7 +548,13 @@
           if (!asset.value || !network.value) return D.message(msg, "error", "Select crypto and network.");
           if (Number(amount.value) <= 0) return D.message(msg, "error", "Enter a crypto amount.");
           if (note.value.trim().length < 4) return D.message(msg, "error", "Enter payout account or wallet note.");
-          const row = { date: D.nowStamp(), asset: asset.value, network: network.value, amount: Number(amount.value), payout, status: "Processing" };
+          const transaction = D.addTransaction({
+            type: "Crypto Trade",
+            description: `${asset.value} ${network.value} sell order`,
+            amount: payout,
+            status: "Pending",
+          });
+          const row = { date: D.nowStamp(), reference: transaction.reference, asset: asset.value, network: network.value, amount: Number(amount.value), payout, status: "Pending" };
           D.writeJson("rs_crypto_history", [row, ...D.readJson("rs_crypto_history", defaults)].slice(0, 10));
           D.message(msg, "success", "Trade submitted. Admin review is simulated for now.");
           document.getElementById("cryptoForm").reset();
@@ -579,8 +603,8 @@
       },
       init() {
         const defaults = [
-          { date: "2026-05-08 12:20", subject: "Data order delayed", category: "Order Issue", priority: "Medium", status: "Open" },
-          { date: "2026-05-07 09:10", subject: "Wallet deposit confirmation", category: "Payment", priority: "Low", status: "Closed" },
+          { date: "2026-05-08 12:20", subject: "Data order delayed", category: "Order Issue", priority: "Medium", status: "Pending" },
+          { date: "2026-05-07 09:10", subject: "Wallet deposit confirmation", category: "Payment", priority: "Low", status: "Successful" },
         ];
         const form = document.getElementById("ticketForm");
         const msg = document.getElementById("ticketMessage");
@@ -591,7 +615,7 @@
             { render: (row) => row.subject, className: "font-extrabold text-slate-900" },
             { render: (row) => row.category },
             { render: (row) => `<span class="${D.badge(row.priority)}">${row.priority}</span>` },
-            { render: (row) => `<span class="${D.badge(row.status)}">${row.status}</span>` },
+            { render: (row) => `<span class="${D.badge(row.status)}">${D.normalizeStatus(row.status)}</span>` },
           ]);
         };
         form.addEventListener("submit", (event) => {
@@ -603,7 +627,13 @@
           if (subject.length < 5) return D.message(msg, "error", "Enter a clear subject.");
           if (!category || !priority) return D.message(msg, "error", "Select category and priority.");
           if (text.length < 10) return D.message(msg, "error", "Message must be at least 10 characters.");
-          const ticket = { date: D.nowStamp(), subject, category, priority, status: "Open" };
+          const transaction = D.addTransaction({
+            type: "Support Ticket",
+            description: subject,
+            amount: 0,
+            status: "Pending",
+          });
+          const ticket = { date: D.nowStamp(), reference: transaction.reference, subject, category, priority, status: "Pending" };
           D.writeJson("rs_ticket_history", [ticket, ...D.readJson("rs_ticket_history", defaults)].slice(0, 10));
           D.message(msg, "success", "Support ticket submitted.");
           form.reset();
@@ -622,27 +652,18 @@
           <section class="${cardClass}">
             <div class="grid gap-3 lg:grid-cols-[1fr_180px_180px_180px]">
               <input id="txSearch" class="${inputClass}" placeholder="Search transactions" />
-              <select id="txType" class="${inputClass}">${optionList(["Wallet Deposit", "Social Boost", "Data Bundle", "SMS Verification", "Bill Payment", "Crypto Trade"], "All types")}</select>
-              <select id="txStatus" class="${inputClass}">${optionList(["Completed", "Processing", "Pending", "Failed"], "All statuses")}</select>
+              <select id="txType" class="${inputClass}">${optionList(["Wallet Deposit", "Social Boost", "Data Bundle", "SMS Verification", "Bill Payment", "Crypto Trade", "Support Ticket"], "All types")}</select>
+              <select id="txStatus" class="${inputClass}">${optionList(["Successful", "Pending", "Failed"], "All statuses")}</select>
               <input id="txDate" type="date" class="${inputClass}" />
             </div>
           </section>
           <section class="mt-5 ${cardClass}">
             <div class="mb-5 flex flex-wrap items-center justify-between gap-3"><div><p class="text-sm font-bold text-slate-500">Activity</p><h3 class="mt-1 text-lg font-extrabold">All Transactions</h3></div><button id="clearTxFilters" type="button" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-extrabold hover:bg-slate-50">Clear Filters</button></div>
-            ${historyTable(["Date", "Type", "Description", "Amount", "Status"], "txRows")}
+            ${historyTable(["Reference", "Date", "Type", "Description", "Amount", "Status"], "txRows")}
           </section>
         `;
       },
       init() {
-        const base = [
-          { date: "2026-05-08", type: "Wallet Deposit", desc: "Bank Transfer funding", amount: 10000, status: "Completed" },
-          { date: "2026-05-08", type: "Social Boost", desc: "Instagram Likes order", amount: 1020, status: "Processing" },
-          { date: "2026-05-07", type: "Data Bundle", desc: "MTN SME 2GB", amount: 760, status: "Completed" },
-          { date: "2026-05-07", type: "SMS Verification", desc: "WhatsApp Nigeria number", amount: 600, status: "Completed" },
-          { date: "2026-05-06", type: "Bill Payment", desc: "DSTV subscription", amount: 7400, status: "Completed" },
-          { date: "2026-05-05", type: "Crypto Trade", desc: "USDT TRC20 sell order", amount: 222000, status: "Processing" },
-          { date: "2026-05-04", type: "Data Bundle", desc: "Airtel Gifting 5GB", amount: 2150, status: "Failed" },
-        ];
         const rowsEl = document.getElementById("txRows");
         const filters = {
           search: document.getElementById("txSearch"),
@@ -650,30 +671,23 @@
           status: document.getElementById("txStatus"),
           date: document.getElementById("txDate"),
         };
-        const collect = () => {
-          const deposits = D.readJson("rs_fund_history", []).map((row) => ({ date: row.date.slice(0, 10), type: "Wallet Deposit", desc: row.method, amount: row.amount, status: row.status }));
-          const social = D.readJson("rs_social_orders", []).map((row) => ({ date: row.date.slice(0, 10), type: "Social Boost", desc: `${row.platform} ${row.service}`, amount: row.amount, status: row.status }));
-          const data = D.readJson("rs_data_history", []).map((row) => ({ date: row.date.slice(0, 10), type: "Data Bundle", desc: `${row.network} ${row.plan}`, amount: row.amount, status: row.status }));
-          const sms = D.readJson("rs_sms_history", []).map((row) => ({ date: row.date.slice(0, 10), type: "SMS Verification", desc: `${row.country} ${row.service}`, amount: row.price, status: row.status }));
-          const bills = D.readJson("rs_bill_history", []).map((row) => ({ date: row.date.slice(0, 10), type: "Bill Payment", desc: `${row.provider} ${row.customer}`, amount: row.amount, status: row.status }));
-          const crypto = D.readJson("rs_crypto_history", []).map((row) => ({ date: row.date.slice(0, 10), type: "Crypto Trade", desc: `${row.asset} ${row.network}`, amount: row.payout, status: row.status }));
-          return [...deposits, ...social, ...data, ...sms, ...bills, ...crypto, ...base];
-        };
         const render = () => {
           const q = filters.search.value.toLowerCase();
-          const rows = collect().filter((row) => {
-            const text = `${row.type} ${row.desc} ${row.status}`.toLowerCase();
+          const rows = D.readTransactions().filter((row) => {
+            const date = String(row.date || "").slice(0, 10);
+            const text = `${row.reference} ${row.type} ${row.description} ${row.status}`.toLowerCase();
             return (!q || text.includes(q)) &&
               (!filters.type.value || row.type === filters.type.value) &&
               (!filters.status.value || row.status === filters.status.value) &&
-              (!filters.date.value || row.date === filters.date.value);
+              (!filters.date.value || date === filters.date.value);
           });
           renderGenericRows(rowsEl, rows, [
-            { render: (row) => row.date, className: "font-bold text-slate-700" },
+            { render: (row) => row.reference, className: "font-extrabold text-blue-700" },
+            { render: (row) => String(row.date || "").slice(0, 10), className: "font-bold text-slate-700" },
             { render: (row) => row.type, className: "font-extrabold text-slate-900" },
-            { render: (row) => row.desc },
+            { render: (row) => row.description },
             { render: (row) => D.money(row.amount), className: "font-extrabold text-slate-900" },
-            { render: (row) => `<span class="${D.badge(row.status)}">${row.status}</span>` },
+            { render: (row) => `<span class="${D.badge(row.status)}">${D.normalizeStatus(row.status)}</span>` },
           ]);
         };
         Object.values(filters).forEach((el) => {

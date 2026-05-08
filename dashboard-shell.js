@@ -14,6 +14,9 @@
     notifications: "notifications.html",
     reseller: "reseller.html",
   };
+  const WALLET_KEY = "rs_wallet_balance";
+  const TRANSACTIONS_KEY = "rs_transactions";
+  const TX_COUNTER_KEY = "rs_transaction_counter";
 
   function money(amount) {
     return `\u20a6${Number(amount || 0).toLocaleString("en-NG", { maximumFractionDigits: 0 })}`;
@@ -33,14 +36,115 @@
   }
 
   function readWallet() {
-    const saved = Number(localStorage.getItem("rs_wallet_balance"));
+    const saved = Number(localStorage.getItem(WALLET_KEY));
     if (Number.isFinite(saved) && saved >= 0) return saved;
-    localStorage.setItem("rs_wallet_balance", "12500");
+    localStorage.setItem(WALLET_KEY, "12500");
     return 12500;
   }
 
   function writeWallet(amount) {
-    localStorage.setItem("rs_wallet_balance", String(Math.max(0, Number(amount || 0))));
+    localStorage.setItem(WALLET_KEY, String(Math.max(0, Number(amount || 0))));
+    refreshWalletDisplays();
+  }
+
+  function normalizeStatus(status) {
+    const value = String(status || "Successful").toLowerCase();
+    if (value.includes("fail")) return "Failed";
+    if (value.includes("pending") || value.includes("processing") || value.includes("waiting") || value.includes("open")) return "Pending";
+    return "Successful";
+  }
+
+  function defaultTransactions() {
+    return [
+      { reference: "RS-2026-0006", date: "2026-05-08 12:20", type: "Support Ticket", description: "Data order delayed", amount: 0, status: "Pending" },
+      { reference: "RS-2026-0005", date: "2026-05-08 10:05", type: "Crypto Trade", description: "USDT TRC20 sell order", amount: 222000, status: "Pending" },
+      { reference: "RS-2026-0004", date: "2026-05-08 08:45", type: "Wallet Deposit", description: "Bank Transfer funding", amount: 10000, status: "Successful" },
+      { reference: "RS-2026-0003", date: "2026-05-07 18:01", type: "Bill Payment", description: "IKEDC electricity payment", amount: 5000, status: "Successful" },
+      { reference: "RS-2026-0002", date: "2026-05-07 10:42", type: "Data Bundle", description: "MTN SME 2GB", amount: 760, status: "Successful" },
+      { reference: "RS-2026-0001", date: "2026-05-06 16:44", type: "Social Boost", description: "TikTok Views order", amount: 1440, status: "Pending" },
+    ];
+  }
+
+  function readTransactions() {
+    const rows = readJson(TRANSACTIONS_KEY, null);
+    if (Array.isArray(rows) && rows.length) {
+      return rows.map((row) => ({ ...row, status: normalizeStatus(row.status) }));
+    }
+    const defaults = defaultTransactions();
+    writeJson(TRANSACTIONS_KEY, defaults);
+    return defaults;
+  }
+
+  function maxTransactionNumber(transactions) {
+    return transactions.reduce((max, item) => {
+      const match = String(item.reference || "").match(/RS-\d{4}-(\d+)/);
+      return match ? Math.max(max, Number(match[1])) : max;
+    }, 0);
+  }
+
+  function nextTransactionRef() {
+    const transactions = readTransactions();
+    const savedCounter = Number(localStorage.getItem(TX_COUNTER_KEY) || 0);
+    const next = Math.max(savedCounter, maxTransactionNumber(transactions)) + 1;
+    localStorage.setItem(TX_COUNTER_KEY, String(next));
+    return `RS-${new Date().getFullYear()}-${String(next).padStart(4, "0")}`;
+  }
+
+  function addTransaction({ type, description, amount = 0, status = "Successful" }) {
+    const transaction = {
+      reference: nextTransactionRef(),
+      date: nowStamp(),
+      type,
+      description,
+      amount: Number(amount || 0),
+      status: normalizeStatus(status),
+    };
+    writeJson(TRANSACTIONS_KEY, [transaction, ...readTransactions()].slice(0, 80));
+    return transaction;
+  }
+
+  function depositWallet(amount, details = {}) {
+    const value = Number(amount || 0);
+    writeWallet(readWallet() + value);
+    return addTransaction({
+      type: details.type || "Wallet Deposit",
+      description: details.description || "Wallet funding",
+      amount: value,
+      status: "Successful",
+    });
+  }
+
+  function spendWallet(amount, details = {}, successStatus = "Successful") {
+    const value = Number(amount || 0);
+    const balance = readWallet();
+    if (balance < value) {
+      return {
+        ok: false,
+        transaction: addTransaction({
+          type: details.type || "Wallet Debit",
+          description: details.description || "Insufficient balance",
+          amount: value,
+          status: "Failed",
+        }),
+      };
+    }
+
+    writeWallet(balance - value);
+    return {
+      ok: true,
+      transaction: addTransaction({
+        type: details.type || "Wallet Debit",
+        description: details.description || "Wallet debit",
+        amount: value,
+        status: successStatus,
+      }),
+    };
+  }
+
+  function refreshWalletDisplays() {
+    document.querySelectorAll("[data-wallet-balance]").forEach((el) => {
+      el.textContent = money(readWallet());
+    });
   }
 
   function nowStamp() {
@@ -70,7 +174,7 @@
 
   function badge(status) {
     const normalized = String(status || "").toLowerCase();
-    if (normalized.includes("complete") || normalized.includes("open") || normalized.includes("active") || normalized.includes("paid")) {
+    if (normalized.includes("successful") || normalized.includes("complete") || normalized.includes("active") || normalized.includes("paid")) {
       return "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-700";
     }
     if (normalized.includes("pending") || normalized.includes("processing") || normalized.includes("waiting")) {
@@ -211,6 +315,10 @@
               <a href="${pageLinks.notifications}" class="mt-2 inline-flex text-xs font-bold text-blue-600">View all</a>
             </div>
           </div>
+          <div class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-right">
+            <p class="text-[10px] font-black uppercase tracking-[0.14em] text-slate-500">Wallet</p>
+            <p data-wallet-balance class="text-sm font-extrabold text-slate-900">${money(readWallet())}</p>
+          </div>
           <a href="${pageLinks.addFund}" class="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-extrabold text-white hover:bg-blue-700">Deposit</a>
         </div>
       </header>
@@ -306,6 +414,7 @@
       </div>
     `;
     setupShell();
+    refreshWalletDisplays();
     if (typeof page.init === "function") {
       page.init(window.ReliableDashboard);
     }
@@ -318,6 +427,12 @@
     writeJson,
     readWallet,
     writeWallet,
+    refreshWalletDisplays,
+    readTransactions,
+    addTransaction,
+    depositWallet,
+    spendWallet,
+    normalizeStatus,
     nowStamp,
     message,
     clearMessage,
