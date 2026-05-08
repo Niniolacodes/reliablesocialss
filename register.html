@@ -72,18 +72,30 @@
       </section>
     </main>
   </div>
-  <script src="firebase-config.js"></script>
-  <script src="auth.js"></script>
-  <script>
+  <script type="module">
+    import { ReliableAuth } from "./auth.js";
     const registerForm = document.getElementById("registerForm");
     registerForm?.addEventListener("submit", (e) => {
       e.preventDefault();
-      window.ReliableAuth.setUser({
+      const password = document.getElementById("regPassword")?.value || "";
+      const confirm = document.getElementById("confirmPassword")?.value || "";
+      if (password !== confirm) {
+        alert("Passwords do not match.");
+        return;
+      }
+      ReliableAuth.registerWithEmail({
         email: document.getElementById("regEmail")?.value || "",
+        password,
         firstName: document.getElementById("firstName")?.value || "",
         lastName: document.getElementById("lastName")?.value || "",
-      });
-      window.location.href = "dashboard.html";
+        phone: document.getElementById("phone")?.value || "",
+      })
+        .then(() => {
+          window.location.href = "dashboard.html";
+        })
+        .catch((err) => {
+          alert(err?.message || "Unable to create account right now.");
+        });
     });
   </script>
 </body>

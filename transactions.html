@@ -4,6 +4,10 @@
   <p class="px-3 pb-1 pt-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Menu</p>
   <a href="dashboard.html" class="block rounded-xl bg-blue-600 px-4 py-3 text-white">Dashboard</a>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Add Fund</a>
+  <div class="ml-5 mt-1 space-y-1 text-[13px] font-semibold text-slate-300">
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Deposit</a>
+    <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Payment Transactions</a>
+  </div>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Become a Reseller</a>
   <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Our Services</p>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Social Boost</a>
@@ -32,6 +36,8 @@
 if(localStorage.getItem("rs_auth")!=="1"){window.location.href="login.html";}const openSidebarBtn=document.getElementById("openSidebarBtn"),closeSidebarBtn=document.getElementById("closeSidebarBtn"),mobileSidebar=document.getElementById("mobileSidebar"),mobileBackdrop=document.getElementById("mobileBackdrop");const openMenu=()=>{mobileBackdrop.classList.remove("hidden");requestAnimationFrame(()=>{mobileBackdrop.classList.remove("opacity-0");mobileSidebar.classList.remove("-translate-x-full");});document.body.style.overflow="hidden";};const closeMenu=()=>{mobileBackdrop.classList.add("opacity-0");mobileSidebar.classList.add("-translate-x-full");setTimeout(()=>mobileBackdrop.classList.add("hidden"),280);document.body.style.overflow="";};openSidebarBtn?.addEventListener("click",openMenu);closeSidebarBtn?.addEventListener("click",closeMenu);mobileBackdrop?.addEventListener("click",closeMenu);document.querySelectorAll("[data-logout]").forEach((el)=>el.addEventListener("click",(e)=>{e.preventDefault();localStorage.removeItem("rs_auth");window.location.href="login.html";}));
 const search=document.getElementById("txSearch");const filters=document.querySelectorAll(".tx-filter");const rows=[...document.querySelectorAll("#txBody tr")];let active="all";const apply=()=>{const q=(search?.value||"").toLowerCase();rows.forEach((r)=>{const txt=r.textContent.toLowerCase();const s=r.dataset.status;const show=(active==="all"||s===active)&&txt.includes(q);r.style.display=show?"":"none";});};filters.forEach((b)=>b.addEventListener("click",()=>{active=b.dataset.filter;filters.forEach((x)=>x.className="tx-filter rounded-lg border border-slate-200 px-3 py-2 text-xs font-bold");b.className="tx-filter rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white";apply();}));search?.addEventListener("input",apply);
 </script><script>const notifBtnDesktop=document.getElementById("notifBtnDesktop");const notifPanelDesktop=document.getElementById("notifPanelDesktop");if(notifBtnDesktop&&notifPanelDesktop){notifBtnDesktop.addEventListener("click",()=>notifPanelDesktop.classList.toggle("hidden"));document.addEventListener("click",(e)=>{if(!notifBtnDesktop.contains(e.target)&&!notifPanelDesktop.contains(e.target)){notifPanelDesktop.classList.add("hidden");}});}</script></body></html>
+
+
 
 
 

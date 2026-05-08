@@ -83,7 +83,7 @@
             <span class="h-px flex-1 bg-slate-200"></span>
           </div>
 
-          <button type="button" class="inline-flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-700 transition hover:bg-slate-50">
+          <button id="googleLoginBtn" type="button" class="inline-flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-700 transition hover:bg-slate-50">
             <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
               <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.9-5.5 3.9-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.8 1.4l2.6-2.5C16.8 3.3 14.6 2.4 12 2.4 6.7 2.4 2.4 6.7 2.4 12S6.7 21.6 12 21.6c6.9 0 9.6-4.8 9.6-7.3 0-.5-.1-.8-.1-1.2H12Z"/>
             </svg>
@@ -99,21 +99,40 @@
     </main>
   </div>
 
-  <script src="firebase-config.js"></script>
-  <script src="auth.js"></script>
-  <script>
+  <script type="module">
+    import { ReliableAuth } from "./auth.js";
     const togglePassword = document.getElementById("togglePassword");
     const password = document.getElementById("password");
     const loginForm = document.getElementById("loginForm");
+    const googleLoginBtn = document.getElementById("googleLoginBtn");
+    const emailField = document.getElementById("email");
+    const rememberCheckbox = document.querySelector('input[type="checkbox"]');
     togglePassword.addEventListener("click", () => {
       const isHidden = password.type === "password";
       password.type = isHidden ? "text" : "password";
       togglePassword.textContent = isHidden ? "Hide" : "Show";
     });
-    loginForm?.addEventListener("submit", () => {
-      window.ReliableAuth.setUser({
-        email: document.getElementById("email")?.value || "",
-      });
+    loginForm?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await ReliableAuth.loginWithEmail(
+          emailField?.value || "",
+          password?.value || "",
+          !!rememberCheckbox?.checked
+        );
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        alert(err?.message || "Unable to sign in right now.");
+      }
+    });
+
+    googleLoginBtn?.addEventListener("click", async () => {
+      try {
+        await ReliableAuth.loginWithGoogle();
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        alert(err?.message || "Google sign-in failed.");
+      }
     });
   </script>
 </body>

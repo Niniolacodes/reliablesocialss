@@ -24,6 +24,10 @@
   <p class="px-3 pb-1 pt-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Menu</p>
   <a href="dashboard.html" class="block rounded-xl bg-blue-600 px-4 py-3 text-white">Dashboard</a>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Add Fund</a>
+  <div class="ml-5 mt-1 space-y-1 text-[13px] font-semibold text-slate-300">
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Deposit</a>
+    <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Payment Transactions</a>
+  </div>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Become a Reseller</a>
   <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Our Services</p>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Social Boost</a>
@@ -88,10 +92,9 @@
     </main>
   </div>
 
-  <script src="firebase-config.js"></script>
-  <script src="auth.js"></script>
-  <script>
-    window.ReliableAuth.requireAuth("login.html");
+  <script type="module">
+    import { ReliableAuth } from "./auth.js";
+    ReliableAuth.requireAuth("login.html");
     const openSidebarBtn = document.getElementById("openSidebarBtn");
     const closeSidebarBtn = document.getElementById("closeSidebarBtn");
     const mobileSidebar = document.getElementById("mobileSidebar");
@@ -99,11 +102,13 @@
     const openMenu = () => { mobileBackdrop.classList.remove("hidden"); requestAnimationFrame(() => { mobileBackdrop.classList.remove("opacity-0"); mobileSidebar.classList.remove("-translate-x-full"); }); openSidebarBtn?.setAttribute("aria-expanded", "true"); document.body.style.overflow = "hidden"; };
     const closeMenu = () => { mobileBackdrop.classList.add("opacity-0"); mobileSidebar.classList.add("-translate-x-full"); openSidebarBtn?.setAttribute("aria-expanded", "false"); setTimeout(() => mobileBackdrop.classList.add("hidden"), 280); document.body.style.overflow = ""; };
     openSidebarBtn?.addEventListener("click", openMenu); closeSidebarBtn?.addEventListener("click", closeMenu); mobileBackdrop?.addEventListener("click", closeMenu);
-    window.ReliableAuth.bindLogout("[data-logout]", "login.html");
+    ReliableAuth.bindLogout("[data-logout]", "login.html");
     window.addEventListener("resize", () => { if (window.innerWidth >= 1024) { mobileBackdrop.classList.add("hidden", "opacity-0"); mobileSidebar.classList.remove("-translate-x-full"); document.body.style.overflow = ""; } else { mobileSidebar.classList.add("-translate-x-full"); } });
   </script>
 </body>
 </html>
+
+
 
 
 
