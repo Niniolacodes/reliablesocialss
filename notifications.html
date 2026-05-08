@@ -23,10 +23,33 @@
   <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Transactions History</a>
 </div>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Reward Center</a>
-  <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">SMS Verification</a>
-  <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Pay Utilities Bills</a>
+  <button type="button" class="sms-verification-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
+    <span>SMS Verification</span>
+    <span class="sms-verification-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </button>
+  <div class="sms-verification-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">New Order</a>
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">SMS Verification Inbox</a>
+  </div>
+  <button type="button" class="pay-utilities-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
+    <span>Pay Utilities Bills</span>
+    <span class="pay-utilities-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </button>
+  <div class="pay-utilities-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Data Bundle</a>
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Cable TV</a>
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Streaming TV</a>
+    <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Transactions History</a>
+  </div>
   <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Cryptocurrency</p>
-  <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Sell Crypto</a>
+  <button type="button" class="sell-crypto-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
+    <span>Sell Crypto</span>
+    <span class="sell-crypto-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </button>
+  <div class="sell-crypto-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Sell Crypto</a>
+    <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Crypto Transactions</a>
+  </div>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Support Ticket</a>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Knowledge Base</a>
   <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Rewards</p>
@@ -38,25 +61,36 @@
   <a href="settings.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Settings</a>
   <a href="notifications.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Notifications</a>
   <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Account Settings</p>
-  <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Account Settings</a>
+  <button type="button" class="account-settings-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
+    <span>Account Settings</span>
+    <span class="account-settings-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </button>
+  <div class="account-settings-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">API Settings</a>
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Account Settings</a>
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Account Security</a>
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Change Password</a>
+    <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Delete Account</a>
+  </div>
   <a href="#" data-logout class="mt-2 block rounded-xl px-4 py-3 text-rose-300 hover:bg-slate-800">Logout</a>
 </nav></aside>
 <main class="px-4 pb-4 sm:px-6 lg:h-screen lg:overflow-y-auto lg:px-8 lg:pb-8"><header class="sticky top-0 z-20 -mx-4 mb-3 flex items-center justify-between border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:hidden"><button id="openSidebarBtn" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button><p class="text-sm font-extrabold">Notifications</p><button type="button" class="relative grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-slate-600" aria-label="Notifications"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-rose-500"></span></button></header><header class="mb-5 hidden items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6 lg:flex"><div><p class="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">Reliable Socials</p><h1 class="mt-1 text-xl font-extrabold sm:text-2xl">Notifications</h1></div></header>
 <div class="space-y-4"><article class="rounded-2xl border border-emerald-200 bg-emerald-50 p-4"><p class="text-xs font-bold text-emerald-700">Order Update</p><h3 class="mt-1 font-extrabold">Instagram Followers Order Completed</h3><p class="mt-1 text-sm text-slate-600">Your order #RS-18421 has been completed successfully.</p></article><article class="rounded-2xl border border-blue-200 bg-blue-50 p-4"><p class="text-xs font-bold text-blue-700">Wallet</p><h3 class="mt-1 font-extrabold">Deposit Received</h3><p class="mt-1 text-sm text-slate-600">We credited &#8358;5,000 to your wallet.</p></article><article class="rounded-2xl border border-amber-200 bg-amber-50 p-4"><p class="text-xs font-bold text-amber-700">Security</p><h3 class="mt-1 font-extrabold">New Login Detected</h3><p class="mt-1 text-sm text-slate-600">A new sign-in was detected from Lagos. If this was not you, change your password.</p></article><article class="rounded-2xl border border-violet-200 bg-violet-50 p-4"><p class="text-xs font-bold text-violet-700">Promotion</p><h3 class="mt-1 font-extrabold">Earn More with Referrals</h3><p class="mt-1 text-sm text-slate-600">Invite friends and earn points on their first order.</p></article></div></main></div>
 <script>if(localStorage.getItem("rs_auth")!=="1"){window.location.href="login.html";}const b=document.getElementById("mobileBackdrop"),s=document.getElementById("mobileSidebar");document.getElementById("openSidebarBtn")?.addEventListener("click",()=>{b.classList.remove("hidden");requestAnimationFrame(()=>{b.classList.remove("opacity-0");s.classList.remove("-translate-x-full");});document.body.style.overflow="hidden";});const close=()=>{b.classList.add("opacity-0");s.classList.add("-translate-x-full");setTimeout(()=>b.classList.add("hidden"),280);document.body.style.overflow="";};document.getElementById("closeSidebarBtn")?.addEventListener("click",close);b?.addEventListener("click",close);document.querySelectorAll("[data-logout]").forEach((el)=>el.addEventListener("click",(e)=>{e.preventDefault();localStorage.removeItem("rs_auth");window.location.href="login.html";}));</script><script>const notifBtnDesktop=document.getElementById("notifBtnDesktop");const notifPanelDesktop=document.getElementById("notifPanelDesktop");if(notifBtnDesktop&&notifPanelDesktop){notifBtnDesktop.addEventListener("click",()=>notifPanelDesktop.classList.toggle("hidden"));document.addEventListener("click",(e)=>{if(!notifBtnDesktop.contains(e.target)&&!notifPanelDesktop.contains(e.target)){notifPanelDesktop.classList.add("hidden");}});}</script><script id="add-fund-dropdown-init">
-  document.querySelectorAll(".add-fund-toggle, .social-boost-toggle").forEach((btn) => {
+  document.querySelectorAll(".add-fund-toggle, .social-boost-toggle, .sms-verification-toggle, .pay-utilities-toggle, .sell-crypto-toggle, .account-settings-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       const menu = btn.nextElementSibling;
-      if (!menu || (!menu.classList.contains("add-fund-menu") && !menu.classList.contains("social-boost-menu"))) return;
+      if (!menu || !/\\b(add-fund-menu|social-boost-menu|sms-verification-menu|pay-utilities-menu|sell-crypto-menu|account-settings-menu)\\b/.test(menu.className)) return;
       const open = !menu.classList.contains("hidden");
       menu.classList.toggle("hidden", open);
       btn.setAttribute("aria-expanded", open ? "false" : "true");
-      const caret = btn.querySelector(".add-fund-caret, .social-boost-caret");
+      const caret = btn.querySelector(".add-fund-caret, .social-boost-caret, .sms-verification-caret, .pay-utilities-caret, .sell-crypto-caret, .account-settings-caret");
       if (caret) caret.classList.toggle("rotate-180", !open);
     });
   });
 </script>
 </body></html>
+
 
 
 
