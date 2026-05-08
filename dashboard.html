@@ -33,7 +33,15 @@
 </div>
   <a href="reseller.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Become a Reseller</a>
   <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Our Services</p>
-  <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Social Boost</a>
+  <button type="button" class="social-boost-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
+  <span>Social Boost</span>
+  <span class="social-boost-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+</button>
+<div class="social-boost-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
+  <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">New Order</a>
+  <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Social Boost Services</a>
+  <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Transactions History</a>
+</div>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Reward Center</a>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">SMS Verification</a>
   <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Pay Utilities Bills</a>
@@ -109,20 +117,22 @@
     window.addEventListener("resize", () => { if (window.innerWidth >= 1024) { mobileBackdrop.classList.add("hidden", "opacity-0"); mobileSidebar.classList.remove("-translate-x-full"); document.body.style.overflow = ""; } else { mobileSidebar.classList.add("-translate-x-full"); } });
   </script>
 <script id="add-fund-dropdown-init">
-  document.querySelectorAll(".add-fund-toggle").forEach((btn) => {
+  document.querySelectorAll(".add-fund-toggle, .social-boost-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       const menu = btn.nextElementSibling;
-      if (!menu || !menu.classList.contains("add-fund-menu")) return;
+      if (!menu || (!menu.classList.contains("add-fund-menu") && !menu.classList.contains("social-boost-menu"))) return;
       const open = !menu.classList.contains("hidden");
       menu.classList.toggle("hidden", open);
       btn.setAttribute("aria-expanded", open ? "false" : "true");
-      const caret = btn.querySelector(".add-fund-caret");
+      const caret = btn.querySelector(".add-fund-caret, .social-boost-caret");
       if (caret) caret.classList.toggle("rotate-180", !open);
     });
   });
 </script>
 </body>
 </html>
+
+
 
 
 
