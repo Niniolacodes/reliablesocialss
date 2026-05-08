@@ -99,8 +99,9 @@
     </main>
   </div>
 
-  <script type="module">
-    import { ReliableAuth } from "./auth.js";
+  <script src="./auth.js"></script>
+  <script>
+    const ReliableAuth = window.ReliableAuth;
     const togglePassword = document.getElementById("togglePassword");
     const password = document.getElementById("password");
     const loginForm = document.getElementById("loginForm");

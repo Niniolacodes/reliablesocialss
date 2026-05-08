@@ -72,8 +72,9 @@
       </section>
     </main>
   </div>
-  <script type="module">
-    import { ReliableAuth } from "./auth.js";
+  <script src="./auth.js"></script>
+  <script>
+    const ReliableAuth = window.ReliableAuth;
     const registerForm = document.getElementById("registerForm");
     registerForm?.addEventListener("submit", (e) => {
       e.preventDefault();

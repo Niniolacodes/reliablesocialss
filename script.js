@@ -64,7 +64,7 @@ const scrollObserver = new IntersectionObserver(
         item.classList.remove(
           "opacity-0",
           "-translate-y-12",
-          "-translate-x-20",
+          "-translate-x-20",b
           "translate-x-20",
           "translate-y-14"
         );

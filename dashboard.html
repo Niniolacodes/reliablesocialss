@@ -136,8 +136,9 @@
     </main>
   </div>
 
-  <script type="module">
-    import { ReliableAuth } from "./auth.js";
+  <script src="./auth.js"></script>
+  <script>
+    const ReliableAuth = window.ReliableAuth;
     ReliableAuth.requireAuth("login.html");
     const openSidebarBtn = document.getElementById("openSidebarBtn");
     const closeSidebarBtn = document.getElementById("closeSidebarBtn");
@@ -150,20 +151,34 @@
     window.addEventListener("resize", () => { if (window.innerWidth >= 1024) { mobileBackdrop.classList.add("hidden", "opacity-0"); mobileSidebar.classList.remove("-translate-x-full"); document.body.style.overflow = ""; } else { mobileSidebar.classList.add("-translate-x-full"); } });
   </script>
 <script id="add-fund-dropdown-init">
-  document.querySelectorAll(".add-fund-toggle, .social-boost-toggle, .sms-verification-toggle, .pay-utilities-toggle, .sell-crypto-toggle, .account-settings-toggle").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const menu = btn.nextElementSibling;
-      if (!menu || !/\\b(add-fund-menu|social-boost-menu|sms-verification-menu|pay-utilities-menu|sell-crypto-menu|account-settings-menu)\\b/.test(menu.className)) return;
-      const open = !menu.classList.contains("hidden");
-      menu.classList.toggle("hidden", open);
-      btn.setAttribute("aria-expanded", open ? "false" : "true");
-      const caret = btn.querySelector(".add-fund-caret, .social-boost-caret, .sms-verification-caret, .pay-utilities-caret, .sell-crypto-caret, .account-settings-caret");
-      if (caret) caret.classList.toggle("rotate-180", !open);
+  (function () {
+    const groups = [
+      { toggle: ".add-fund-toggle", menu: ".add-fund-menu", caret: ".add-fund-caret" },
+      { toggle: ".social-boost-toggle", menu: ".social-boost-menu", caret: ".social-boost-caret" },
+      { toggle: ".sms-verification-toggle", menu: ".sms-verification-menu", caret: ".sms-verification-caret" },
+      { toggle: ".pay-utilities-toggle", menu: ".pay-utilities-menu", caret: ".pay-utilities-caret" },
+      { toggle: ".sell-crypto-toggle", menu: ".sell-crypto-menu", caret: ".sell-crypto-caret" },
+      { toggle: ".account-settings-toggle", menu: ".account-settings-menu", caret: ".account-settings-caret" },
+    ];
+
+    groups.forEach(({ toggle, menu, caret }) => {
+      const button = document.querySelector(toggle);
+      const panel = document.querySelector(menu);
+      const icon = document.querySelector(caret);
+      if (!button || !panel) return;
+
+      button.addEventListener("click", () => {
+        const isOpen = !panel.classList.contains("hidden");
+        panel.classList.toggle("hidden", isOpen);
+        button.setAttribute("aria-expanded", isOpen ? "false" : "true");
+        if (icon) icon.classList.toggle("rotate-180", !isOpen);
+      });
     });
-  });
+  })();
 </script>
 </body>
 </html>
+
 
 
 

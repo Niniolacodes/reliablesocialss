@@ -1,18 +1,18 @@
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  setPersistence,
-  browserLocalPersistence,
-  browserSessionPersistence,
-  onAuthStateChanged,
-  signOut,
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { auth, db, googleProvider } from "./firebase-config.js";
-
 const AUTH_KEY = "rs_auth";
 const USER_KEY = "rs_user";
+const USERS_KEY = "rs_users";
+
+function readUsers() {
+  try {
+    return JSON.parse(localStorage.getItem(USERS_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function writeUsers(users) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
 
 function cacheUser(userData) {
   localStorage.setItem(AUTH_KEY, "1");
@@ -24,92 +24,77 @@ function clearCache() {
   localStorage.removeItem(USER_KEY);
 }
 
-async function setRememberMe(enabled) {
-  await setPersistence(auth, enabled ? browserLocalPersistence : browserSessionPersistence);
-}
-
-async function loginWithEmail(email, password, rememberMe = true) {
-  await setRememberMe(rememberMe);
-  const result = await signInWithEmailAndPassword(auth, email, password);
-  const user = result.user;
-  cacheUser({ uid: user.uid, email: user.email || email });
+async function loginWithEmail(email, password) {
+  const users = readUsers();
+  const key = (email || "").trim().toLowerCase();
+  const entry = users[key];
+  if (!entry || entry.password !== password) {
+    throw new Error("Invalid email or password.");
+  }
+  const user = {
+    uid: entry.uid,
+    email: entry.email,
+    firstName: entry.firstName || "",
+    lastName: entry.lastName || "",
+    phone: entry.phone || "",
+  };
+  cacheUser(user);
   return user;
 }
 
 async function registerWithEmail(payload) {
-  const {
+  const email = (payload?.email || "").trim();
+  const password = payload?.password || "";
+  const firstName = payload?.firstName || "";
+  const lastName = payload?.lastName || "";
+  const phone = payload?.phone || "";
+
+  if (!email || !password) {
+    throw new Error("Email and password are required.");
+  }
+
+  const users = readUsers();
+  const key = email.toLowerCase();
+  if (users[key]) {
+    throw new Error("Account already exists for this email.");
+  }
+
+  const user = {
+    uid: `local_${Date.now()}`,
     email,
+    firstName,
+    lastName,
+    phone,
     password,
-    firstName = "",
-    lastName = "",
-    phone = "",
-  } = payload;
+    createdAt: new Date().toISOString(),
+  };
 
-  const result = await createUserWithEmailAndPassword(auth, email, password);
-  const user = result.user;
-
-  await setDoc(
-    doc(db, "users", user.uid),
-    {
-      uid: user.uid,
-      email,
-      firstName,
-      lastName,
-      phone,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    },
-    { merge: true }
-  );
-
+  users[key] = user;
+  writeUsers(users);
   cacheUser({ uid: user.uid, email, firstName, lastName, phone });
   return user;
 }
 
 async function loginWithGoogle() {
-  const result = await signInWithPopup(auth, googleProvider);
-  const user = result.user;
-  const userRef = doc(db, "users", user.uid);
-  const snap = await getDoc(userRef);
-
-  if (!snap.exists()) {
-    await setDoc(
-      userRef,
-      {
-        uid: user.uid,
-        email: user.email || "",
-        firstName: user.displayName ? user.displayName.split(" ")[0] : "",
-        lastName: user.displayName ? user.displayName.split(" ").slice(1).join(" ") : "",
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      },
-      { merge: true }
-    );
-  }
-
-  cacheUser({ uid: user.uid, email: user.email || "" });
+  const user = {
+    uid: `local_google_${Date.now()}`,
+    email: "google-user@reliablesocials.local",
+    firstName: "Google",
+    lastName: "User",
+  };
+  cacheUser(user);
   return user;
 }
 
 function requireAuth(redirectTo = "login.html") {
   if (localStorage.getItem(AUTH_KEY) !== "1") {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = redirectTo;
-      } else {
-        cacheUser({ uid: user.uid, email: user.email || "" });
-      }
-    });
+    window.location.href = redirectTo;
   }
 }
 
 async function logout(redirectTo = "login.html") {
-  try {
-    await signOut(auth);
-  } finally {
-    clearCache();
-    window.location.href = redirectTo;
-  }
+  clearCache();
+  window.location.href = redirectTo;
 }
 
 function bindLogout(selector = "[data-logout]", redirectTo = "login.html") {
@@ -121,7 +106,7 @@ function bindLogout(selector = "[data-logout]", redirectTo = "login.html") {
   });
 }
 
-export const ReliableAuth = {
+window.ReliableAuth = {
   loginWithEmail,
   registerWithEmail,
   loginWithGoogle,
@@ -129,6 +114,4 @@ export const ReliableAuth = {
   logout,
   bindLogout,
 };
-
-window.ReliableAuth = ReliableAuth;
 
