@@ -1,3 +1,14 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/bootstrap.php';
+
+$isLoggedIn = is_authenticated();
+$authPrimaryHref = $isLoggedIn ? 'dashboard.php' : 'login.php';
+$authPrimaryLabel = $isLoggedIn ? 'Dashboard' : 'Login';
+$authSignupHref = $isLoggedIn ? 'dashboard.php' : 'register.php';
+$authSignupLabel = $isLoggedIn ? 'Dashboard' : 'Register';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -393,11 +404,11 @@
         <a href="#" class="hover:text-blue-600">Blogs</a>
         <a href="#" class="hover:text-blue-600">Web API Documentation</a>
         <a href="#" class="hover:text-blue-600">Reliable Socials Status</a>
-        <a href="register.php" class="hover:text-blue-600">Register</a>
+        <a href="<?= h($authSignupHref) ?>" class="hover:text-blue-600"><?= h($authSignupLabel) ?></a>
       </nav>
 
       <div class="flex items-center gap-2">
-        <a href="login.php" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-blue-700">Login</a>
+        <a href="<?= h($authPrimaryHref) ?>" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-blue-700"><?= h($authPrimaryLabel) ?></a>
 
         <button
           id="menuBtn"
@@ -423,7 +434,7 @@
         <a href="#" class="mobile-menu-link">Blogs</a>
         <a href="#" class="mobile-menu-link">Web API Documentation</a>
         <a href="#" class="mobile-menu-link">Reliable Socials Status</a>
-        <a href="register.php" class="mobile-menu-link is-primary">Register</a>
+        <a href="<?= h($authSignupHref) ?>" class="mobile-menu-link is-primary"><?= h($authSignupLabel) ?></a>
       </nav>
     </div>
   </header>
@@ -462,7 +473,7 @@
         </h1>
 
         <div class="flex flex-col sm:flex-row gap-4 mb-14 lg:mb-0">
-          <a href="register.php" class="bg-blue-600 text-white px-7 py-4 rounded-xl font-extrabold text-center hover:bg-blue-700">Register</a>
+          <a href="<?= h($authSignupHref) ?>" class="bg-blue-600 text-white px-7 py-4 rounded-xl font-extrabold text-center hover:bg-blue-700"><?= h($authSignupLabel) ?></a>
 
           <a href="#" class="bg-slate-100 text-slate-400 px-7 py-4 rounded-xl font-extrabold text-center hover:bg-slate-200">
             Download App
@@ -990,7 +1001,7 @@
         </p>
 
         <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out mt-10 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
-          <a href="register.php" class="inline-flex items-center justify-center gap-3 rounded-xl bg-white px-8 py-4 text-sm font-black text-blue-700 shadow-[0_20px_40px_rgba(15,23,42,0.18)] hover:bg-emerald-50">Register</a>
+          <a href="<?= h($authSignupHref) ?>" class="inline-flex items-center justify-center gap-3 rounded-xl bg-white px-8 py-4 text-sm font-black text-blue-700 shadow-[0_20px_40px_rgba(15,23,42,0.18)] hover:bg-emerald-50"><?= h($authSignupLabel) ?></a>
 
           <a href="#faq" class="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/10 px-8 py-4 text-sm font-black text-white backdrop-blur hover:bg-white/15">
             Learn More

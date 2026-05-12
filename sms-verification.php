@@ -1,9 +1,15 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/bootstrap.php';
+require_login();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Transactions | Reliable Socials</title>
+  <title>SMS Verification | Reliable Socials</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,9 +18,10 @@
 </head>
 <body class="bg-slate-100 text-slate-900">
   <div id="app"></div>
+  <?= reliable_client_config_script() ?>
   <script src="./auth.js"></script>
   <script src="./dashboard-shell.js"></script>
-  <script>window.ReliablePageId = "transactions";</script>
+  <script>window.ReliablePageId = "sms-verification";</script>
   <script src="./dashboard-pages.js"></script>
 </body>
 </html>

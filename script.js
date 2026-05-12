@@ -1,6 +1,7 @@
 const menuBtn = document.getElementById("menuBtn");
 const mobileMenu = document.getElementById("mobileMenu");
 
+if (menuBtn && mobileMenu) {
 menuBtn.addEventListener("click", () => {
   mobileMenu.classList.toggle("hidden");
 
@@ -10,6 +11,7 @@ menuBtn.addEventListener("click", () => {
     menuBtn.textContent = "×";
   }
 });
+}
 
 
 
@@ -38,6 +40,7 @@ const heroIcon = document.getElementById("heroIcon");
 const heroTitle = document.getElementById("heroTitle");
 const heroText = document.getElementById("heroText");
 
+if (heroIcon && heroTitle && heroText) {
 setInterval(() => {
   heroIndex = (heroIndex + 1) % heroSlides.length;
 
@@ -45,6 +48,7 @@ setInterval(() => {
   heroTitle.innerHTML = heroSlides[heroIndex].title;
   heroText.textContent = heroSlides[heroIndex].text;
 }, 1500);
+}
 
 
 
@@ -55,6 +59,7 @@ setInterval(() => {
 
 const animatedItems = document.querySelectorAll(".scroll-animate");
 
+if ("IntersectionObserver" in window) {
 const scrollObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -64,7 +69,7 @@ const scrollObserver = new IntersectionObserver(
         item.classList.remove(
           "opacity-0",
           "-translate-y-12",
-          "-translate-x-20",b
+          "-translate-x-20",
           "translate-x-20",
           "translate-y-14"
         );
@@ -100,6 +105,7 @@ const scrollObserver = new IntersectionObserver(
 animatedItems.forEach((item) => {
   scrollObserver.observe(item);
 });
+}
 
 
 

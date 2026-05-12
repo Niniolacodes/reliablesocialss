@@ -1,3 +1,9 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/bootstrap.php';
+require_login();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +18,7 @@
 </head>
 <body class="bg-slate-100 text-slate-900">
   <div id="app"></div>
+  <?= reliable_client_config_script() ?>
   <script src="./auth.js"></script>
   <script src="./dashboard-shell.js"></script>
   <script>window.ReliablePageId = "support-ticket";</script>

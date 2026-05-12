@@ -1,3 +1,9 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/bootstrap.php';
+require_login();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,19 +34,19 @@
           <span class="add-fund-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </button>
         <div class="add-fund-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-  <a href="add-fund.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Deposit</a>
-          <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Payment Transactions</a>
+  <a href="add-fund.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Deposit</a>
+          <a href="transactions.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Payment Transactions</a>
         </div>
-        <a href="reseller.html" class="block rounded-xl bg-blue-600 px-4 py-3 text-white">Become a Reseller</a>
+        <a href="reseller.php" class="block rounded-xl bg-blue-600 px-4 py-3 text-white">Become a Reseller</a>
         <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Our Services</p>
         <button type="button" class="social-boost-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
   <span>Social Boost</span>
   <span class="social-boost-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
 </button>
 <div class="social-boost-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-  <a href="social-boost.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">New Order</a>
-  <a href="social-boost.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Social Boost Services</a>
-  <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Transactions History</a>
+  <a href="social-boost.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">New Order</a>
+  <a href="social-boost.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Social Boost Services</a>
+  <a href="transactions.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Transactions History</a>
 </div>
         <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Reward Center</a>
         <button type="button" class="sms-verification-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
@@ -48,18 +54,18 @@
     <span class="sms-verification-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
   </button>
   <div class="sms-verification-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-    <a href="sms-verification.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">New Order</a>
-    <a href="sms-verification.html#inbox" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">SMS Verification Inbox</a>
+    <a href="sms-verification.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">New Order</a>
+    <a href="sms-verification.php#inbox" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">SMS Verification Inbox</a>
   </div>
         <button type="button" class="pay-utilities-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
     <span>Pay Utilities Bills</span>
     <span class="pay-utilities-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
   </button>
   <div class="pay-utilities-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-    <a href="data-bundle.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Data Bundle</a>
-    <a href="pay-bills.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Cable TV</a>
-    <a href="pay-bills.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Streaming TV</a>
-    <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Transactions History</a>
+    <a href="data-bundle.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Data Bundle</a>
+    <a href="pay-bills.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Cable TV</a>
+    <a href="pay-bills.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Streaming TV</a>
+    <a href="transactions.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Transactions History</a>
   </div>
         <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Cryptocurrency</p>
         <button type="button" class="sell-crypto-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
@@ -67,32 +73,32 @@
     <span class="sell-crypto-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
   </button>
   <div class="sell-crypto-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-    <a href="sell-crypto.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Sell Crypto</a>
-    <a href="transactions.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Crypto Transactions</a>
+    <a href="sell-crypto.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Sell Crypto</a>
+    <a href="transactions.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Crypto Transactions</a>
   </div>
-  <a href="support-ticket.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Support Ticket</a>
+  <a href="support-ticket.php" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Support Ticket</a>
         <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Knowledge Base</a>
         <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Rewards</p>
         <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Referrals</a>
         <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Swap Points</a>
         <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">User App</p>
-        <a href="transactions.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Transactions</a>
-        <a href="profile.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Profile</a>
-        <a href="settings.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Settings</a>
-        <a href="notifications.html" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Notifications</a>
+        <a href="transactions.php" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Transactions</a>
+        <a href="profile.php" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Profile</a>
+        <a href="settings.php" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Settings</a>
+        <a href="notifications.php" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Notifications</a>
         <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Account Settings</p>
         <button type="button" class="account-settings-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
     <span>Account Settings</span>
     <span class="account-settings-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
   </button>
   <div class="account-settings-menu ml-5 mt-1 hidden space-y-1 text-[13px] font-semibold text-slate-300">
-    <a href="settings.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">API Settings</a>
-    <a href="settings.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Account Settings</a>
-    <a href="settings.html#security" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Account Security</a>
-    <a href="settings.html#password" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Change Password</a>
+    <a href="settings.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">API Settings</a>
+    <a href="settings.php" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Account Settings</a>
+    <a href="settings.php#security" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Account Security</a>
+    <a href="settings.php#password" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Change Password</a>
     <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-800/80 hover:text-white">Delete Account</a>
   </div>
-        <a href="#" data-logout class="mt-2 block rounded-xl px-4 py-3 text-rose-300 hover:bg-slate-800">Logout</a>
+        <a href="logout.php" data-logout class="mt-2 block rounded-xl px-4 py-3 text-rose-300 hover:bg-slate-800">Logout</a>
       </nav>
     </aside>
 
@@ -144,6 +150,7 @@
     </main>
   </div>
 
+  <?= reliable_client_config_script() ?>
   <script src="./auth.js"></script>
   <script>
     const ReliableAuth = window.ReliableAuth;

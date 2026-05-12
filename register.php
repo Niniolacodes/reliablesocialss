@@ -1,3 +1,42 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/bootstrap.php';
+
+$registerError = '';
+
+if (is_authenticated()) {
+    redirect_to('dashboard.php');
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        if (!verify_csrf($_POST['csrf_token'] ?? '')) {
+            throw new RuntimeException('Your session expired. Refresh and try again.');
+        }
+
+        if (($_POST['password'] ?? '') !== ($_POST['confirm_password'] ?? '')) {
+            throw new RuntimeException('Passwords do not match.');
+        }
+
+        if (empty($_POST['terms'])) {
+            throw new RuntimeException('You must agree to the terms and privacy policy.');
+        }
+
+        $user = create_user([
+            'email' => $_POST['email'] ?? '',
+            'password' => $_POST['password'] ?? '',
+            'firstName' => $_POST['first_name'] ?? '',
+            'lastName' => $_POST['last_name'] ?? '',
+            'phone' => $_POST['phone'] ?? '',
+        ]);
+        login_user($user);
+        redirect_to('dashboard.php');
+    } catch (Throwable $error) {
+        $registerError = $error->getMessage();
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,39 +65,46 @@
         <h1 class="mt-6 text-center text-3xl font-extrabold text-slate-900">Create Account</h1>
         <p class="mt-2 text-center text-sm text-slate-500">Join Reliable Socials and start growing smarter today.</p>
 
-        <form id="registerForm" class="mt-8 grid gap-5 sm:grid-cols-2">
+        <?php if ($registerError !== ''): ?>
+          <div class="mt-5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">
+            <?= h($registerError) ?>
+          </div>
+        <?php endif; ?>
+
+        <form id="registerForm" class="mt-8 grid gap-5 sm:grid-cols-2" method="post" action="register.php">
+          <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>" />
           <div class="sm:col-span-2">
             <label for="regEmail" class="mb-2 block text-sm font-bold text-slate-700">Email Address</label>
-            <input id="regEmail" type="email" placeholder="you@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+            <input id="regEmail" name="email" type="email" value="<?= h($_POST['email'] ?? '') ?>" required placeholder="you@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
           </div>
 
           <div>
             <label for="firstName" class="mb-2 block text-sm font-bold text-slate-700">First Name</label>
-            <input id="firstName" type="text" placeholder="Niniola" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+            <input id="firstName" name="first_name" type="text" value="<?= h($_POST['first_name'] ?? '') ?>" placeholder="Niniola" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
           </div>
 
           <div>
             <label for="lastName" class="mb-2 block text-sm font-bold text-slate-700">Last Name</label>
-            <input id="lastName" type="text" placeholder="A." class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+            <input id="lastName" name="last_name" type="text" value="<?= h($_POST['last_name'] ?? '') ?>" placeholder="A." class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
           </div>
 
           <div class="sm:col-span-2">
             <label for="phone" class="mb-2 block text-sm font-bold text-slate-700">Phone Number</label>
-            <input id="phone" type="tel" placeholder="+234 800 000 0000" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+            <input id="phone" name="phone" type="tel" value="<?= h($_POST['phone'] ?? '') ?>" placeholder="+234 800 000 0000" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
           </div>
 
           <div>
             <label for="regPassword" class="mb-2 block text-sm font-bold text-slate-700">Password</label>
-            <input id="regPassword" type="password" placeholder="Create password" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+            <input id="regPassword" name="password" type="password" required placeholder="Create password" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
           </div>
 
           <div>
             <label for="confirmPassword" class="mb-2 block text-sm font-bold text-slate-700">Confirm Password</label>
-            <input id="confirmPassword" type="password" placeholder="Confirm password" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+            <input id="confirmPassword" name="confirm_password" type="password" required placeholder="Confirm password" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
           </div>
 
           <label class="sm:col-span-2 flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm font-medium text-slate-600">
-            <input type="checkbox" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+            <input id="terms" type="checkbox" name="terms" value="1" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
             I agree to Reliable Socials terms and privacy policy.
           </label>
 
@@ -72,6 +118,7 @@
       </section>
     </main>
   </div>
+  <?= reliable_client_config_script() ?>
   <script src="./auth.js"></script>
   <script>
     const ReliableAuth = window.ReliableAuth;
@@ -84,12 +131,18 @@
         alert("Passwords do not match.");
         return;
       }
+      const terms = document.getElementById("terms");
+      if (!terms?.checked) {
+        alert("You must agree to the terms and privacy policy.");
+        return;
+      }
       ReliableAuth.registerWithEmail({
         email: document.getElementById("regEmail")?.value || "",
         password,
         firstName: document.getElementById("firstName")?.value || "",
         lastName: document.getElementById("lastName")?.value || "",
         phone: document.getElementById("phone")?.value || "",
+        terms: true,
       })
         .then(() => {
           window.location.href = "dashboard.php";

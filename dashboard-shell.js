@@ -1,18 +1,18 @@
 (function () {
   const pageLinks = {
     dashboard: "dashboard.php",
-    addFund: "add-fund.html",
-    socialBoost: "social-boost.html",
-    smsVerification: "sms-verification.html",
-    payBills: "pay-bills.html",
-    dataBundle: "data-bundle.html",
-    sellCrypto: "sell-crypto.html",
-    supportTicket: "support-ticket.html",
-    transactions: "transactions.html",
-    profile: "profile.html",
-    settings: "settings.html",
-    notifications: "notifications.html",
-    reseller: "reseller.html",
+    addFund: "add-fund.php",
+    socialBoost: "social-boost.php",
+    smsVerification: "sms-verification.php",
+    payBills: "pay-bills.php",
+    dataBundle: "data-bundle.php",
+    sellCrypto: "sell-crypto.php",
+    supportTicket: "support-ticket.php",
+    transactions: "transactions.php",
+    profile: "profile.php",
+    settings: "settings.php",
+    notifications: "notifications.php",
+    reseller: "reseller.php",
   };
   const WALLET_KEY = "rs_wallet_balance";
   const TRANSACTIONS_KEY = "rs_transactions";
@@ -288,7 +288,7 @@
             { active: "settings", href: `${pageLinks.settings}#security`, label: "Account Security" },
             { active: "settings", href: `${pageLinks.settings}#password`, label: "Change Password" },
           ])}
-          <a href="#" data-logout class="mt-2 block rounded-xl px-4 py-3 text-rose-300 hover:bg-slate-800">Logout</a>
+          <a href="logout.php" data-logout class="mt-2 block rounded-xl px-4 py-3 text-rose-300 hover:bg-slate-800">Logout</a>
         </nav>
       </aside>
     `;

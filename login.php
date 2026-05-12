@@ -1,3 +1,28 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/bootstrap.php';
+
+$loginError = '';
+
+if (is_authenticated()) {
+    redirect_to(safe_redirect_target());
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        if (!verify_csrf($_POST['csrf_token'] ?? '')) {
+            throw new RuntimeException('Your session expired. Refresh and try again.');
+        }
+
+        $user = authenticate_user($_POST['email'] ?? '', $_POST['password'] ?? '');
+        login_user($user);
+        redirect_to(safe_redirect_target());
+    } catch (Throwable $error) {
+        $loginError = $error->getMessage();
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,10 +77,17 @@
           <h2 class="mt-6 text-3xl font-extrabold text-slate-900">Welcome Back</h2>
           <p class="mt-2 text-sm text-slate-500">Login to continue to your Reliable Socials account.</p>
 
-          <form id="loginForm" class="mt-8 space-y-5" action="dashboard.php">
+          <?php if ($loginError !== ''): ?>
+            <div class="mt-5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">
+              <?= h($loginError) ?>
+            </div>
+          <?php endif; ?>
+
+          <form id="loginForm" class="mt-8 space-y-5" method="post" action="login.php<?= isset($_GET['redirect']) ? '?redirect=' . rawurlencode((string) $_GET['redirect']) : '' ?>">
+            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>" />
             <div>
               <label class="mb-2 block text-sm font-bold text-slate-700" for="email">Email</label>
-              <input id="email" type="email" placeholder="you@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+              <input id="email" name="email" type="email" value="<?= h($_POST['email'] ?? '') ?>" required placeholder="you@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
             </div>
 
             <div>
@@ -64,13 +96,13 @@
                 <a href="#" class="text-xs font-bold text-blue-600 hover:text-blue-700">Forgot password?</a>
               </div>
               <div class="relative">
-                <input id="password" type="password" placeholder="Enter your password" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 pr-12 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+                <input id="password" name="password" type="password" required placeholder="Enter your password" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 pr-12 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
                 <button id="togglePassword" type="button" class="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg px-2 py-1 text-xs font-bold text-slate-500 hover:bg-slate-200">Show</button>
               </div>
             </div>
 
             <label class="flex items-center gap-3 text-sm font-medium text-slate-600">
-              <input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+              <input type="checkbox" name="remember" value="1" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
               Keep me signed in
             </label>
 
@@ -99,6 +131,7 @@
     </main>
   </div>
 
+  <?= reliable_client_config_script() ?>
   <script src="./auth.js"></script>
   <script>
     const ReliableAuth = window.ReliableAuth;
@@ -108,6 +141,10 @@
     const googleLoginBtn = document.getElementById("googleLoginBtn");
     const emailField = document.getElementById("email");
     const rememberCheckbox = document.querySelector('input[type="checkbox"]');
+    const redirectTarget = (() => {
+      const target = new URLSearchParams(window.location.search).get("redirect") || "dashboard.php";
+      return /^[a-z0-9][a-z0-9-]*\.php(?:#[a-z0-9_-]+)?$/i.test(target) ? target : "dashboard.php";
+    })();
     togglePassword.addEventListener("click", () => {
       const isHidden = password.type === "password";
       password.type = isHidden ? "text" : "password";
@@ -121,7 +158,7 @@
           password?.value || "",
           !!rememberCheckbox?.checked
         );
-        window.location.href = "dashboard.php";
+        window.location.href = redirectTarget;
       } catch (err) {
         alert(err?.message || "Unable to sign in right now.");
       }
@@ -130,7 +167,7 @@
     googleLoginBtn?.addEventListener("click", async () => {
       try {
         await ReliableAuth.loginWithGoogle();
-        window.location.href = "dashboard.php";
+        window.location.href = redirectTarget;
       } catch (err) {
         alert(err?.message || "Google sign-in failed.");
       }
