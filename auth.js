@@ -86,18 +86,18 @@ async function loginWithGoogle() {
   return user;
 }
 
-function requireAuth(redirectTo = "login.html") {
+function requireAuth(redirectTo = "login.php") {
   if (localStorage.getItem(AUTH_KEY) !== "1") {
     window.location.href = redirectTo;
   }
 }
 
-async function logout(redirectTo = "login.html") {
+async function logout(redirectTo = "login.php") {
   clearCache();
   window.location.href = redirectTo;
 }
 
-function bindLogout(selector = "[data-logout]", redirectTo = "login.html") {
+function bindLogout(selector = "[data-logout]", redirectTo = "login.php") {
   document.querySelectorAll(selector).forEach((el) => {
     el.addEventListener("click", async (e) => {
       e.preventDefault();

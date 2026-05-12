@@ -1,6 +1,6 @@
 (function () {
   const pageLinks = {
-    dashboard: "dashboard.html",
+    dashboard: "dashboard.php",
     addFund: "add-fund.html",
     socialBoost: "social-boost.html",
     smsVerification: "sms-verification.html",
@@ -193,12 +193,12 @@
   function routeFromHref(href) {
     if (!href || href === "#") return "";
     const url = new URL(href, window.location.href);
-    const file = url.pathname.split("/").filter(Boolean).pop() || "dashboard.html";
+    const file = url.pathname.split("/").filter(Boolean).pop() || "dashboard.php";
     return `${file}${url.hash}`;
   }
 
   function currentRoute() {
-    const file = window.location.pathname.split("/").filter(Boolean).pop() || "dashboard.html";
+    const file = window.location.pathname.split("/").filter(Boolean).pop() || "dashboard.php";
     return `${file}${window.location.hash}`;
   }
 
@@ -378,7 +378,7 @@
     document.querySelectorAll("[data-logout]").forEach((el) => {
       el.addEventListener("click", (event) => {
         event.preventDefault();
-        if (window.ReliableAuth) window.ReliableAuth.logout("login.html");
+        if (window.ReliableAuth) window.ReliableAuth.logout("login.php");
       });
     });
 
@@ -428,7 +428,7 @@
   }
 
   function render(page) {
-    if (window.ReliableAuth) window.ReliableAuth.requireAuth("login.html");
+    if (window.ReliableAuth) window.ReliableAuth.requireAuth("login.php");
     document.title = `${page.title} | Reliable Socials`;
     const app = document.getElementById("app");
     app.innerHTML = `

@@ -22,7 +22,7 @@
     <main class="relative mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center px-5 py-0 lg:px-10">
       <section class="grid w-full max-w-6xl overflow-hidden rounded-[32px] border border-white/15 bg-white/10 shadow-[0_30px_110px_rgba(8,47,73,0.45)] backdrop-blur-xl lg:grid-cols-[1.1fr_0.9fr]">
         <div class="hidden p-10 lg:flex lg:flex-col lg:justify-between">
-          <a href="index.html" class="inline-flex items-center gap-3">
+          <a href="index.php" class="inline-flex items-center gap-3">
             <img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-10 w-auto" />
           </a>
 
@@ -45,14 +45,14 @@
         </div>
 
         <div class="bg-white p-7 text-slate-900 sm:p-10">
-          <a href="index.html" class="inline-flex items-center gap-3 lg:hidden">
+          <a href="index.php" class="inline-flex items-center gap-3 lg:hidden">
             <img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-9 w-auto" />
           </a>
 
           <h2 class="mt-6 text-3xl font-extrabold text-slate-900">Welcome Back</h2>
           <p class="mt-2 text-sm text-slate-500">Login to continue to your Reliable Socials account.</p>
 
-          <form id="loginForm" class="mt-8 space-y-5" action="dashboard.html">
+          <form id="loginForm" class="mt-8 space-y-5" action="dashboard.php">
             <div>
               <label class="mb-2 block text-sm font-bold text-slate-700" for="email">Email</label>
               <input id="email" type="email" placeholder="you@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
@@ -92,7 +92,7 @@
 
           <p class="mt-7 text-center text-sm text-slate-500">
             New here?
-            <a href="register.html" class="font-extrabold text-blue-600 hover:text-blue-700">Create account</a>
+            <a href="register.php" class="font-extrabold text-blue-600 hover:text-blue-700">Create account</a>
           </p>
         </div>
       </section>
@@ -121,7 +121,7 @@
           password?.value || "",
           !!rememberCheckbox?.checked
         );
-        window.location.href = "dashboard.html";
+        window.location.href = "dashboard.php";
       } catch (err) {
         alert(err?.message || "Unable to sign in right now.");
       }
@@ -130,7 +130,7 @@
     googleLoginBtn?.addEventListener("click", async () => {
       try {
         await ReliableAuth.loginWithGoogle();
-        window.location.href = "dashboard.html";
+        window.location.href = "dashboard.php";
       } catch (err) {
         alert(err?.message || "Google sign-in failed.");
       }

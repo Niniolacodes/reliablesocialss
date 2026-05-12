@@ -16,13 +16,13 @@
     <aside id="mobileSidebar" class="fixed left-0 top-0 z-40 h-screen w-[272px] -translate-x-full overflow-y-auto bg-slate-900 text-slate-200 transition-transform duration-300 ease-out lg:static lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen">
       <div class="border-b border-slate-800 px-6 py-6">
         <div class="flex items-center justify-between">
-          <a href="dashboard.html" class="inline-flex items-center"><img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-10 w-auto" /></a>
+          <a href="dashboard.php" class="inline-flex items-center"><img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-10 w-auto" /></a>
           <button id="closeSidebarBtn" type="button" class="grid h-9 w-9 place-items-center rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 lg:hidden" aria-label="Close menu"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
         </div>
       </div>
       <nav class="space-y-2 px-4 py-5 text-sm font-semibold">
   <p class="px-3 pb-1 pt-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Menu</p>
-  <a href="dashboard.html" class="block rounded-xl bg-blue-600 px-4 py-3 text-white">Dashboard</a>
+  <a href="dashboard.php" class="block rounded-xl bg-blue-600 px-4 py-3 text-white">Dashboard</a>
   <button type="button" class="add-fund-toggle flex w-full items-center justify-between rounded-xl px-4 py-3 text-left hover:bg-slate-800" aria-expanded="false">
   <span>Add Fund</span>
   <span class="add-fund-caret inline-flex text-slate-400 transition-transform duration-200"><svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -153,7 +153,7 @@
   <script src="./dashboard-shell.js"></script>
   <script>
     const ReliableAuth = window.ReliableAuth;
-    ReliableAuth.requireAuth("login.html");
+    ReliableAuth.requireAuth("login.php");
     const openSidebarBtn = document.getElementById("openSidebarBtn");
     const closeSidebarBtn = document.getElementById("closeSidebarBtn");
     const mobileSidebar = document.getElementById("mobileSidebar");
@@ -161,7 +161,7 @@
     const openMenu = () => { mobileBackdrop.classList.remove("hidden"); requestAnimationFrame(() => { mobileBackdrop.classList.remove("opacity-0"); mobileSidebar.classList.remove("-translate-x-full"); }); openSidebarBtn?.setAttribute("aria-expanded", "true"); document.body.style.overflow = "hidden"; };
     const closeMenu = () => { mobileBackdrop.classList.add("opacity-0"); mobileSidebar.classList.add("-translate-x-full"); openSidebarBtn?.setAttribute("aria-expanded", "false"); setTimeout(() => mobileBackdrop.classList.add("hidden"), 280); document.body.style.overflow = ""; };
     openSidebarBtn?.addEventListener("click", openMenu); closeSidebarBtn?.addEventListener("click", closeMenu); mobileBackdrop?.addEventListener("click", closeMenu);
-    ReliableAuth.bindLogout("[data-logout]", "login.html");
+    ReliableAuth.bindLogout("[data-logout]", "login.php");
     window.addEventListener("resize", () => { if (window.innerWidth >= 1024) { mobileBackdrop.classList.add("hidden", "opacity-0"); mobileSidebar.classList.remove("-translate-x-full"); document.body.style.overflow = ""; } else { mobileSidebar.classList.add("-translate-x-full"); } });
     const dashboardHelpers = window.ReliableDashboard;
     dashboardHelpers.refreshWalletDisplays();

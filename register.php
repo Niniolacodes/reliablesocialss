@@ -19,7 +19,7 @@
 
     <main class="relative mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center px-5 py-0 lg:px-10">
       <section class="w-full max-w-3xl rounded-[32px] border border-blue-100 bg-white/95 p-7 shadow-[0_30px_90px_rgba(37,99,235,0.16)] backdrop-blur sm:p-10">
-        <a href="index.html" class="mx-auto block w-fit">
+        <a href="index.php" class="mx-auto block w-fit">
           <img src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png" alt="Reliable Socials" class="h-11 w-auto" />
         </a>
 
@@ -67,7 +67,7 @@
 
         <p class="mt-7 text-center text-sm text-slate-500">
           Already have an account?
-          <a href="login.html" class="font-extrabold text-blue-600 hover:text-blue-700">Login</a>
+          <a href="login.php" class="font-extrabold text-blue-600 hover:text-blue-700">Login</a>
         </p>
       </section>
     </main>
@@ -92,7 +92,7 @@
         phone: document.getElementById("phone")?.value || "",
       })
         .then(() => {
-          window.location.href = "dashboard.html";
+          window.location.href = "dashboard.php";
         })
         .catch((err) => {
           alert(err?.message || "Unable to create account right now.");
