@@ -1,9 +1,25 @@
 <?php
 declare(strict_types=1);
 
+const DATA_DIR = __DIR__ . '/../data';
+const USERS_FILE = DATA_DIR . '/users.json';
+const SESSION_DIR = DATA_DIR . '/sessions';
+
 $isSecure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 
 if (session_status() === PHP_SESSION_NONE) {
+    if (!is_dir(DATA_DIR)) {
+        @mkdir(DATA_DIR, 0775, true);
+    }
+
+    if (!is_dir(SESSION_DIR)) {
+        @mkdir(SESSION_DIR, 0775, true);
+    }
+
+    if (is_dir(SESSION_DIR) && is_writable(SESSION_DIR)) {
+        session_save_path(SESSION_DIR);
+    }
+
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
@@ -11,10 +27,22 @@ if (session_status() === PHP_SESSION_NONE) {
         'httponly' => true,
         'samesite' => 'Lax',
     ]);
-    session_start();
+
+    if (!@session_start()) {
+        reliable_bootstrap_failure('Unable to start a PHP session. Make sure data/sessions is writable on your host.');
+    }
 }
 
-const USERS_FILE = __DIR__ . '/../data/users.json';
+function reliable_bootstrap_failure(string $message): void
+{
+    if (!headers_sent()) {
+        http_response_code(500);
+        header('Content-Type: text/plain; charset=UTF-8');
+    }
+
+    echo $message;
+    exit;
+}
 
 function h(?string $value): string
 {
@@ -23,13 +51,19 @@ function h(?string $value): string
 
 function data_dir(): string
 {
-    return dirname(USERS_FILE);
+    return DATA_DIR;
 }
 
 function ensure_data_dir(): void
 {
-    if (!is_dir(data_dir())) {
-        mkdir(data_dir(), 0775, true);
+    $dir = data_dir();
+
+    if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+        throw new RuntimeException('Unable to create the data directory. Check hosting file permissions.');
+    }
+
+    if (!is_writable($dir)) {
+        throw new RuntimeException('The data directory is not writable. Give the data folder write permission on your PHP host.');
     }
 }
 
@@ -49,7 +83,7 @@ function verify_csrf(?string $token): bool
         && hash_equals($_SESSION['csrf_token'] ?? '', $token);
 }
 
-function redirect_to(string $path): never
+function redirect_to(string $path): void
 {
     header("Location: {$path}");
     exit;
@@ -75,20 +109,37 @@ function read_users(): array
         return [];
     }
 
-    $json = file_get_contents(USERS_FILE);
+    if (!is_readable(USERS_FILE)) {
+        throw new RuntimeException('Unable to read users.json. Check hosting file permissions.');
+    }
+
+    $json = @file_get_contents(USERS_FILE);
+
+    if ($json === false) {
+        throw new RuntimeException('Unable to read users.json. Check hosting file permissions.');
+    }
+
     $users = json_decode($json ?: '{}', true);
 
-    return is_array($users) ? $users : [];
+    if (!is_array($users)) {
+        throw new RuntimeException('users.json is invalid. Replace it with an empty JSON object: {}');
+    }
+
+    return $users;
 }
 
 function write_users(array $users): void
 {
     ensure_data_dir();
-    file_put_contents(
-        USERS_FILE,
-        json_encode($users, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
-        LOCK_EX
-    );
+    $json = json_encode($users, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
+    if ($json === false) {
+        throw new RuntimeException('Unable to encode user data.');
+    }
+
+    if (@file_put_contents(USERS_FILE, $json, LOCK_EX) === false) {
+        throw new RuntimeException('Unable to save users.json. Give the data folder write permission on your PHP host.');
+    }
 }
 
 function normalize_email(?string $email): string
@@ -252,7 +303,7 @@ function json_input(): array
     return is_array($data) ? $data : [];
 }
 
-function json_response(array $payload, int $status = 200): never
+function json_response(array $payload, int $status = 200): void
 {
     http_response_code($status);
     header('Content-Type: application/json');
