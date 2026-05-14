@@ -1,12 +1,17 @@
 const AUTH_KEY = "rs_auth";
 const USER_KEY = "rs_user";
+const USERS_KEY = "rs_users";
 
-function authConfig() {
-  return window.ReliableAuthConfig || {};
+function readUsers() {
+  try {
+    return JSON.parse(localStorage.getItem(USERS_KEY) || "{}");
+  } catch {
+    return {};
+  }
 }
 
-function sessionPayload() {
-  return window.ReliableSession || { authenticated: false, user: null };
+function writeUsers(users) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
 function cacheUser(userData) {
@@ -19,99 +24,80 @@ function clearCache() {
   localStorage.removeItem(USER_KEY);
 }
 
-function rememberServerUser() {
-  const session = sessionPayload();
-  if (session.authenticated && session.user) {
-    cacheUser(session.user);
-    return session.user;
+async function loginWithEmail(email, password) {
+  const users = readUsers();
+  const key = (email || "").trim().toLowerCase();
+  const entry = users[key];
+  if (!entry || entry.password !== password) {
+    throw new Error("Invalid email or password.");
   }
-
-  return null;
-}
-
-async function authRequest(action, payload = {}) {
-  const config = authConfig();
-  const response = await fetch(config.apiUrl || "auth-api.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": config.csrfToken || "",
-    },
-    body: JSON.stringify({
-      action,
-      csrf_token: config.csrfToken || "",
-      ...payload,
-    }),
-  });
-
-  let data = {};
-  try {
-    data = await response.json();
-  } catch {
-    data = {};
-  }
-
-  if (!response.ok || data.ok === false) {
-    throw new Error(data.message || "Unable to complete request.");
-  }
-
-  if (data.csrfToken) {
-    window.ReliableAuthConfig = {
-      ...config,
-      csrfToken: data.csrfToken,
-    };
-  }
-
-  if (data.user) {
-    window.ReliableSession = {
-      authenticated: true,
-      user: data.user,
-    };
-    cacheUser(data.user);
-  }
-
-  return data;
-}
-
-async function loginWithEmail(email, password, remember = false) {
-  const data = await authRequest("login", { email, password, remember });
-  return data.user;
+  const user = {
+    uid: entry.uid,
+    email: entry.email,
+    firstName: entry.firstName || "",
+    lastName: entry.lastName || "",
+    phone: entry.phone || "",
+  };
+  cacheUser(user);
+  return user;
 }
 
 async function registerWithEmail(payload) {
-  const data = await authRequest("register", payload);
-  return data.user;
+  const email = (payload?.email || "").trim();
+  const password = payload?.password || "";
+  const firstName = payload?.firstName || "";
+  const lastName = payload?.lastName || "";
+  const phone = payload?.phone || "";
+
+  if (!email || !password) {
+    throw new Error("Email and password are required.");
+  }
+
+  const users = readUsers();
+  const key = email.toLowerCase();
+  if (users[key]) {
+    throw new Error("Account already exists for this email.");
+  }
+
+  const user = {
+    uid: `local_${Date.now()}`,
+    email,
+    firstName,
+    lastName,
+    phone,
+    password,
+    createdAt: new Date().toISOString(),
+  };
+
+  users[key] = user;
+  writeUsers(users);
+  cacheUser({ uid: user.uid, email, firstName, lastName, phone });
+  return user;
 }
 
 async function loginWithGoogle() {
-  const data = await authRequest("google");
-  return data.user;
+  const user = {
+    uid: `local_google_${Date.now()}`,
+    email: "google-user@reliablesocials.local",
+    firstName: "Google",
+    lastName: "User",
+  };
+  cacheUser(user);
+  return user;
 }
 
-function requireAuth(redirectTo = "login.php") {
-  if (rememberServerUser()) {
-    return true;
+function requireAuth(redirectTo = "login.html") {
+  if (localStorage.getItem(AUTH_KEY) !== "1") {
+    window.location.href = redirectTo;
   }
-
-  clearCache();
-  window.location.href = redirectTo;
-  return false;
 }
 
-async function logout(redirectTo = "login.php") {
-  try {
-    await authRequest("logout");
-  } catch {
-    clearCache();
-    window.location.href = "logout.php";
-    return;
-  }
-
+async function logout(redirectTo = "login.html") {
   clearCache();
   window.location.href = redirectTo;
 }
 
-function bindLogout(selector = "[data-logout]", redirectTo = "login.php") {
+function bindLogout(selector = "[data-logout]", redirectTo = "login.html") {
   document.querySelectorAll(selector).forEach((el) => {
     el.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -119,8 +105,6 @@ function bindLogout(selector = "[data-logout]", redirectTo = "login.php") {
     });
   });
 }
-
-rememberServerUser();
 
 window.ReliableAuth = {
   loginWithEmail,
@@ -130,3 +114,4 @@ window.ReliableAuth = {
   logout,
   bindLogout,
 };
+

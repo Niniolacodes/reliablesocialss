@@ -3,13 +3,1190 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="refresh" content="0; url=index.php" />
   <title>Reliable Socials</title>
-  <script>
-    window.location.replace("index.php");
-  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    @keyframes phoneMove {
+      0% { transform: rotate(-2deg) translateX(0); }
+      50% { transform: rotate(2deg) translateX(6px); }
+      100% { transform: rotate(-2deg) translateX(0); }
+    }
+
+    @keyframes socialSlide {
+      0% {
+        transform: translateX(-170px);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateX(560px);
+        opacity: 0;
+      }
+    }
+
+    @keyframes otpFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes otpDigitPop {
+      0% {
+        transform: translateY(8px) scale(0.94);
+        opacity: 0.45;
+      }
+
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .phone-animate {
+      animation: phoneMove 3s ease-in-out infinite;
+    }
+
+    .social-float {
+      animation: socialSlide 6s linear infinite;
+    }
+
+    .social-float-slow {
+      animation: socialSlide 8s linear infinite;
+    }
+
+    .social-float-delay {
+      animation: socialSlide 7s linear infinite;
+      animation-delay: 1.5s;
+    }
+
+    .social-float-delay-two {
+      animation: socialSlide 9s linear infinite;
+      animation-delay: 2.5s;
+    }
+
+    .hero-otp-card {
+      animation: otpFloat 4s ease-in-out infinite;
+    }
+
+    .otp-digit.is-changing {
+      animation: otpDigitPop 0.32s ease-out;
+    }
+
+    .social-logo {
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-size: 0 !important;
+      box-shadow: 0 16px 35px rgba(15, 23, 42, 0.22);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 58%, cover;
+    }
+
+    .social-logo svg {
+      width: 58%;
+      height: 58%;
+    }
+
+    .logo-instagram {
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Crect x='5' y='5' width='14' height='14' rx='4' stroke='white' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='3.2' stroke='white' stroke-width='2'/%3E%3Ccircle cx='16.8' cy='7.3' r='1.1' fill='white'/%3E%3C/svg%3E"),
+        radial-gradient(circle at 30% 107%, #fdf497 0 12%, #fd5949 42%, #d6249f 68%, #285aeb 100%);
+    }
+
+    .logo-youtube {
+      background-color: #ff0033 !important;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9.5 7.8v8.4L16.8 12 9.5 7.8Z' fill='white'/%3E%3C/svg%3E");
+      background-size: 54%;
+    }
+
+    .logo-facebook {
+      background-color: #1877f2 !important;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='12' y='19' text-anchor='middle' font-family='Arial' font-size='22' font-weight='900' fill='white'%3Ef%3C/text%3E%3C/svg%3E");
+      background-size: 62%;
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+    }
+
+    .logo-tiktok {
+      background-color: #111827 !important;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M14 4v9.3a4.2 4.2 0 1 1-3-4' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14 4c.8 2.5 2.6 4.1 5 4.5' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+
+    .logo-x {
+      background-color: #0f172a !important;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 5l12 14M18 5L6 19' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: 52%;
+    }
+
+    .logo-whatsapp {
+      background-color: #25d366 !important;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5.6 18.4 6.5 15A7.2 7.2 0 1 1 9 17.5l-3.4.9Z' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M9.3 8.8c.2-.4.4-.5.8-.4l1 .2c.3.1.5.4.6.7l.3 1c.1.3 0 .6-.3.8l-.5.4c.7 1.2 1.6 2.1 2.9 2.8l.5-.6c.2-.2.5-.3.8-.2l1 .4c.3.1.5.4.5.7l.1 1c0 .4-.2.6-.5.8-.6.3-1.4.4-2.3.1-2.8-.8-5-3-5.8-5.8-.2-.8-.1-1.5.2-2Z' fill='white'/%3E%3C/svg%3E");
+    }
+
+    .phone-shell {
+      box-shadow:
+        0 30px 65px rgba(37, 99, 235, 0.28),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+    }
+
+    .hero-switch-item {
+      transition:
+        opacity 0.36s ease,
+        transform 0.36s ease,
+        filter 0.36s ease;
+    }
+
+    .hero-switch-item.is-switching {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+      filter: blur(3px);
+    }
+
+    .hero-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #cbd5e1;
+      transition:
+        width 0.28s ease,
+        background-color 0.28s ease,
+        box-shadow 0.28s ease;
+    }
+
+    .hero-dot.is-active {
+      width: 24px;
+      background: #2563eb;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+    }
+
+    .faq-item summary {
+      list-style: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-section {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      margin-top: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition:
+        max-height 0.34s ease,
+        opacity 0.28s ease,
+        transform 0.28s ease;
+    }
+
+    .faq-item[open] .faq-answer {
+      max-height: 220px;
+      margin-top: 1.25rem;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .faq-arrow {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      place-items: center;
+      border-radius: 16px;
+      color: #2563eb;
+      background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        linear-gradient(135deg, rgba(37, 99, 235, 0.28), rgba(245, 158, 11, 0.38)) border-box;
+      border: 1px solid transparent;
+      box-shadow: 0 14px 32px rgba(37, 99, 235, 0.12);
+      transition:
+        transform 0.28s ease,
+        background 0.28s ease,
+        color 0.28s ease,
+        box-shadow 0.28s ease;
+    }
+
+    .faq-arrow svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .faq-item[open] .faq-arrow {
+      transform: rotate(180deg);
+      background: linear-gradient(135deg, #2563eb, #f59e0b);
+      color: #ffffff;
+      box-shadow: 0 18px 38px rgba(245, 158, 11, 0.28);
+    }
+
+    .menu-button {
+      transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .menu-button.is-open {
+      border-color: rgba(37, 99, 235, 0.25);
+      background: #eff6ff;
+      box-shadow: 0 12px 25px rgba(37, 99, 235, 0.12);
+    }
+
+    .menu-line {
+      display: block;
+      width: 18px;
+      height: 2px;
+      border-radius: 9999px;
+      background: #1e293b;
+      transition:
+        transform 0.25s ease,
+        opacity 0.2s ease,
+        background-color 0.25s ease;
+    }
+
+    .menu-button.is-open .menu-line {
+      background: #2563eb;
+    }
+
+    .menu-button.is-open .menu-line:first-child {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .menu-button.is-open .menu-line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-button.is-open .menu-line:last-child {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .mobile-menu-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 16px;
+      padding: 14px 16px;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      transition:
+        color 0.22s ease,
+        border-color 0.22s ease,
+        transform 0.22s ease,
+        box-shadow 0.22s ease;
+    }
+
+    .mobile-menu-link:hover {
+      color: #2563eb;
+      border-color: rgba(37, 99, 235, 0.24);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+    }
+
+    .mobile-menu-link.is-primary {
+      color: #ffffff;
+      background: #2563eb;
+      border-color: #2563eb;
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.18);
+    }
+
+    .mobile-menu-link.is-primary:hover {
+      color: #ffffff;
+      background: #1d4ed8;
+    }
+
+    .mobile-menu-link::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(-45deg);
+    }
+
+    @keyframes ctaFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes ctaProgress {
+      0% {
+        width: 36%;
+      }
+
+      50% {
+        width: 82%;
+      }
+
+      100% {
+        width: 58%;
+      }
+    }
+
+    .market-cta-panel {
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(135deg, #064e3b 0%, #0f766e 42%, #1e3a8a 100%);
+      background-size: 56px 56px, 56px 56px, cover;
+    }
+
+    .market-cta-visual {
+      animation: ctaFloat 5s ease-in-out infinite;
+    }
+
+    .market-cta-progress {
+      animation: ctaProgress 4s ease-in-out infinite;
+    }
+
+  </style>
 </head>
-<body>
-  <p>Opening Reliable Socials... <a href="index.php">Continue</a></p>
+
+<body class="bg-white text-slate-900 overflow-x-hidden">
+
+  <!-- FIXED HEADER -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-5 lg:px-10 py-4 flex items-center justify-between">
+
+      <a href="#">
+        <img
+          src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778001448/ChatGPT_Image_May_5_2026_06_14_51_PM_sa1bnv.png"
+          alt="Reliable Socials"
+          class="w-28 md:w-32 object-contain"
+        />
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-500">
+        <a href="#" class="hover:text-blue-600">Home</a>
+        <a href="#" class="hover:text-blue-600">About Us</a>
+        <a href="#" class="hover:text-blue-600">Contact Us</a>
+        <a href="#" class="hover:text-blue-600">Blogs</a>
+        <a href="#" class="hover:text-blue-600">Web API Documentation</a>
+        <a href="#" class="hover:text-blue-600">Reliable Socials Status</a>
+        <a href="register.html" class="hover:text-blue-600">Register</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a href="login.html" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-blue-700">Login</a>
+
+        <button
+          id="menuBtn"
+          class="menu-button lg:hidden grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          <span class="grid gap-1">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-100 bg-white/95 px-5 pb-5 pt-2 shadow-[0_24px_50px_rgba(15,23,42,0.1)] backdrop-blur">
+      <nav class="mx-auto flex max-w-md flex-col gap-2 rounded-[24px] border border-blue-50 bg-[#f7fbff] p-3">
+        <a href="#" class="mobile-menu-link">Home</a>
+        <a href="#" class="mobile-menu-link">About Us</a>
+        <a href="#" class="mobile-menu-link">Contact Us</a>
+        <a href="#" class="mobile-menu-link">Blogs</a>
+        <a href="#" class="mobile-menu-link">Web API Documentation</a>
+        <a href="#" class="mobile-menu-link">Reliable Socials Status</a>
+        <a href="register.html" class="mobile-menu-link is-primary">Register</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="pt-24">
+    <section class="max-w-7xl mx-auto px-5 lg:px-10 pt-8 pb-16 grid lg:grid-cols-2 items-center gap-6 lg:gap-8 min-h-[640px]">
+
+      <!-- LEFT CONTENT -->
+      <div>
+        <div id="heroIcon" class="hero-switch-item w-10 h-10 rounded-xl bg-blue-100 text-blue-600 grid place-items-center text-xl mb-5">
+          📶
+        </div>
+
+        <h2 id="heroTitle" class="hero-switch-item text-2xl font-extrabold mb-3">
+          Buy <span class="text-blue-600">Data</span>
+        </h2>
+
+        <p id="heroText" class="hero-switch-item text-base text-slate-700 mb-4">
+          Stay Connected with Cheap Data.
+        </p>
+
+        <div id="heroSlideDots" class="mb-8 flex items-center gap-2" aria-hidden="true">
+          <span class="hero-dot is-active"></span>
+          <span class="hero-dot"></span>
+          <span class="hero-dot"></span>
+        </div>
+
+        <p class="text-blue-600 font-bold text-base mb-6">
+          Personal & Business boost with Reliable Socials
+        </p>
+
+        <h1 class="text-[40px] sm:text-[56px] lg:text-[72px] leading-[1.05] tracking-[-3px] font-extrabold text-slate-700 mb-10">
+          <span class="text-blue-600">Grow Faster,</span><br />
+          Spend Less.<br />
+          Use Reliable Socials!
+        </h1>
+
+        <div class="flex flex-col sm:flex-row gap-4 mb-14 lg:mb-0">
+          <a href="register.html" class="bg-blue-600 text-white px-7 py-4 rounded-xl font-extrabold text-center hover:bg-blue-700">Register</a>
+
+          <a href="#" class="bg-slate-100 text-slate-400 px-7 py-4 rounded-xl font-extrabold text-center hover:bg-slate-200">
+            Download App
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT CONTENT -->
+      <div class="relative flex justify-center items-center">
+
+        <div class="absolute top-1 right-0 sm:right-5 lg:right-2 z-30 pointer-events-none">
+          <div class="hero-otp-card w-[268px] rounded-[22px] border border-white/70 bg-white/95 p-4 shadow-[0_22px_60px_rgba(37,99,235,0.22)] backdrop-blur-xl">
+            <div class="mb-3 flex items-center justify-between gap-3">
+              <div>
+                <p class="text-[10px] font-black uppercase tracking-[0.18em] text-blue-600">
+                  OTP Verification
+                </p>
+                <p class="mt-1 text-xs font-bold text-slate-500">
+                  6-digit secure code
+                </p>
+              </div>
+
+              <div class="grid h-10 w-10 place-items-center rounded-xl bg-blue-600 text-[11px] font-black text-white shadow-[0_10px_25px_rgba(37,99,235,0.3)]">
+                OTP
+              </div>
+            </div>
+
+            <div id="heroOtp" class="grid grid-cols-6 gap-1.5">
+              <span class="otp-digit grid h-11 w-8 place-items-center rounded-xl border border-blue-100 bg-blue-50 text-xl font-black text-blue-700 shadow-inner">0</span>
+              <span class="otp-digit grid h-11 w-8 place-items-center rounded-xl border border-blue-100 bg-blue-50 text-xl font-black text-blue-700 shadow-inner">0</span>
+              <span class="otp-digit grid h-11 w-8 place-items-center rounded-xl border border-blue-100 bg-blue-50 text-xl font-black text-blue-700 shadow-inner">0</span>
+              <span class="otp-digit grid h-11 w-8 place-items-center rounded-xl border border-blue-100 bg-blue-50 text-xl font-black text-blue-700 shadow-inner">0</span>
+              <span class="otp-digit grid h-11 w-8 place-items-center rounded-xl border border-blue-100 bg-blue-50 text-xl font-black text-blue-700 shadow-inner">0</span>
+              <span class="otp-digit grid h-11 w-8 place-items-center rounded-xl border border-blue-100 bg-blue-50 text-xl font-black text-blue-700 shadow-inner">0</span>
+            </div>
+
+            <div class="mt-3 flex items-center gap-2 text-[11px] font-extrabold text-slate-500">
+              <span class="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_5px_rgba(52,211,153,0.15)]"></span>
+              Live secure refresh
+            </div>
+          </div>
+        </div>
+
+        <div class="phone-animate relative mt-4 sm:mt-10 w-[330px] sm:w-[480px] h-[480px] sm:h-[560px] overflow-hidden">
+
+          <!-- SOCIAL LOGOS MOVING LEFT TO RIGHT BEHIND PHONE -->
+          <div class="absolute inset-0 z-0 opacity-80 overflow-hidden">
+
+            <div class="social-float social-logo logo-instagram absolute top-8 left-0 w-14 h-14 rounded-2xl bg-red-500 text-white grid place-items-center text-3xl shadow-xl">
+              ◎
+            </div>
+
+            <div class="social-float-slow social-logo logo-x absolute top-28 left-0 w-14 h-14 rounded-full bg-sky-400 text-white grid place-items-center text-2xl shadow-xl">
+              𝕏
+            </div>
+
+            <div class="social-float-delay social-logo logo-facebook absolute top-48 left-0 w-16 h-16 rounded-full bg-blue-600 text-white grid place-items-center text-3xl shadow-xl">
+              👍
+            </div>
+
+            <div class="social-float-delay-two social-logo logo-youtube absolute bottom-24 left-0 w-14 h-14 rounded-2xl bg-pink-500 text-white grid place-items-center text-3xl shadow-xl">
+              ❤
+            </div>
+
+            <div class="social-float-slow social-logo logo-whatsapp absolute bottom-10 left-0 w-12 h-12 rounded-full bg-blue-500 text-white grid place-items-center text-2xl font-black shadow-xl">
+              f
+            </div>
+
+            <div class="social-float-delay social-logo logo-tiktok absolute top-4 left-0 w-16 h-16 rounded-full bg-orange-400 text-white grid place-items-center text-3xl shadow-xl">
+              ▶
+            </div>
+          </div>
+
+          <!-- FRONT FLOATING ICONS -->
+          <div class="social-logo logo-youtube absolute top-20 right-0 w-28 h-24 bg-red-500 rounded-[45%] rotate-12 shadow-xl grid place-items-center text-4xl z-30">
+            ❤
+          </div>
+
+          <div class="social-logo logo-instagram absolute top-2 right-24 w-20 h-20 bg-orange-400 rounded-full shadow-xl grid place-items-center text-3xl z-30">
+            ▶
+          </div>
+
+          <!-- MAIN PHONE -->
+          <div class="phone-shell absolute bottom-0 left-20 sm:left-28 w-[220px] sm:w-[270px] h-[380px] sm:h-[470px] bg-gradient-to-br from-blue-500 via-blue-700 to-slate-900 rounded-[42px] p-3 rotate-[-4deg] shadow-2xl z-20">
+            <div class="relative w-full h-full rounded-[32px] overflow-hidden bg-gradient-to-br from-white via-blue-50 to-orange-100">
+
+              <div class="absolute top-4 left-1/2 -translate-x-1/2 w-14 h-2 bg-slate-900/70 rounded-full z-30"></div>
+
+              <div class="absolute inset-x-4 top-10 z-10 rounded-[28px] bg-white/85 p-3 shadow-[0_18px_42px_rgba(15,23,42,0.14)] backdrop-blur">
+                <div class="flex items-center gap-3">
+                  <div class="grid h-11 w-11 place-items-center rounded-2xl bg-blue-600 text-sm font-black text-white">
+                    RS
+                  </div>
+                  <div>
+                    <p class="text-[10px] font-black uppercase tracking-[0.14em] text-blue-600">
+                      Social Boost
+                    </p>
+                    <p class="text-sm font-black text-slate-800">
+                      Campaign live
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mt-4 grid grid-cols-3 gap-2">
+                  <div class="rounded-2xl bg-blue-50 p-2 text-center">
+                    <p class="text-base font-black text-blue-600">28k</p>
+                    <p class="text-[9px] font-bold text-slate-400">Reach</p>
+                  </div>
+                  <div class="rounded-2xl bg-orange-50 p-2 text-center">
+                    <p class="text-base font-black text-orange-500">4.9</p>
+                    <p class="text-[9px] font-bold text-slate-400">Rate</p>
+                  </div>
+                  <div class="rounded-2xl bg-emerald-50 p-2 text-center">
+                    <p class="text-base font-black text-emerald-500">99%</p>
+                    <p class="text-[9px] font-bold text-slate-400">Done</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="absolute inset-x-4 bottom-5 z-10 rounded-[26px] bg-slate-900/90 p-4 text-white shadow-[0_18px_40px_rgba(15,23,42,0.22)]">
+                <div class="mb-3 flex items-center justify-between">
+                  <p class="text-xs font-black">Orders today</p>
+                  <span class="rounded-full bg-emerald-400/20 px-2 py-1 text-[10px] font-black text-emerald-300">Live</span>
+                </div>
+                <div class="h-2 overflow-hidden rounded-full bg-white/15">
+                  <div class="h-full w-4/5 rounded-full bg-gradient-to-r from-blue-400 to-emerald-300"></div>
+                </div>
+                <p class="mt-3 text-[11px] font-bold text-white/70">
+                  Fast delivery across every major platform.
+                </p>
+              </div>
+
+              <div class="social-logo logo-instagram absolute -left-8 top-24 w-16 h-16 rounded-2xl bg-red-500 text-white grid place-items-center text-3xl shadow-xl">
+                ◎
+              </div>
+
+              <div class="social-logo logo-x absolute left-10 top-32 w-16 h-16 rounded-full bg-sky-400 text-white grid place-items-center text-3xl shadow-xl">
+                𝕏
+              </div>
+
+              <div class="social-logo logo-facebook absolute right-4 top-32 w-20 h-20 rounded-full bg-blue-600 text-white grid place-items-center text-4xl shadow-xl">
+                👍
+              </div>
+
+              <div class="social-logo logo-tiktok absolute left-20 top-20 w-12 h-12 rounded-full bg-pink-700 text-white grid place-items-center text-2xl shadow-xl">
+                ◉
+              </div>
+
+              <div class="social-logo logo-youtube absolute right-4 top-10 w-10 h-10 rounded-xl bg-orange-500 text-white grid place-items-center text-xl shadow-xl">
+                ◎
+              </div>
+
+              <div class="social-logo logo-whatsapp absolute left-10 bottom-24 w-16 h-16 rounded-3xl bg-pink-100 text-slate-900 grid place-items-center text-4xl shadow-xl">
+                ⌣
+              </div>
+
+              <div class="social-logo logo-instagram absolute right-10 bottom-24 w-14 h-14 rounded-2xl bg-pink-400 text-white grid place-items-center text-3xl shadow-xl">
+                ❤
+              </div>
+
+              <div class="social-logo logo-x absolute left-20 bottom-10 w-14 h-14 rounded-full bg-sky-400 text-white grid place-items-center text-2xl shadow-xl">
+                𝕏
+              </div>
+
+              <div class="social-logo logo-facebook absolute right-8 bottom-8 w-12 h-12 rounded-2xl bg-blue-600 text-white grid place-items-center text-xl shadow-xl">
+                ∿
+              </div>
+
+            </div>
+          </div>
+
+          <div class="social-logo logo-whatsapp absolute top-16 left-36 h-14 w-14 rounded-full text-5xl z-40"></div>
+          <div class="social-logo logo-tiktok absolute top-28 left-24 h-12 w-12 rounded-2xl text-4xl z-40"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+      const isOpen = !mobileMenu.classList.contains("hidden");
+
+      menuBtn.classList.toggle("is-open", isOpen);
+      menuBtn.setAttribute("aria-expanded", isOpen);
+      menuBtn.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+    });
+
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+        menuBtn.classList.remove("is-open");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.setAttribute("aria-label", "Open menu");
+      });
+    });
+
+    const heroSlides = [
+      {
+        icon: "📶",
+        title: 'Buy <span class="text-blue-600">Data</span>',
+        text: "Stay Connected with Cheap Data.",
+      },
+      {
+        icon: "\uD83D\uDCAC",
+        title: 'SMS <span class="text-blue-600">Verification</span>',
+        text: "Temp numbers for seamless OTP.",
+      },
+      {
+        icon: "🚀",
+        title: 'Social <span class="text-blue-600">Boost</span>',
+        text: "Buy engagements for TikToks, Instagrams, etc.",
+      },
+    ];
+
+    let heroIndex = 0;
+
+    const heroIcon = document.getElementById("heroIcon");
+    const heroTitle = document.getElementById("heroTitle");
+    const heroText = document.getElementById("heroText");
+    const heroSwitchItems = [heroIcon, heroTitle, heroText];
+    const heroDots = document.querySelectorAll(".hero-dot");
+    const otpDigits = document.querySelectorAll(".otp-digit");
+
+    const updateOtpDigits = () => {
+      otpDigits.forEach((digit) => {
+        digit.textContent = Math.floor(Math.random() * 10);
+        digit.classList.remove("is-changing");
+        void digit.offsetWidth;
+        digit.classList.add("is-changing");
+      });
+    };
+
+    const setHeroSlide = (index) => {
+      heroIcon.textContent = heroSlides[index].icon;
+      heroTitle.innerHTML = heroSlides[index].title;
+      heroText.textContent = heroSlides[index].text;
+
+      heroDots.forEach((dot, dotIndex) => {
+        dot.classList.toggle("is-active", dotIndex === index);
+      });
+    };
+
+    const showNextHeroSlide = () => {
+      heroSwitchItems.forEach((item) => item.classList.add("is-switching"));
+
+      setTimeout(() => {
+        heroIndex = (heroIndex + 1) % heroSlides.length;
+        setHeroSlide(heroIndex);
+
+        requestAnimationFrame(() => {
+          heroSwitchItems.forEach((item) => item.classList.remove("is-switching"));
+        });
+      }, 360);
+    };
+
+    setInterval(showNextHeroSlide, 2800);
+
+    updateOtpDigits();
+    setInterval(updateOtpDigits, 950);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- BENEFITS SECTION -->
+<section id="benefits" class="bg-[#eef3fb] py-20 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 lg:px-10">
+
+    <h2 class="scroll-animate opacity-0 -translate-y-12 transition-all duration-1000 ease-out text-center text-2xl md:text-3xl font-extrabold text-slate-500 mb-20">
+      Join over 200,000 satisfied customers who enjoy our service!
+    </h2>
+
+    <div class="grid lg:grid-cols-2 gap-14 items-center">
+
+      <!-- LEFT IMAGE -->
+      <div class="scroll-animate opacity-0 -translate-x-20 transition-all duration-1000 ease-out relative flex justify-center">
+        <div class="relative bg-white rounded-[36px] p-6 w-full max-w-[420px] shadow-sm">
+          <img
+            src="https://res.cloudinary.com/dssaejqkg/image/upload/v1778017995/Screenshot_1881_uahbtn.png"
+            alt="Reliable Socials Benefits"
+            class="w-full object-contain"
+          />
+
+          <!-- 100% CARD -->
+          <div class="scroll-animate opacity-0 translate-y-16 transition-all duration-1000 ease-out absolute -right-10 -bottom-10 w-48 h-48 bg-gradient-to-br from-orange-400 to-orange-500 rounded-[36px] flex flex-col items-center justify-center text-white shadow-xl">
+            <h3 class="text-5xl font-extrabold mb-5">100%</h3>
+            <p class="text-center text-base font-semibold leading-7 px-5">
+              Security in your transactions
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT TEXT -->
+      <div class="scroll-animate opacity-0 translate-x-20 transition-all duration-1000 ease-out">
+        <h2 class="text-[42px] md:text-[56px] leading-tight tracking-[-3px] font-extrabold text-blue-600 mb-10">
+          Exclusive Benefits of<br />
+          Using Reliable Socials
+        </h2>
+
+        <div class="space-y-8">
+
+          <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out flex gap-6">
+            <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.05)]"></div>
+            <div>
+              <h3 class="text-xl font-extrabold text-blue-600 mb-4">Instant Transactions</h3>
+              <p class="text-slate-500 text-lg leading-8">
+                Buy with ease, deposit instantly. Get what you need in seconds - fast.
+              </p>
+            </div>
+          </div>
+
+          <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-200 flex gap-6">
+            <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.05)]"></div>
+            <div>
+              <h3 class="text-xl font-extrabold text-blue-600 mb-4">Most Affordable in the Market</h3>
+              <p class="text-slate-500 text-lg leading-8">
+                Affordable prices guaranteed - no one can match us.
+              </p>
+            </div>
+          </div>
+
+          <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-300 flex gap-6">
+            <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.05)]"></div>
+            <div>
+              <h3 class="text-xl font-extrabold text-blue-600 mb-4">Guaranteed Security</h3>
+              <p class="text-slate-500 text-lg leading-8">
+                Your security, our priority - guaranteed protection for every transaction.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SIMPLE STEPS SECTION -->
+<section class="bg-white px-5 py-20 lg:px-10">
+  <div class="mx-auto max-w-7xl rounded-[40px] bg-[#effafa] px-6 py-16 sm:px-10 lg:px-20 lg:py-24">
+    <div class="mb-16 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <h2 class="scroll-animate opacity-0 -translate-y-12 transition-all duration-1000 ease-out max-w-3xl text-4xl font-extrabold leading-tight text-blue-600 md:text-5xl">
+        Use Reliable Socials In 3 Simple Steps
+      </h2>
+
+      <a
+        href="#"
+        class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out inline-flex w-fit items-center gap-3 rounded-xl bg-blue-600 px-7 py-4 text-sm font-extrabold text-white shadow-[0_18px_35px_rgba(37,99,235,0.22)] hover:bg-blue-700"
+      >
+        Watch Tutorial
+      </a>
+    </div>
+
+    <div class="grid gap-12 md:grid-cols-3 lg:gap-20">
+      <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out">
+        <div class="mb-8 text-orange-400">
+          <svg class="h-16 w-16" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <path d="M14 23.5 30 18c5.5-1.9 10 2.2 10 7.4V46c0 4.4-3.6 8-8 8H19c-5 0-9-4-9-9V31.1c0-3.5 1.7-6.4 4-7.6Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+            <path d="M18 22.5h27c5 0 9 4 9 9V48c0 3.3-2.7 6-6 6H19c-5 0-9-4-9-9V31.5c0-5 3-9 8-9Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+            <path d="M39 36h15v12H39c-3.3 0-6-2.7-6-6s2.7-6 6-6Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+            <path d="M40 42h4" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+          </svg>
+        </div>
+        <h3 class="mb-6 text-xl font-extrabold text-blue-600">Register</h3>
+        <p class="max-w-sm text-lg leading-8 text-slate-500">
+          Create your Reliable Socials account in seconds and get instant access to every service.
+        </p>
+      </div>
+
+      <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-200">
+        <div class="mb-8 text-orange-400">
+          <svg class="h-16 w-16" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <circle cx="27" cy="27" r="16" stroke="currentColor" stroke-width="4" />
+            <path d="M27 17v20M21.5 23c0-3 2.4-5 5.7-5 3 0 5.1 1.7 5.1 4.2 0 2.7-2.1 3.7-5.5 4.7-3.4 1-5.3 2.1-5.3 4.8 0 2.6 2.2 4.3 5.6 4.3 3.5 0 5.8-2 5.8-5" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+            <path d="M39.5 38.5a12 12 0 1 1-13 13" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+          </svg>
+        </div>
+        <h3 class="mb-6 text-xl font-extrabold text-blue-600">Deposit</h3>
+        <p class="max-w-sm text-lg leading-8 text-slate-500">
+          Fund your wallet easily with Naira or Dollar and keep your balance ready for orders.
+        </p>
+      </div>
+
+      <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-300">
+        <div class="mb-8 text-orange-400">
+          <svg class="h-16 w-16" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <path d="M32 48c-8.8 0-16-7.2-16-16s7.2-16 16-16" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+            <path d="M32 12c11 0 20 9 20 20 0 4.3-1.4 8.3-3.7 11.5" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+            <path d="M45 14h9v9" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M54 14 41 27" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+            <path d="M32 22v20M26.5 28c0-3 2.4-5 5.7-5 3 0 5.1 1.7 5.1 4.2 0 2.7-2.1 3.7-5.5 4.7-3.4 1-5.3 2.1-5.3 4.8 0 2.6 2.2 4.3 5.6 4.3 3.5 0 5.8-2 5.8-5" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+          </svg>
+        </div>
+        <h3 class="mb-6 text-xl font-extrabold text-blue-600">Place Order</h3>
+        <p class="max-w-sm text-lg leading-8 text-slate-500">
+          Pick a service, submit your order, and watch Reliable Socials deliver the boost.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section id="faq" class="faq-section bg-[#f5f8fc] px-5 py-20 lg:px-10">
+  <div class="mx-auto max-w-5xl">
+    <div class="mb-16 text-center">
+      <h2 class="scroll-animate opacity-0 -translate-y-12 transition-all duration-1000 ease-out text-4xl font-black leading-tight text-blue-600 md:text-5xl">
+        Explore Our Frequently<br class="hidden sm:block" />
+        Asked Questions
+      </h2>
+      <p class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out mx-auto mt-8 max-w-xl text-lg font-medium leading-8 text-slate-500">
+        Find quick and clear answers to common questions about Reliable Socials.
+      </p>
+    </div>
+
+    <div class="space-y-6">
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out rounded-[26px] border border-white/80 bg-white px-6 py-5 shadow-[0_18px_45px_rgba(15,23,42,0.05)]" open>
+        <summary class="flex cursor-pointer items-center justify-between gap-6">
+          <h3 class="faq-question text-lg font-black leading-snug text-blue-600 md:text-xl">
+            How can I create an account on Reliable Socials?
+          </h3>
+          <span class="faq-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </summary>
+        <p class="faq-answer max-w-3xl text-base font-medium leading-8 text-slate-500 md:text-lg">
+          Create an account with Reliable Socials by clicking on the "Create Account" or "Register" button.
+        </p>
+      </details>
+
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-100 rounded-[26px] border border-white/80 bg-white px-6 py-5 shadow-[0_18px_45px_rgba(15,23,42,0.05)]">
+        <summary class="flex cursor-pointer items-center justify-between gap-6">
+          <h3 class="faq-question text-lg font-black leading-snug text-blue-600 md:text-xl">
+            How do I deposit on Reliable Socials?
+          </h3>
+          <span class="faq-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </summary>
+        <p class="faq-answer max-w-3xl text-base font-medium leading-8 text-slate-500 md:text-lg">
+          Once you are logged in, click on the "Deposit" button for instant funding. All deposits are automated.
+        </p>
+      </details>
+
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-200 rounded-[26px] border border-white/80 bg-white px-6 py-5 shadow-[0_18px_45px_rgba(15,23,42,0.05)]">
+        <summary class="flex cursor-pointer items-center justify-between gap-6">
+          <h3 class="faq-question text-lg font-black leading-snug text-blue-600 md:text-xl">
+            How fast will Reliable Socials process my order?
+          </h3>
+          <span class="faq-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </summary>
+        <p class="faq-answer max-w-3xl text-base font-medium leading-8 text-slate-500 md:text-lg">
+          Your orders are processed immediately after you place them. Order statuses show how each order is being delivered, and different services may have different delivery timelines.
+        </p>
+      </details>
+
+      <details class="faq-item scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out delay-300 rounded-[26px] border border-white/80 bg-white px-6 py-5 shadow-[0_18px_45px_rgba(15,23,42,0.05)]">
+        <summary class="flex cursor-pointer items-center justify-between gap-6">
+          <h3 class="faq-question text-lg font-black leading-snug text-blue-600 md:text-xl">
+            How can I contact Reliable Socials support?
+          </h3>
+          <span class="faq-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </summary>
+        <p class="faq-answer max-w-3xl text-base font-medium leading-8 text-slate-500 md:text-lg">
+          You can reach us through our support mail at support@reliablesocials.com or create a ticket so we can attend to you effectively.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET CTA SECTION -->
+<section class="bg-white px-5 py-20 lg:px-10">
+  <div class="market-cta-panel relative mx-auto max-w-7xl overflow-hidden rounded-[38px] px-6 py-16 text-white shadow-[0_28px_70px_rgba(15,118,110,0.24)] sm:px-10 lg:px-20 lg:py-24">
+    <div class="relative z-10 grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr]">
+      <div class="text-center lg:text-left">
+        <p class="scroll-animate opacity-0 -translate-y-12 transition-all duration-1000 ease-out mb-5 inline-flex rounded-full border border-white/15 bg-white/10 px-5 py-2 text-xs font-black uppercase tracking-[0.18em] text-emerald-100">
+          Reliable Socials Advantage
+        </p>
+
+        <h2 class="scroll-animate opacity-0 -translate-x-20 transition-all duration-1000 ease-out mx-auto max-w-4xl text-4xl font-black leading-tight md:text-5xl lg:mx-0 lg:text-6xl">
+          Buy Like a Pro -<br />
+          Let Reliable Socials Move You Faster.
+        </h2>
+
+        <p class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out mx-auto mt-8 max-w-2xl text-lg font-medium leading-8 text-emerald-50/85 lg:mx-0">
+          Get social boosts, SMS verification, and bill payments from one smart dashboard built for speed, clarity, and real delivery.
+        </p>
+
+        <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out mt-10 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
+          <a href="register.html" class="inline-flex items-center justify-center gap-3 rounded-xl bg-white px-8 py-4 text-sm font-black text-blue-700 shadow-[0_20px_40px_rgba(15,23,42,0.18)] hover:bg-emerald-50">Register</a>
+
+          <a href="#faq" class="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/10 px-8 py-4 text-sm font-black text-white backdrop-blur hover:bg-white/15">
+            Learn More
+          </a>
+        </div>
+      </div>
+
+      <div class="scroll-animate opacity-0 translate-x-20 transition-all duration-1000 ease-out">
+        <div class="market-cta-visual relative mx-auto h-[460px] max-w-[430px]">
+          <div class="absolute left-0 right-0 top-12 rounded-[28px] border border-white/15 bg-white/95 p-4 text-slate-900 shadow-[0_28px_70px_rgba(15,23,42,0.22)] sm:left-2 sm:right-auto sm:w-[320px]">
+            <div class="mb-4 flex items-center justify-between">
+              <div>
+                <p class="text-[11px] font-black uppercase tracking-[0.16em] text-emerald-600">Live Orders</p>
+                <p class="text-xl font-black text-slate-900">Dashboard</p>
+              </div>
+              <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-600">Online</span>
+            </div>
+
+            <div class="space-y-3">
+              <div class="rounded-2xl bg-slate-50 p-3">
+                <div class="mb-2 flex items-center justify-between text-xs font-black text-slate-500">
+                  <span>Instagram Followers</span>
+                  <span class="text-emerald-500">82%</span>
+                </div>
+                <div class="h-2 overflow-hidden rounded-full bg-slate-200">
+                  <div class="market-cta-progress h-full rounded-full bg-gradient-to-r from-emerald-400 to-blue-500"></div>
+                </div>
+              </div>
+
+              <div class="rounded-2xl bg-slate-50 p-3">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-black text-slate-900">SMS Verification</p>
+                    <p class="text-xs font-bold text-slate-400">OTP delivered instantly</p>
+                  </div>
+                  <span class="rounded-xl bg-blue-50 px-3 py-2 text-xs font-black text-blue-600">Done</span>
+                </div>
+              </div>
+
+              <div class="rounded-2xl bg-slate-50 p-3">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-black text-slate-900">Wallet Balance</p>
+                    <p class="text-xs font-bold text-slate-400">Ready for the next order</p>
+                  </div>
+                  <span class="text-lg font-black text-slate-900">NGN 48k</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute bottom-0 right-0 h-[330px] w-[170px] rounded-[34px] bg-slate-950 p-2 shadow-[0_28px_70px_rgba(15,23,42,0.3)] sm:right-2">
+            <div class="relative h-full overflow-hidden rounded-[28px] bg-gradient-to-b from-blue-600 via-emerald-500 to-orange-300 p-4">
+              <div class="mx-auto mb-8 h-2 w-14 rounded-full bg-white/70"></div>
+              <div class="rounded-2xl bg-white/90 p-3 text-slate-900 shadow-lg">
+                <p class="text-[10px] font-black uppercase tracking-[0.16em] text-blue-600">Boost</p>
+                <p class="mt-1 text-2xl font-black">+12.8k</p>
+                <p class="mt-1 text-xs font-bold text-slate-500">Engagements delivered</p>
+              </div>
+
+              <div class="mt-4 grid grid-cols-2 gap-2">
+                <div class="rounded-2xl bg-white/20 p-3 text-center backdrop-blur">
+                  <p class="text-lg font-black">4.9</p>
+                  <p class="text-[10px] font-bold text-white/80">Rate</p>
+                </div>
+                <div class="rounded-2xl bg-white/20 p-3 text-center backdrop-blur">
+                  <p class="text-lg font-black">99%</p>
+                  <p class="text-[10px] font-bold text-white/80">Secure</p>
+                </div>
+              </div>
+
+              <div class="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/90 px-3 py-2 text-center text-xs font-black text-emerald-600">
+                Processing fast
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute right-2 top-0 rounded-2xl border border-white/20 bg-white/15 px-4 py-3 text-sm font-black text-white backdrop-blur sm:right-14 sm:top-4">
+            24/7 Service
+          </div>
+
+          <div class="absolute bottom-16 left-0 rounded-2xl border border-white/20 bg-orange-400 px-4 py-3 text-sm font-black text-white shadow-[0_20px_45px_rgba(245,158,11,0.28)]">
+            Instant Deposit
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER LINKS SECTION -->
+<footer class="bg-[#07111f] px-5 py-16 text-slate-300 lg:px-10">
+  <div class="mx-auto max-w-7xl">
+    <div class="grid gap-12 border-b border-slate-700/70 pb-14 md:grid-cols-3">
+      <div>
+        <h3 class="mb-8 text-lg font-black text-blue-400">Useful Links</h3>
+        <nav class="flex flex-col gap-5 text-base font-medium">
+          <a href="#" class="hover:text-orange-300">Terms and Conditions</a>
+          <a href="#" class="hover:text-orange-300">Buy Instagram Followers</a>
+          <a href="#" class="hover:text-orange-300">Buy Instagram Followers in Nigeria</a>
+          <a href="#" class="hover:text-orange-300">Buy TikTok Followers</a>
+          <a href="#" class="hover:text-orange-300">Buy TikTok Followers in Nigeria</a>
+        </nav>
+      </div>
+
+      <div>
+        <h3 class="mb-8 text-lg font-black text-blue-400">Our Links</h3>
+        <nav class="flex flex-col gap-5 text-base font-medium">
+          <a href="mailto:support@reliablesocials.com" class="hover:text-orange-300">Mail Us</a>
+          <a href="#" class="hover:text-orange-300">Contact Us</a>
+          <a href="#" class="hover:text-orange-300">About Us</a>
+          <a href="#" class="hover:text-orange-300">Web API Documentation</a>
+        </nav>
+      </div>
+
+      <div>
+        <h3 class="mb-8 text-lg font-black text-blue-400">Social Media Links</h3>
+        <nav class="flex flex-col gap-5 text-base font-medium">
+          <a href="#" class="hover:text-orange-300">Instagram</a>
+          <a href="#" class="hover:text-orange-300">Twitter / X</a>
+          <a href="#" class="hover:text-orange-300">TikTok</a>
+          <a href="#" class="hover:text-orange-300">Telegram</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-6 pt-10 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-base font-medium text-slate-400">
+        Copyright &copy; 2020 - 2026 Reliable Socials
+      </p>
+
+    </div>
+  </div>
+</footer>
+
+<script>
+  const animatedItems = document.querySelectorAll(".scroll-animate");
+  const faqItems = document.querySelectorAll(".faq-item");
+  const animationStartClasses = [
+    "-translate-y-12",
+    "-translate-x-20",
+    "translate-x-20",
+    "translate-y-14",
+    "translate-y-16",
+  ];
+
+  const getStartClasses = (item) =>
+    (item.dataset.animateStart || "").split(" ").filter(Boolean);
+
+  animatedItems.forEach((item) => {
+    item.dataset.animateStart = animationStartClasses
+      .filter((className) => item.classList.contains(className))
+      .join(" ");
+  });
+
+  const scrollObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const item = entry.target;
+        const startClasses = getStartClasses(item);
+
+        if (entry.isIntersecting) {
+          item.classList.remove("opacity-0", ...startClasses);
+          item.classList.add("opacity-100", "translate-x-0", "translate-y-0");
+          return;
+        }
+
+        item.classList.remove("opacity-100", "translate-x-0", "translate-y-0");
+        item.classList.add("opacity-0", ...startClasses);
+      });
+    },
+    {
+      threshold: 0.2,
+    }
+  );
+
+  animatedItems.forEach((item) => {
+    scrollObserver.observe(item);
+  });
+
+  faqItems.forEach((item) => {
+    item.addEventListener("toggle", () => {
+      if (!item.open) {
+        return;
+      }
+
+      faqItems.forEach((otherItem) => {
+        if (otherItem !== item) {
+          otherItem.removeAttribute("open");
+        }
+      });
+    });
+  });
+
+</script>
 </body>
 </html>
+
+

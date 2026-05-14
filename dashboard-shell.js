@@ -1,18 +1,18 @@
 (function () {
   const pageLinks = {
-    dashboard: "dashboard.php",
-    addFund: "add-fund.php",
-    socialBoost: "social-boost.php",
-    smsVerification: "sms-verification.php",
-    payBills: "pay-bills.php",
-    dataBundle: "data-bundle.php",
-    sellCrypto: "sell-crypto.php",
-    supportTicket: "support-ticket.php",
-    transactions: "transactions.php",
-    profile: "profile.php",
-    settings: "settings.php",
-    notifications: "notifications.php",
-    reseller: "reseller.php",
+    dashboard: "dashboard.html",
+    addFund: "add-fund.html",
+    socialBoost: "social-boost.html",
+    smsVerification: "sms-verification.html",
+    payBills: "pay-bills.html",
+    dataBundle: "data-bundle.html",
+    sellCrypto: "sell-crypto.html",
+    supportTicket: "support-ticket.html",
+    transactions: "transactions.html",
+    profile: "profile.html",
+    settings: "settings.html",
+    notifications: "notifications.html",
+    reseller: "reseller.html",
   };
   const WALLET_KEY = "rs_wallet_balance";
   const TRANSACTIONS_KEY = "rs_transactions";
@@ -193,12 +193,12 @@
   function routeFromHref(href) {
     if (!href || href === "#") return "";
     const url = new URL(href, window.location.href);
-    const file = url.pathname.split("/").filter(Boolean).pop() || "dashboard.php";
+    const file = url.pathname.split("/").filter(Boolean).pop() || "dashboard.html";
     return `${file}${url.hash}`;
   }
 
   function currentRoute() {
-    const file = window.location.pathname.split("/").filter(Boolean).pop() || "dashboard.php";
+    const file = window.location.pathname.split("/").filter(Boolean).pop() || "dashboard.html";
     return `${file}${window.location.hash}`;
   }
 
@@ -288,7 +288,7 @@
             { active: "settings", href: `${pageLinks.settings}#security`, label: "Account Security" },
             { active: "settings", href: `${pageLinks.settings}#password`, label: "Change Password" },
           ])}
-          <a href="logout.php" data-logout class="mt-2 block rounded-xl px-4 py-3 text-rose-300 hover:bg-slate-800">Logout</a>
+          <a href="#" data-logout class="mt-2 block rounded-xl px-4 py-3 text-rose-300 hover:bg-slate-800">Logout</a>
         </nav>
       </aside>
     `;
@@ -378,7 +378,7 @@
     document.querySelectorAll("[data-logout]").forEach((el) => {
       el.addEventListener("click", (event) => {
         event.preventDefault();
-        if (window.ReliableAuth) window.ReliableAuth.logout("login.php");
+        if (window.ReliableAuth) window.ReliableAuth.logout("login.html");
       });
     });
 
@@ -428,7 +428,7 @@
   }
 
   function render(page) {
-    if (window.ReliableAuth) window.ReliableAuth.requireAuth("login.php");
+    if (window.ReliableAuth) window.ReliableAuth.requireAuth("login.html");
     document.title = `${page.title} | Reliable Socials`;
     const app = document.getElementById("app");
     app.innerHTML = `

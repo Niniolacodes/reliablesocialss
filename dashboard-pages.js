@@ -79,7 +79,7 @@
             </aside>
           </section>
           <section class="mt-5 ${cardClass}">
-            <div class="mb-5 flex flex-wrap items-center justify-between gap-3"><div><p class="text-sm font-bold text-slate-500">Orders</p><h3 class="mt-1 text-lg font-extrabold">Recent Social Boost Orders</h3></div><a href="transactions.php" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-extrabold hover:bg-slate-50">View Transactions</a></div>
+            <div class="mb-5 flex flex-wrap items-center justify-between gap-3"><div><p class="text-sm font-bold text-slate-500">Orders</p><h3 class="mt-1 text-lg font-extrabold">Recent Social Boost Orders</h3></div><a href="transactions.html" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-extrabold hover:bg-slate-50">View Transactions</a></div>
             ${historyTable(["Date", "Platform", "Service", "Quantity", "Amount", "Status"], "socialHistory")}
           </section>
         `;
