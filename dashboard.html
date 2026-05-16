@@ -10,8 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <style>body{font-family:"Plus Jakarta Sans",sans-serif;}html,body{margin:0;padding:0;}</style>
 </head>
-<body class="bg-slate-100 text-slate-900">
-  <div class="min-h-screen lg:grid lg:grid-cols-[270px_1fr]">
+<body class="h-screen overflow-hidden bg-slate-100 text-slate-900">
+  <div class="h-screen overflow-hidden lg:grid lg:grid-cols-[270px_1fr]">
     <div id="mobileBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/45 opacity-0 transition-opacity duration-300 lg:hidden"></div>
     <aside id="mobileSidebar" class="fixed left-0 top-0 z-40 h-screen w-[272px] -translate-x-full overflow-y-auto bg-slate-900 text-slate-200 transition-transform duration-300 ease-out lg:static lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen">
       <div class="border-b border-slate-800 px-6 py-6">
@@ -96,11 +96,11 @@
 </nav>
     </aside>
 
-    <main class="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 lg:h-screen lg:overflow-y-auto lg:px-8 lg:pb-8">
+    <main class="h-screen overflow-y-auto px-4 pb-4 pt-0 sm:px-6 sm:pb-6 lg:px-8 lg:pb-8">
       <header class="sticky top-0 z-20 -mx-4 mb-3 flex items-center justify-between border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:hidden">
         <button id="openSidebarBtn" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
         <p class="text-sm font-extrabold text-slate-700">Reliable Socials</p>
-        <button type="button" class="relative grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-slate-600" aria-label="Notifications"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-rose-500"></span></button>
+        <button type="button" class="relative grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-slate-600" aria-label="Notifications"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </header>
 
       <div class="-mx-1 mb-4 grid grid-cols-2 gap-2 px-1 lg:hidden">
@@ -112,12 +112,12 @@
 
       <header class="mb-5 hidden items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6 lg:flex">
         <div><p class="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">Reliable Socials</p><h1 class="mt-1 text-xl font-extrabold sm:text-2xl">User Dashboard</h1></div>
-        <div class="flex items-center gap-3"><div class="relative"><button id="notifBtnDesktop" type="button" class="relative grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50" aria-label="Open notifications"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-rose-500"></span></button><div id="notifPanelDesktop" class="absolute right-0 top-12 hidden w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_45px_rgba(15,23,42,0.14)]"><p class="px-2 pb-2 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Notifications</p><a href="notifications.html" class="block rounded-xl px-2 py-2 text-sm hover:bg-slate-50"><span class="font-bold text-slate-800">Deposit Received</span><span class="mt-1 block text-xs text-slate-500">Your wallet was credited.</span></a><a href="notifications.html" class="mt-1 block rounded-xl px-2 py-2 text-sm hover:bg-slate-50"><span class="font-bold text-slate-800">Order Completed</span><span class="mt-1 block text-xs text-slate-500">Instagram order delivered.</span></a><a href="notifications.html" class="mt-2 inline-flex text-xs font-bold text-blue-600">View all</a></div></div><a href="add-fund.html" class="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-extrabold text-white hover:bg-blue-700">Deposit</a></div>
+        <div class="flex items-center gap-3"><div class="relative"><button id="notifBtnDesktop" type="button" class="relative grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50" aria-label="Open notifications"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div id="notifPanelDesktop" class="absolute right-0 top-12 hidden w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_45px_rgba(15,23,42,0.14)]"><p class="px-2 pb-2 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Notifications</p><p class="rounded-xl bg-slate-50 px-2 py-3 text-sm font-bold text-slate-500">No new notifications yet.</p><a href="notifications.html" class="mt-2 inline-flex text-xs font-bold text-blue-600">View all</a></div></div><a href="add-fund.html" class="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-extrabold text-white hover:bg-blue-700">Deposit</a></div>
       </header>
 
       <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <div class="flex flex-wrap items-center justify-between gap-4">
-          <div><p class="text-sm font-bold text-slate-500">Total Balance</p><h2 data-wallet-balance class="mt-2 text-4xl font-extrabold text-slate-900">&#8358;0</h2><p class="mt-2 text-sm font-bold text-emerald-600">31 Points Available</p></div>
+          <div><p class="text-sm font-bold text-slate-500">Total Balance</p><h2 data-wallet-balance class="mt-2 text-4xl font-extrabold text-slate-900">&#8358;0</h2><p class="mt-2 text-sm font-bold text-emerald-600">0 Points Available</p></div>
           <button class="rounded-xl border border-blue-100 bg-blue-50 px-4 py-2 text-sm font-extrabold text-blue-700 hover:bg-blue-100">Hide Balance</button>
         </div>
       </section>
@@ -166,14 +166,19 @@
     const dashboardHelpers = window.ReliableDashboard;
     dashboardHelpers.refreshWalletDisplays();
     const dashboardTxRows = document.getElementById("dashboardTxRows");
-    dashboardTxRows.innerHTML = dashboardHelpers.readTransactions().slice(0, 5).map((tx) => `
+    const recentTransactions = dashboardHelpers.readTransactions().slice(0, 5);
+    dashboardTxRows.innerHTML = recentTransactions.length ? recentTransactions.map((tx) => `
       <tr class="border-b border-slate-100 last:border-0">
         <td class="whitespace-nowrap px-3 py-3 font-extrabold text-blue-700">${tx.reference}</td>
         <td class="whitespace-nowrap px-3 py-3 font-extrabold text-slate-900">${tx.type}</td>
         <td class="whitespace-nowrap px-3 py-3 font-extrabold text-slate-900">${dashboardHelpers.money(tx.amount)}</td>
-        <td class="whitespace-nowrap px-3 py-3"><span class="${dashboardHelpers.badge(tx.status)}">${tx.status}</span></td>
+        <td class="whitespace-nowrap px-3 py-3"><span class="${dashboardHelpers.badge(tx.status)}">${dashboardHelpers.normalizeStatus(tx.status)}</span></td>
       </tr>
-    `).join("");
+    `).join("") : `
+      <tr>
+        <td colspan="4" class="px-3 py-8 text-center text-sm font-bold text-slate-500">No transactions yet.</td>
+      </tr>
+    `;
   </script>
 <script id="add-fund-dropdown-init">
   (function () {

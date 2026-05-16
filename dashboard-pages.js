@@ -32,7 +32,17 @@
   }
 
   function renderGenericRows(target, rows, cells) {
-    target.innerHTML = rows.map((row) => `
+    const safeRows = Array.isArray(rows) ? rows : [];
+    if (!safeRows.length) {
+      target.innerHTML = `
+        <tr>
+          <td colspan="${cells.length}" class="px-3 py-8 text-center text-sm font-bold text-slate-500">No records yet.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    target.innerHTML = safeRows.map((row) => `
       <tr class="border-b border-slate-100 last:border-0">
         ${cells.map((cell) => `<td class="whitespace-nowrap px-3 py-3 ${cell.className || ""}">${cell.render(row)}</td>`).join("")}
       </tr>
@@ -91,11 +101,7 @@
           YouTube: { Followers: 2400, Likes: 1850, Views: 650, Comments: 3200 },
           Facebook: { Followers: 1100, Likes: 780, Views: 350, Comments: 2200 },
         };
-        const defaults = [
-          { date: "2026-05-08 09:20", platform: "Instagram", service: "Likes", quantity: 1200, amount: 1020, status: "Successful" },
-          { date: "2026-05-07 16:44", platform: "TikTok", service: "Views", quantity: 8000, amount: 1440, status: "Pending" },
-          { date: "2026-05-06 12:15", platform: "YouTube", service: "Subscribers", quantity: 500, amount: 1200, status: "Successful" },
-        ];
+        const defaults = [];
         const els = {
           platform: document.getElementById("platform"),
           service: document.getElementById("service"),
@@ -211,10 +217,7 @@
       init() {
         const base = { Nigeria: 420, "United States": 850, "United Kingdom": 780, Ghana: 500, Kenya: 460 };
         const serviceExtra = { WhatsApp: 180, Telegram: 120, Instagram: 150, Facebook: 140, Google: 220 };
-        const defaults = [
-          { date: "2026-05-08 11:12", country: "Nigeria", service: "WhatsApp", number: "+234 803 555 0181", price: 600, status: "Successful" },
-          { date: "2026-05-07 14:05", country: "United States", service: "Google", number: "+1 646 555 0198", price: 1070, status: "Successful" },
-        ];
+        const defaults = [];
         const country = document.getElementById("smsCountry");
         const service = document.getElementById("smsService");
         const priceEl = document.getElementById("smsPrice");
@@ -315,10 +318,7 @@
           "Cable TV": ["DSTV", "GOtv", "Startimes"],
           Internet: ["Spectranet", "Smile", "Swift", "Tizeti"],
         };
-        const defaults = [
-          { date: "2026-05-07 18:01", type: "Electricity", provider: "IKEDC", customer: "04123456789", amount: 5000, status: "Successful" },
-          { date: "2026-05-06 20:33", type: "Cable TV", provider: "DSTV", customer: "7030123456", amount: 7400, status: "Successful" },
-        ];
+        const defaults = [];
         const typeEl = document.getElementById("billType");
         const providerEl = document.getElementById("billProvider");
         const customerEl = document.getElementById("customerNumber");
@@ -414,10 +414,7 @@
         `;
       },
       init() {
-        const defaults = [
-          { date: "2026-05-08 08:45", method: "Bank Transfer", amount: 10000, ref: "RS-2026-0004", status: "Successful" },
-          { date: "2026-05-06 13:18", method: "Card Payment", amount: 5000, ref: "RS-2026-0003", status: "Successful" },
-        ];
+        const defaults = [];
         let selectedMethod = "Bank Transfer";
         const walletEl = document.getElementById("fundWallet");
         const amountEl = document.getElementById("fundAmount");
@@ -503,10 +500,7 @@
         const networks = { USDT: ["TRC20", "ERC20", "BEP20"], BTC: ["Bitcoin"], ETH: ["ERC20", "Arbitrum", "Base"] };
         const rates = { USDT: 1480, BTC: 93000000, ETH: 4500000 };
         const addresses = { USDT: "TRxReliablesocialsUSDTDepositOnly91", BTC: "bc1qreliablesocialssamplebtcaddress", ETH: "0xReliableSocialsSampleEthAddress" };
-        const defaults = [
-          { date: "2026-05-08 10:05", asset: "USDT", network: "TRC20", amount: 150, payout: 222000, status: "Pending" },
-          { date: "2026-05-05 15:22", asset: "ETH", network: "ERC20", amount: 0.08, payout: 360000, status: "Pending" },
-        ];
+        const defaults = [];
         const asset = document.getElementById("cryptoAsset");
         const network = document.getElementById("cryptoNetwork");
         const amount = document.getElementById("cryptoAmount");
@@ -602,10 +596,7 @@
         `;
       },
       init() {
-        const defaults = [
-          { date: "2026-05-08 12:20", subject: "Data order delayed", category: "Order Issue", priority: "Medium", status: "Pending" },
-          { date: "2026-05-07 09:10", subject: "Wallet deposit confirmation", category: "Payment", priority: "Low", status: "Successful" },
-        ];
+        const defaults = [];
         const form = document.getElementById("ticketForm");
         const msg = document.getElementById("ticketMessage");
         const historyEl = document.getElementById("ticketHistory");
@@ -845,15 +836,14 @@
         `;
       },
       init() {
-        const defaults = [
-          { title: "Deposit Received", text: "Your wallet was credited with \u20a610,000.", time: "Today 08:45", read: false, type: "Wallet" },
-          { title: "Social Boost Processing", text: "Your Instagram Likes order is now processing.", time: "Today 09:20", read: false, type: "Order" },
-          { title: "Data Delivered", text: "MTN SME 2GB was sent successfully.", time: "Yesterday 10:42", read: true, type: "Data" },
-          { title: "Security Reminder", text: "Enable login alerts in settings for safer account access.", time: "May 6, 2026", read: true, type: "Security" },
-        ];
+        const defaults = [];
         const list = document.getElementById("notificationList");
         const render = () => {
           const rows = D.readJson("rs_notifications", defaults);
+          if (!rows.length) {
+            list.innerHTML = '<div class="rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm font-bold text-slate-500">No notifications yet.</div>';
+            return;
+          }
           list.innerHTML = rows.map((item, index) => `
             <article class="rounded-xl border ${item.read ? "border-slate-200 bg-white" : "border-blue-200 bg-blue-50/50"} p-4">
               <div class="flex flex-wrap items-start justify-between gap-3">

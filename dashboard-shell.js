@@ -17,33 +17,199 @@
   const WALLET_KEY = "rs_wallet_balance";
   const TRANSACTIONS_KEY = "rs_transactions";
   const TX_COUNTER_KEY = "rs_transaction_counter";
+  const USER_KEY = "rs_user";
+  const USER_SCOPED_KEYS = new Set([
+    WALLET_KEY,
+    TRANSACTIONS_KEY,
+    TX_COUNTER_KEY,
+    "rs_social_orders",
+    "rs_sms_history",
+    "rs_bill_history",
+    "rs_fund_history",
+    "rs_crypto_history",
+    "rs_ticket_history",
+    "rs_data_history",
+    "rs_notifications",
+    "rs_profile",
+    "rs_settings",
+  ]);
+  const LEGACY_DEMO_TRANSACTIONS = new Set([
+    "RS-2026-0006|Support Ticket|Data order delayed|0",
+    "RS-2026-0005|Crypto Trade|USDT TRC20 sell order|222000",
+    "RS-2026-0004|Wallet Deposit|Bank Transfer funding|10000",
+    "RS-2026-0003|Bill Payment|IKEDC electricity payment|5000",
+    "RS-2026-0002|Data Bundle|MTN SME 2GB|760",
+    "RS-2026-0001|Social Boost|TikTok Views order|1440",
+  ]);
+  const LEGACY_DEMO_HISTORIES = [
+    {
+      key: "rs_social_orders",
+      fields: ["date", "platform", "service", "amount"],
+      signatures: new Set([
+        "2026-05-08 09:20|Instagram|Likes|1020",
+        "2026-05-07 16:44|TikTok|Views|1440",
+        "2026-05-06 12:15|YouTube|Subscribers|1200",
+      ]),
+    },
+    {
+      key: "rs_sms_history",
+      fields: ["date", "country", "service", "price"],
+      signatures: new Set([
+        "2026-05-08 11:12|Nigeria|WhatsApp|600",
+        "2026-05-07 14:05|United States|Google|1070",
+      ]),
+    },
+    {
+      key: "rs_bill_history",
+      fields: ["date", "type", "provider", "amount"],
+      signatures: new Set([
+        "2026-05-07 18:01|Electricity|IKEDC|5000",
+        "2026-05-06 20:33|Cable TV|DSTV|7400",
+      ]),
+    },
+    {
+      key: "rs_fund_history",
+      fields: ["date", "method", "amount", "ref"],
+      signatures: new Set([
+        "2026-05-08 08:45|Bank Transfer|10000|RS-2026-0004",
+        "2026-05-06 13:18|Card Payment|5000|RS-2026-0003",
+      ]),
+    },
+    {
+      key: "rs_crypto_history",
+      fields: ["date", "asset", "network", "payout"],
+      signatures: new Set([
+        "2026-05-08 10:05|USDT|TRC20|222000",
+        "2026-05-05 15:22|ETH|ERC20|360000",
+      ]),
+    },
+    {
+      key: "rs_ticket_history",
+      fields: ["date", "subject", "category", "priority"],
+      signatures: new Set([
+        "2026-05-08 12:20|Data order delayed|Order Issue|Medium",
+        "2026-05-07 09:10|Wallet deposit confirmation|Payment|Low",
+      ]),
+    },
+    {
+      key: "rs_data_history",
+      fields: ["date", "network", "type", "amount"],
+      signatures: new Set([
+        "2026-05-07 10:42|MTN|SME|760",
+        "2026-05-06 17:18|Airtel|Gifting|2150",
+        "2026-05-05 09:26|Glo|Corporate|410",
+      ]),
+    },
+    {
+      key: "rs_notifications",
+      fields: ["title", "text", "time", "type"],
+      signatures: new Set([
+        "Deposit Received|Your wallet was credited with \u20a610,000.|Today 08:45|Wallet",
+        "Social Boost Processing|Your Instagram Likes order is now processing.|Today 09:20|Order",
+        "Data Delivered|MTN SME 2GB was sent successfully.|Yesterday 10:42|Data",
+        "Security Reminder|Enable login alerts in settings for safer account access.|May 6, 2026|Security",
+      ]),
+    },
+  ];
 
   function money(amount) {
     return `\u20a6${Number(amount || 0).toLocaleString("en-NG", { maximumFractionDigits: 0 })}`;
   }
 
-  function readJson(key, fallback) {
+  function readCurrentUser() {
+    try {
+      return JSON.parse(localStorage.getItem(USER_KEY) || "{}") || {};
+    } catch {
+      return {};
+    }
+  }
+
+  function storageOwnerId() {
+    const user = readCurrentUser();
+    const raw = user.email || user.uid || "guest";
+    return String(raw).trim().toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "guest";
+  }
+
+  function storageKey(key) {
+    return USER_SCOPED_KEYS.has(key) ? `${key}:${storageOwnerId()}` : key;
+  }
+
+  function storageKeyVariants(key) {
+    const scoped = storageKey(key);
+    return scoped === key ? [key] : [scoped, key];
+  }
+
+  function readRawJson(key, fallback) {
     try {
       const value = JSON.parse(localStorage.getItem(key) || "null");
-      return value || fallback;
+      return value === null ? fallback : value;
     } catch {
       return fallback;
     }
   }
 
-  function writeJson(key, value) {
+  function writeRawJson(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
+  function readJson(key, fallback) {
+    return readRawJson(storageKey(key), fallback);
+  }
+
+  function writeJson(key, value) {
+    writeRawJson(storageKey(key), value);
+  }
+
+  function walletFromTransactions(transactions) {
+    const spendingTypes = new Set(["Social Boost", "Data Bundle", "SMS Verification", "Bill Payment", "Wallet Debit"]);
+    return Math.max(0, transactions.reduce((balance, tx) => {
+      const status = normalizeStatus(tx.status);
+      const amount = Number(tx.amount || 0);
+      if (status === "Failed") return balance;
+      if (tx.type === "Wallet Deposit") return balance + amount;
+      if (spendingTypes.has(tx.type)) return balance - amount;
+      return balance;
+    }, 0));
+  }
+
+  function migrateLegacyGlobalDataToUser() {
+    if (storageOwnerId() === "guest") return;
+
+    USER_SCOPED_KEYS.forEach((key) => {
+      if (key === WALLET_KEY) return;
+      const scoped = storageKey(key);
+      if (scoped === key || localStorage.getItem(key) === null) return;
+      if (localStorage.getItem(scoped) === null) {
+        localStorage.setItem(scoped, localStorage.getItem(key));
+      }
+      localStorage.removeItem(key);
+    });
+
+    const scopedWalletKey = storageKey(WALLET_KEY);
+    const legacyWallet = Number(localStorage.getItem(WALLET_KEY));
+    if (localStorage.getItem(scopedWalletKey) === null && Number.isFinite(legacyWallet)) {
+      const transactions = readRawJson(storageKey(TRANSACTIONS_KEY), []);
+      const ledgerBalance = Array.isArray(transactions) ? walletFromTransactions(transactions) : 0;
+      if (ledgerBalance > 0) {
+        localStorage.setItem(scopedWalletKey, String(ledgerBalance));
+      } else if (legacyWallet > 0 && legacyWallet !== 12500) {
+        localStorage.setItem(scopedWalletKey, String(legacyWallet));
+      }
+    }
+    localStorage.removeItem(WALLET_KEY);
+  }
+
   function readWallet() {
-    const saved = Number(localStorage.getItem(WALLET_KEY));
+    const key = storageKey(WALLET_KEY);
+    const saved = Number(localStorage.getItem(key));
     if (Number.isFinite(saved) && saved >= 0) return saved;
-    localStorage.setItem(WALLET_KEY, "12500");
-    return 12500;
+    const ledgerBalance = walletFromTransactions(readTransactions());
+    localStorage.setItem(key, String(ledgerBalance));
+    return ledgerBalance;
   }
 
   function writeWallet(amount) {
-    localStorage.setItem(WALLET_KEY, String(Math.max(0, Number(amount || 0))));
+    localStorage.setItem(storageKey(WALLET_KEY), String(Math.max(0, Number(amount || 0))));
     refreshWalletDisplays();
   }
 
@@ -54,25 +220,59 @@
     return "Successful";
   }
 
-  function defaultTransactions() {
-    return [
-      { reference: "RS-2026-0006", date: "2026-05-08 12:20", type: "Support Ticket", description: "Data order delayed", amount: 0, status: "Pending" },
-      { reference: "RS-2026-0005", date: "2026-05-08 10:05", type: "Crypto Trade", description: "USDT TRC20 sell order", amount: 222000, status: "Pending" },
-      { reference: "RS-2026-0004", date: "2026-05-08 08:45", type: "Wallet Deposit", description: "Bank Transfer funding", amount: 10000, status: "Successful" },
-      { reference: "RS-2026-0003", date: "2026-05-07 18:01", type: "Bill Payment", description: "IKEDC electricity payment", amount: 5000, status: "Successful" },
-      { reference: "RS-2026-0002", date: "2026-05-07 10:42", type: "Data Bundle", description: "MTN SME 2GB", amount: 760, status: "Successful" },
-      { reference: "RS-2026-0001", date: "2026-05-06 16:44", type: "Social Boost", description: "TikTok Views order", amount: 1440, status: "Pending" },
-    ];
+  function rowSignature(row, fields) {
+    return fields.map((field) => String(row?.[field] ?? "")).join("|");
+  }
+
+  function purgeLegacyDemoData() {
+    let removedLegacyTransactions = false;
+    let remainingTransactions = readRawJson(storageKey(TRANSACTIONS_KEY), null);
+
+    storageKeyVariants(TRANSACTIONS_KEY).forEach((key) => {
+      const transactions = readRawJson(key, null);
+      if (!Array.isArray(transactions)) return;
+      const nextTransactions = transactions.filter((row) => !LEGACY_DEMO_TRANSACTIONS.has(rowSignature(row, ["reference", "type", "description", "amount"])));
+      if (nextTransactions.length !== transactions.length) {
+        removedLegacyTransactions = true;
+        writeRawJson(key, nextTransactions);
+        if (key === storageKey(TRANSACTIONS_KEY)) {
+          remainingTransactions = nextTransactions;
+        }
+      }
+    });
+
+    LEGACY_DEMO_HISTORIES.forEach(({ key, fields, signatures }) => {
+      storageKeyVariants(key).forEach((storageName) => {
+        const rows = readRawJson(storageName, null);
+        if (!Array.isArray(rows)) return;
+        const nextRows = rows.filter((row) => !signatures.has(rowSignature(row, fields)));
+        if (nextRows.length !== rows.length) {
+          writeRawJson(storageName, nextRows);
+        }
+      });
+    });
+
+    migrateLegacyGlobalDataToUser();
+    remainingTransactions = readRawJson(storageKey(TRANSACTIONS_KEY), null);
+
+    const hasTransactions = Array.isArray(remainingTransactions) && remainingTransactions.length > 0;
+    if (!hasTransactions && localStorage.getItem(storageKey(WALLET_KEY)) === "12500") {
+      localStorage.setItem(storageKey(WALLET_KEY), "0");
+    }
+
+    if (removedLegacyTransactions && !hasTransactions) {
+      const counterKey = storageKey(TX_COUNTER_KEY);
+      const counter = Number(localStorage.getItem(counterKey) || 0);
+      if (counter <= 6) localStorage.removeItem(counterKey);
+    }
   }
 
   function readTransactions() {
     const rows = readJson(TRANSACTIONS_KEY, null);
-    if (Array.isArray(rows) && rows.length) {
+    if (Array.isArray(rows)) {
       return rows.map((row) => ({ ...row, status: normalizeStatus(row.status) }));
     }
-    const defaults = defaultTransactions();
-    writeJson(TRANSACTIONS_KEY, defaults);
-    return defaults;
+    return [];
   }
 
   function maxTransactionNumber(transactions) {
@@ -84,9 +284,10 @@
 
   function nextTransactionRef() {
     const transactions = readTransactions();
-    const savedCounter = Number(localStorage.getItem(TX_COUNTER_KEY) || 0);
+    const counterKey = storageKey(TX_COUNTER_KEY);
+    const savedCounter = Number(localStorage.getItem(counterKey) || 0);
     const next = Math.max(savedCounter, maxTransactionNumber(transactions)) + 1;
-    localStorage.setItem(TX_COUNTER_KEY, String(next));
+    localStorage.setItem(counterKey, String(next));
     return `RS-${new Date().getFullYear()}-${String(next).padStart(4, "0")}`;
   }
 
@@ -316,18 +517,17 @@
       <header class="sticky top-0 z-20 -mx-4 mb-3 flex items-center justify-between border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:hidden">
         <button id="openSidebarBtn" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
         <p class="text-sm font-extrabold text-slate-700">${page.mobileTitle || page.title}</p>
-        <a href="${pageLinks.notifications}" class="relative grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-slate-600" aria-label="Notifications"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-rose-500"></span></a>
+        <a href="${pageLinks.notifications}" class="relative grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-slate-600" aria-label="Notifications"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </header>
       ${mobileQuickLinks(page)}
       <header class="mb-5 hidden items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6 lg:flex">
         <div><p class="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">Reliable Socials</p><h1 class="mt-1 text-xl font-extrabold sm:text-2xl">${page.title}</h1></div>
         <div class="flex items-center gap-3">
           <div class="relative">
-            <button id="notifBtnDesktop" type="button" class="relative grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50" aria-label="Open notifications"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-rose-500"></span></button>
+            <button id="notifBtnDesktop" type="button" class="relative grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50" aria-label="Open notifications"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div id="notifPanelDesktop" class="absolute right-0 top-12 hidden w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_45px_rgba(15,23,42,0.14)]">
               <p class="px-2 pb-2 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Notifications</p>
-              <a href="${pageLinks.notifications}" class="block rounded-xl px-2 py-2 text-sm hover:bg-slate-50"><span class="font-bold text-slate-800">Deposit Received</span><span class="mt-1 block text-xs text-slate-500">Your wallet was credited.</span></a>
-              <a href="${pageLinks.notifications}" class="mt-1 block rounded-xl px-2 py-2 text-sm hover:bg-slate-50"><span class="font-bold text-slate-800">Order Completed</span><span class="mt-1 block text-xs text-slate-500">Latest order delivered.</span></a>
+              <p class="rounded-xl bg-slate-50 px-2 py-3 text-sm font-bold text-slate-500">No new notifications yet.</p>
               <a href="${pageLinks.notifications}" class="mt-2 inline-flex text-xs font-bold text-blue-600">View all</a>
             </div>
           </div>
@@ -432,10 +632,10 @@
     document.title = `${page.title} | Reliable Socials`;
     const app = document.getElementById("app");
     app.innerHTML = `
-      <div class="min-h-screen lg:grid lg:grid-cols-[270px_1fr]">
+      <div class="h-screen overflow-hidden lg:grid lg:grid-cols-[270px_1fr]">
         <div id="mobileBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/45 opacity-0 transition-opacity duration-300 lg:hidden"></div>
         ${sidebar(page)}
-        <main class="px-4 pb-4 pt-0 sm:px-6 sm:pb-6 lg:h-screen lg:overflow-y-auto lg:px-8 lg:pb-8">
+        <main class="h-screen overflow-y-auto px-4 pb-4 pt-0 sm:px-6 sm:pb-6 lg:px-8 lg:pb-8">
           ${header(page)}
           ${typeof page.content === "function" ? page.content() : page.content}
         </main>
@@ -447,6 +647,8 @@
       page.init(window.ReliableDashboard);
     }
   }
+
+  purgeLegacyDemoData();
 
   window.ReliableDashboard = {
     render,
