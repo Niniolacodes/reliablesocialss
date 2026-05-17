@@ -1,11 +1,11 @@
 (function () {
   const D = window.ReliableDashboard;
   const pageId = window.ReliablePageId;
-  const inputClass = "h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-bold text-slate-800 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100";
-  const areaClass = "min-h-32 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-800 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100";
-  const labelClass = "mb-2 block text-sm font-bold text-slate-700";
-  const buttonClass = "inline-flex h-12 items-center justify-center rounded-xl bg-blue-600 px-5 text-sm font-extrabold text-white transition hover:bg-blue-700";
-  const cardClass = "rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6";
+  const inputClass = "h-12 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm font-bold text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-slate-900 focus:ring-4 focus:ring-slate-200";
+  const areaClass = "min-h-32 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-slate-900 focus:ring-4 focus:ring-slate-200";
+  const labelClass = "mb-2 block text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500";
+  const buttonClass = "inline-flex h-12 items-center justify-center rounded-lg bg-slate-950 px-5 text-sm font-extrabold text-white transition hover:bg-slate-800";
+  const cardClass = "rounded-xl border border-slate-200 bg-white p-5 shadow-[0_14px_32px_rgba(15,23,42,0.05)] sm:p-6";
 
   function optionList(items, placeholder) {
     return `<option value="">${placeholder}</option>${items.map((item) => `<option value="${item}">${item}</option>`).join("")}`;
@@ -568,30 +568,82 @@
       mobileTitle: "Support",
       content() {
         return `
-          <section class="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
+          <section class="grid gap-4 md:grid-cols-3">
+            <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_14px_32px_rgba(15,23,42,0.05)]">
+              <p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">First response</p>
+              <p class="mt-3 text-2xl font-black text-slate-950">12 min</p>
+              <p class="mt-1 text-xs font-bold text-emerald-700">Desk currently online</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_14px_32px_rgba(15,23,42,0.05)]">
+              <p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Priority SLA</p>
+              <p class="mt-3 text-2xl font-black text-slate-950">30 min</p>
+              <p class="mt-1 text-xs font-bold text-slate-500">High priority queue</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_14px_32px_rgba(15,23,42,0.05)]">
+              <p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Routing</p>
+              <p class="mt-3 text-2xl font-black text-slate-950">3 queues</p>
+              <p class="mt-1 text-xs font-bold text-slate-500">Order, wallet, account</p>
+            </div>
+          </section>
+
+          <section class="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
             <div class="${cardClass}">
-              ${pageIntro("Help Desk", "Create a support ticket", "Average Reply: 12 min")}
+              <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-200 pb-5">
+                <div>
+                  <p class="text-xs font-extrabold uppercase tracking-[0.12em] text-blue-600">Help desk</p>
+                  <h2 class="mt-2 text-2xl font-black text-slate-950">Open a support case</h2>
+                </div>
+                <span class="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-extrabold text-emerald-700">Live queue</span>
+              </div>
               <form id="ticketForm" class="mt-6 grid gap-5 sm:grid-cols-2">
-                <div class="sm:col-span-2"><label for="ticketSubject" class="${labelClass}">Subject</label><input id="ticketSubject" class="${inputClass}" placeholder="Order not delivered" /></div>
+                <div><label for="ticketSubject" class="${labelClass}">Subject</label><input id="ticketSubject" class="${inputClass}" placeholder="Order not delivered" /></div>
+                <div><label for="ticketReference" class="${labelClass}">Order or transaction ID</label><input id="ticketReference" class="${inputClass}" placeholder="RS-2026-0007" /></div>
                 <div><label for="ticketCategory" class="${labelClass}">Category</label><select id="ticketCategory" class="${inputClass}">${optionList(["Order Issue", "Payment", "Account", "Technical", "Other"], "Select category")}</select></div>
                 <div><label for="ticketPriority" class="${labelClass}">Priority</label><select id="ticketPriority" class="${inputClass}">${optionList(["Low", "Medium", "High"], "Select priority")}</select></div>
-                <div class="sm:col-span-2"><label for="ticketMessageText" class="${labelClass}">Message</label><textarea id="ticketMessageText" class="${areaClass}" placeholder="Explain what happened"></textarea></div>
+                <div class="sm:col-span-2"><label for="ticketMessageText" class="${labelClass}">Message</label><textarea id="ticketMessageText" class="${areaClass}" placeholder="Add the key details"></textarea></div>
                 <div id="ticketMessage" class="hidden sm:col-span-2"></div>
-                <button type="submit" class="${buttonClass} sm:col-span-2">Submit Ticket</button>
+                <div class="flex flex-col gap-3 border-t border-slate-200 pt-5 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
+                  <p class="text-xs font-bold text-slate-500">Cases are saved to your ticket history and transaction ledger.</p>
+                  <button type="submit" class="${buttonClass} w-full sm:w-auto">Create Ticket</button>
+                </div>
               </form>
             </div>
-            <aside class="${cardClass}">
-              <p class="text-sm font-bold text-slate-500">Support Channels</p>
-              <div class="mt-4 grid gap-3">
-                <div class="rounded-xl border border-slate-200 p-4"><p class="text-sm font-extrabold">Live Chat</p><p class="mt-1 text-xs font-bold text-slate-500">Simulated online status</p></div>
-                <div class="rounded-xl border border-slate-200 p-4"><p class="text-sm font-extrabold">Email Support</p><p class="mt-1 text-xs font-bold text-slate-500">support@reliablesocials.local</p></div>
-                <div class="rounded-xl border border-slate-200 p-4"><p class="text-sm font-extrabold">Ticket SLA</p><p class="mt-1 text-xs font-bold text-slate-500">High priority appears first</p></div>
-              </div>
+            <aside class="space-y-5">
+              <section class="${cardClass}">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Desk status</p>
+                    <h3 class="mt-2 text-lg font-black text-slate-950">Support queue</h3>
+                  </div>
+                  <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-700">Online</span>
+                </div>
+                <div class="mt-5 divide-y divide-slate-200 rounded-lg border border-slate-200">
+                  <div class="flex items-center justify-between gap-4 px-4 py-3"><span class="text-sm font-bold text-slate-500">First response</span><strong class="text-sm text-slate-950">12 min</strong></div>
+                  <div class="flex items-center justify-between gap-4 px-4 py-3"><span class="text-sm font-bold text-slate-500">High priority</span><strong class="text-sm text-slate-950">30 min SLA</strong></div>
+                  <div class="flex items-center justify-between gap-4 px-4 py-3"><span class="text-sm font-bold text-slate-500">Normal priority</span><strong class="text-sm text-slate-950">2 hrs SLA</strong></div>
+                </div>
+              </section>
+              <section class="${cardClass}">
+                <p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Channels</p>
+                <div class="mt-4 grid gap-3">
+                  <a href="mailto:support@reliablesocials.com" class="block rounded-lg border border-slate-200 px-4 py-3 transition hover:border-slate-900 hover:bg-slate-50">
+                    <span class="block text-sm font-extrabold text-slate-950">Email support</span>
+                    <span class="mt-1 block text-xs font-bold text-slate-500">support@reliablesocials.com</span>
+                  </a>
+                  <div class="rounded-lg border border-slate-200 px-4 py-3">
+                    <p class="text-sm font-extrabold text-slate-950">Live desk</p>
+                    <p class="mt-1 text-xs font-bold text-emerald-700">Available for active cases</p>
+                  </div>
+                </div>
+              </section>
             </aside>
           </section>
           <section class="mt-5 ${cardClass}">
-            <div class="mb-5"><p class="text-sm font-bold text-slate-500">Tickets</p><h3 class="mt-1 text-lg font-extrabold">Ticket History</h3></div>
-            ${historyTable(["Date", "Subject", "Category", "Priority", "Status"], "ticketHistory")}
+            <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+              <div><p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Cases</p><h3 class="mt-1 text-lg font-black text-slate-950">Ticket History</h3></div>
+              <span id="ticketCount" class="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-extrabold text-slate-600">0 tickets</span>
+            </div>
+            ${historyTable(["Ticket ID", "Date", "Subject", "Category", "Priority", "Status"], "ticketHistory")}
           </section>
         `;
       },
@@ -600,8 +652,12 @@
         const form = document.getElementById("ticketForm");
         const msg = document.getElementById("ticketMessage");
         const historyEl = document.getElementById("ticketHistory");
+        const countEl = document.getElementById("ticketCount");
         const render = () => {
-          renderGenericRows(historyEl, D.readJson("rs_ticket_history", defaults), [
+          const rows = D.readJson("rs_ticket_history", defaults);
+          if (countEl) countEl.textContent = `${rows.length} ${rows.length === 1 ? "ticket" : "tickets"}`;
+          renderGenericRows(historyEl, rows, [
+            { render: (row) => row.reference || "Pending", className: "font-extrabold text-slate-900" },
             { render: (row) => row.date, className: "font-bold text-slate-700" },
             { render: (row) => row.subject, className: "font-extrabold text-slate-900" },
             { render: (row) => row.category },
@@ -612,6 +668,7 @@
         form.addEventListener("submit", (event) => {
           event.preventDefault();
           const subject = document.getElementById("ticketSubject").value.trim();
+          const orderReference = document.getElementById("ticketReference").value.trim();
           const category = document.getElementById("ticketCategory").value;
           const priority = document.getElementById("ticketPriority").value;
           const text = document.getElementById("ticketMessageText").value.trim();
@@ -624,9 +681,9 @@
             amount: 0,
             status: "Pending",
           });
-          const ticket = { date: D.nowStamp(), reference: transaction.reference, subject, category, priority, status: "Pending" };
+          const ticket = { date: D.nowStamp(), reference: transaction.reference, orderReference, subject, category, priority, status: "Pending" };
           D.writeJson("rs_ticket_history", [ticket, ...D.readJson("rs_ticket_history", defaults)].slice(0, 10));
-          D.message(msg, "success", "Support ticket submitted.");
+          D.message(msg, "success", `Ticket ${transaction.reference} opened.`);
           form.reset();
           render();
         });
