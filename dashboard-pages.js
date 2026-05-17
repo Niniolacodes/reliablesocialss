@@ -691,6 +691,135 @@
       },
     },
 
+    "reward-center": {
+      active: "reward-center",
+      title: "Reward Center",
+      mobileTitle: "Rewards",
+      content() {
+        const points = D.readRewardPoints();
+        return `
+          <section class="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+            <aside class="${cardClass}">
+              <p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Available Points</p>
+              <h2 data-reward-points class="mt-3 text-4xl font-black text-slate-950">${points.toLocaleString("en-NG")} pts</h2>
+              <p class="mt-2 text-sm font-bold text-emerald-700">Worth <span data-reward-value>${D.money(points)}</span></p>
+              <a href="${D.pageLinks.swapPoints}" class="mt-6 inline-flex h-11 items-center justify-center rounded-lg bg-slate-950 px-5 text-sm font-extrabold text-white hover:bg-slate-800">Swap Points</a>
+            </aside>
+            <div class="${cardClass}">
+              ${pageIntro("Rewards", "Earn points from transactions", "5 pts / \u20a610,000")}
+              <div class="mt-6 grid gap-3 sm:grid-cols-3">
+                <div class="rounded-lg border border-slate-200 p-4"><p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Rate</p><p class="mt-2 text-lg font-black">5 points</p><p class="mt-1 text-xs font-bold text-slate-500">for every \u20a610,000</p></div>
+                <div class="rounded-lg border border-slate-200 p-4"><p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Value</p><p class="mt-2 text-lg font-black">\u20a61 each</p><p class="mt-1 text-xs font-bold text-slate-500">when swapped</p></div>
+                <div class="rounded-lg border border-slate-200 p-4"><p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Eligible</p><p class="mt-2 text-lg font-black">Site orders</p><p class="mt-1 text-xs font-bold text-slate-500">except failed payments</p></div>
+              </div>
+              <div class="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                <label for="rewardPreviewAmount" class="${labelClass}">Preview points for a transaction</label>
+                <div class="grid gap-3 sm:grid-cols-[1fr_180px]">
+                  <input id="rewardPreviewAmount" type="number" min="0" step="1000" class="${inputClass}" placeholder="10000" />
+                  <div class="rounded-lg border border-slate-200 bg-white px-4 py-3"><p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Earns</p><p id="rewardPreviewPoints" class="mt-1 text-lg font-black">0 pts</p></div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="mt-5 ${cardClass}">
+            <div class="mb-5"><p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Ledger</p><h3 class="mt-1 text-lg font-black text-slate-950">Points History</h3></div>
+            ${historyTable(["Date", "Type", "Description", "Points", "Reference"], "rewardHistory")}
+          </section>
+        `;
+      },
+      init() {
+        const amount = document.getElementById("rewardPreviewAmount");
+        const preview = document.getElementById("rewardPreviewPoints");
+        const history = document.getElementById("rewardHistory");
+        const render = () => {
+          renderGenericRows(history, D.readRewardLedger(), [
+            { render: (row) => row.date, className: "font-bold text-slate-700" },
+            { render: (row) => row.type, className: "font-extrabold text-slate-900" },
+            { render: (row) => row.description },
+            { render: (row) => `${Number(row.points || 0).toLocaleString("en-NG")} pts`, className: Number(row.points || 0) < 0 ? "font-extrabold text-rose-700" : "font-extrabold text-emerald-700" },
+            { render: (row) => row.reference || "-", className: "font-bold text-blue-700" },
+          ]);
+        };
+        amount.addEventListener("input", () => {
+          preview.textContent = `${D.pointsForAmount(amount.value).toLocaleString("en-NG")} pts`;
+        });
+        render();
+      },
+    },
+
+    "swap-points": {
+      active: "swap-points",
+      title: "Swap Points",
+      mobileTitle: "Swap Points",
+      content() {
+        const points = D.readRewardPoints();
+        return `
+          <section class="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+            <aside class="${cardClass}">
+              <p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Point Balance</p>
+              <h2 data-reward-points class="mt-3 text-4xl font-black text-slate-950">${points.toLocaleString("en-NG")} pts</h2>
+              <p class="mt-2 text-sm font-bold text-slate-500">Redeemable value: <span data-reward-value class="text-slate-950">${D.money(points)}</span></p>
+              <div class="mt-5 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm font-bold text-slate-600">1 point equals \u20a61. Swapped points are credited to your wallet for trading.</div>
+            </aside>
+            <div class="${cardClass}">
+              ${pageIntro("Redeem", "Convert points to wallet balance", "\u20a61 per point")}
+              <form id="swapPointsForm" class="mt-6 grid gap-5">
+                <div><label for="swapPointsAmount" class="${labelClass}">Points to swap</label><input id="swapPointsAmount" type="number" min="1" step="1" class="${inputClass}" placeholder="100" /></div>
+                <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <div class="flex justify-between gap-4 text-sm"><span class="font-bold text-slate-500">Wallet credit</span><strong id="swapPointsValue" class="text-slate-950">\u20a60</strong></div>
+                  <div class="mt-3 flex justify-between gap-4 text-sm"><span class="font-bold text-slate-500">Wallet after swap</span><strong id="swapWalletAfter" class="text-slate-950">${D.money(D.readWallet())}</strong></div>
+                </div>
+                <div id="swapPointsMessage" class="hidden"></div>
+                <button type="submit" class="${buttonClass}">Swap to Wallet</button>
+              </form>
+            </div>
+          </section>
+          <section class="mt-5 ${cardClass}">
+            <div class="mb-5"><p class="text-xs font-extrabold uppercase tracking-[0.08em] text-slate-500">Activity</p><h3 class="mt-1 text-lg font-black text-slate-950">Points History</h3></div>
+            ${historyTable(["Date", "Type", "Description", "Points", "Reference"], "swapHistory")}
+          </section>
+        `;
+      },
+      init() {
+        const amount = document.getElementById("swapPointsAmount");
+        const value = document.getElementById("swapPointsValue");
+        const walletAfter = document.getElementById("swapWalletAfter");
+        const msg = document.getElementById("swapPointsMessage");
+        const history = document.getElementById("swapHistory");
+        const update = () => {
+          const points = Math.max(0, Math.floor(Number(amount.value || 0)));
+          value.textContent = D.money(points);
+          walletAfter.textContent = D.money(D.readWallet() + points);
+        };
+        const render = () => {
+          renderGenericRows(history, D.readRewardLedger(), [
+            { render: (row) => row.date, className: "font-bold text-slate-700" },
+            { render: (row) => row.type, className: "font-extrabold text-slate-900" },
+            { render: (row) => row.description },
+            { render: (row) => `${Number(row.points || 0).toLocaleString("en-NG")} pts`, className: Number(row.points || 0) < 0 ? "font-extrabold text-rose-700" : "font-extrabold text-emerald-700" },
+            { render: (row) => row.reference || "-", className: "font-bold text-blue-700" },
+          ]);
+        };
+        amount.addEventListener("input", update);
+        document.getElementById("swapPointsForm").addEventListener("submit", (event) => {
+          event.preventDefault();
+          const points = Math.floor(Number(amount.value || 0));
+          if (points <= 0) return D.message(msg, "error", "Enter points to swap.");
+          if (points > D.readRewardPoints()) return D.message(msg, "error", "You do not have enough points.");
+          const result = D.redeemPointsToWallet(points);
+          if (!result.ok) return D.message(msg, "error", "Unable to swap points.");
+          D.message(msg, "success", `${points.toLocaleString("en-NG")} points swapped to wallet.`);
+          amount.value = "";
+          update();
+          D.refreshRewardDisplays();
+          D.refreshWalletDisplays();
+          render();
+        });
+        update();
+        render();
+      },
+    },
+
     transactions: {
       active: "transactions",
       title: "Transaction History",
@@ -700,7 +829,7 @@
           <section class="${cardClass}">
             <div class="grid gap-3 lg:grid-cols-[1fr_180px_180px_180px]">
               <input id="txSearch" class="${inputClass}" placeholder="Search transactions" />
-              <select id="txType" class="${inputClass}">${optionList(["Wallet Deposit", "Social Boost", "Data Bundle", "SMS Verification", "Bill Payment", "Crypto Trade", "Support Ticket"], "All types")}</select>
+              <select id="txType" class="${inputClass}">${optionList(["Wallet Deposit", "Reward Points", "Social Boost", "Data Bundle", "SMS Verification", "Bill Payment", "Crypto Trade", "Support Ticket"], "All types")}</select>
               <select id="txStatus" class="${inputClass}">${optionList(["Successful", "Pending", "Failed"], "All statuses")}</select>
               <input id="txDate" type="date" class="${inputClass}" />
             </div>

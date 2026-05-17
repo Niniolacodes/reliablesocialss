@@ -8,6 +8,8 @@
     dataBundle: "data-bundle.html",
     sellCrypto: "sell-crypto.html",
     supportTicket: "support-ticket.html",
+    rewardCenter: "reward-center.html",
+    swapPoints: "swap-points.html",
     transactions: "transactions.html",
     profile: "profile.html",
     settings: "settings.html",
@@ -17,11 +19,17 @@
   const WALLET_KEY = "rs_wallet_balance";
   const TRANSACTIONS_KEY = "rs_transactions";
   const TX_COUNTER_KEY = "rs_transaction_counter";
+  const REWARD_POINTS_KEY = "rs_reward_points";
+  const REWARD_LEDGER_KEY = "rs_reward_ledger";
   const USER_KEY = "rs_user";
+  const POINTS_PER_TIER = 5;
+  const POINT_TIER_AMOUNT = 10000;
   const USER_SCOPED_KEYS = new Set([
     WALLET_KEY,
     TRANSACTIONS_KEY,
     TX_COUNTER_KEY,
+    REWARD_POINTS_KEY,
+    REWARD_LEDGER_KEY,
     "rs_social_orders",
     "rs_sms_history",
     "rs_bill_history",
@@ -213,6 +221,84 @@
     refreshWalletDisplays();
   }
 
+  function readRewardPoints() {
+    const points = Number(localStorage.getItem(storageKey(REWARD_POINTS_KEY)));
+    return Number.isFinite(points) && points >= 0 ? points : 0;
+  }
+
+  function writeRewardPoints(points) {
+    localStorage.setItem(storageKey(REWARD_POINTS_KEY), String(Math.max(0, Math.floor(Number(points || 0)))));
+    refreshRewardDisplays();
+  }
+
+  function readRewardLedger() {
+    const rows = readJson(REWARD_LEDGER_KEY, []);
+    return Array.isArray(rows) ? rows : [];
+  }
+
+  function writeRewardLedger(rows) {
+    writeJson(REWARD_LEDGER_KEY, Array.isArray(rows) ? rows.slice(0, 80) : []);
+  }
+
+  function pointsForAmount(amount) {
+    return Math.floor(Number(amount || 0) / POINT_TIER_AMOUNT) * POINTS_PER_TIER;
+  }
+
+  function rewardPointsForTransaction(transaction) {
+    if (!transaction || normalizeStatus(transaction.status) === "Failed") return 0;
+    if (transaction.type === "Reward Points" || transaction.type === "Points Swap") return 0;
+    return pointsForAmount(transaction.amount);
+  }
+
+  function recordReward(points, details = {}) {
+    const value = Math.floor(Number(points || 0));
+    if (!value) return null;
+    const entry = {
+      date: nowStamp(),
+      points: value,
+      type: details.type || "Earned",
+      description: details.description || "Reward points",
+      reference: details.reference || "",
+      amount: Number(details.amount || 0),
+    };
+    writeRewardPoints(readRewardPoints() + value);
+    writeRewardLedger([entry, ...readRewardLedger()]);
+    return entry;
+  }
+
+  function syncRewardPointsWithTransactions() {
+    const earnedRefs = new Set(readRewardLedger()
+      .filter((row) => row.type === "Earned" && row.reference)
+      .map((row) => row.reference));
+    readTransactions().forEach((transaction) => {
+      const points = rewardPointsForTransaction(transaction);
+      if (points <= 0 || earnedRefs.has(transaction.reference)) return;
+      recordReward(points, {
+        type: "Earned",
+        description: `${points} points from ${transaction.type}`,
+        reference: transaction.reference,
+        amount: transaction.amount,
+      });
+      earnedRefs.add(transaction.reference);
+    });
+  }
+
+  function spendRewardPoints(points, details = {}) {
+    const value = Math.floor(Number(points || 0));
+    if (value <= 0 || readRewardPoints() < value) return { ok: false };
+    const entry = {
+      date: nowStamp(),
+      points: -value,
+      type: details.type || "Redeemed",
+      description: details.description || "Points converted to wallet",
+      reference: details.reference || "",
+      amount: value,
+    };
+    writeRewardPoints(readRewardPoints() - value);
+    writeRewardLedger([entry, ...readRewardLedger()]);
+    return { ok: true, entry };
+  }
+
   function normalizeStatus(status) {
     const value = String(status || "Successful").toLowerCase();
     if (value.includes("fail")) return "Failed";
@@ -301,7 +387,40 @@
       status: normalizeStatus(status),
     };
     writeJson(TRANSACTIONS_KEY, [transaction, ...readTransactions()].slice(0, 80));
+    const points = rewardPointsForTransaction(transaction);
+    if (points > 0) {
+      recordReward(points, {
+        type: "Earned",
+        description: `${points} points from ${transaction.type}`,
+        reference: transaction.reference,
+        amount: transaction.amount,
+      });
+    }
     return transaction;
+  }
+
+  function redeemPointsToWallet(points) {
+    const value = Math.floor(Number(points || 0));
+    const spent = spendRewardPoints(value, {
+      type: "Redeemed",
+      description: `Converted ${value} points to wallet credit`,
+      amount: value,
+    });
+    if (!spent.ok) return { ok: false };
+    writeWallet(readWallet() + value);
+    const transaction = addTransaction({
+      type: "Reward Points",
+      description: `${value} points converted to wallet`,
+      amount: value,
+      status: "Successful",
+    });
+    spent.entry.reference = transaction.reference;
+    const ledger = readRewardLedger();
+    if (ledger[0]) {
+      ledger[0].reference = transaction.reference;
+      writeRewardLedger(ledger);
+    }
+    return { ok: true, transaction };
   }
 
   function depositWallet(amount, details = {}) {
@@ -345,6 +464,15 @@
   function refreshWalletDisplays() {
     document.querySelectorAll("[data-wallet-balance]").forEach((el) => {
       el.textContent = money(readWallet());
+    });
+  }
+
+  function refreshRewardDisplays() {
+    document.querySelectorAll("[data-reward-points]").forEach((el) => {
+      el.textContent = `${readRewardPoints().toLocaleString("en-NG")} pts`;
+    });
+    document.querySelectorAll("[data-reward-value]").forEach((el) => {
+      el.textContent = money(readRewardPoints());
     });
   }
 
@@ -456,7 +584,7 @@
             { active: "social-boost", href: `${pageLinks.socialBoost}#services`, label: "Social Boost Services" },
             { active: "transactions", href: pageLinks.transactions, label: "Transactions History" },
           ])}
-          <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Reward Center</a>
+          ${navLink(page, "reward-center", pageLinks.rewardCenter, "Reward Center")}
           ${navGroup(page, "sms-verification", "SMS Verification", [
             { active: "sms-verification", href: pageLinks.smsVerification, label: "New Order" },
             { active: "sms-verification", href: `${pageLinks.smsVerification}#inbox`, label: "SMS Verification Inbox" },
@@ -476,7 +604,7 @@
           <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Knowledge Base</a>
           <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Rewards</p>
           <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Referrals</a>
-          <a href="#" class="block rounded-xl px-4 py-3 hover:bg-slate-800">Swap Points</a>
+          ${navLink(page, "swap-points", pageLinks.swapPoints, "Swap Points")}
           <p class="px-3 pb-1 pt-4 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">User App</p>
           ${navLink(page, "transactions", pageLinks.transactions, "Transactions")}
           ${navLink(page, "profile", pageLinks.profile, "Profile")}
@@ -643,12 +771,14 @@
     `;
     setupShell();
     refreshWalletDisplays();
+    refreshRewardDisplays();
     if (typeof page.init === "function") {
       page.init(window.ReliableDashboard);
     }
   }
 
   purgeLegacyDemoData();
+  syncRewardPointsWithTransactions();
 
   window.ReliableDashboard = {
     render,
@@ -657,6 +787,13 @@
     writeJson,
     readWallet,
     writeWallet,
+    readRewardPoints,
+    writeRewardPoints,
+    readRewardLedger,
+    writeRewardLedger,
+    pointsForAmount,
+    redeemPointsToWallet,
+    refreshRewardDisplays,
     refreshWalletDisplays,
     readTransactions,
     addTransaction,
