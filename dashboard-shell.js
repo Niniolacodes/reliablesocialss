@@ -648,22 +648,22 @@
         <a href="${pageLinks.notifications}" class="relative grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-slate-600" aria-label="Notifications"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </header>
       ${mobileQuickLinks(page)}
-      <header class="mb-5 hidden items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6 lg:flex">
-        <div><p class="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">Reliable Socials</p><h1 class="mt-1 text-xl font-extrabold sm:text-2xl">${page.title}</h1></div>
+      <header class="mb-5 hidden items-center justify-between rounded-xl border border-slate-300 bg-white/95 px-4 py-4 shadow-[0_14px_32px_rgba(15,23,42,0.06)] sm:px-6 lg:flex">
+        <div><p class="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-500">Account Overview</p><h1 class="mt-1 text-2xl font-black text-slate-950">${page.title}</h1></div>
         <div class="flex items-center gap-3">
           <div class="relative">
-            <button id="notifBtnDesktop" type="button" class="relative grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50" aria-label="Open notifications"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div id="notifPanelDesktop" class="absolute right-0 top-12 hidden w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_45px_rgba(15,23,42,0.14)]">
+            <button id="notifBtnDesktop" type="button" class="relative grid h-11 w-11 place-items-center rounded-lg border border-slate-300 bg-white text-slate-600 hover:bg-slate-50" aria-label="Open notifications"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true"><path d="M15 17h5l-1.4-1.4a2 2 0 0 1-.6-1.4V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div id="notifPanelDesktop" class="absolute right-0 top-12 hidden w-72 rounded-xl border border-slate-300 bg-white p-3 shadow-[0_18px_45px_rgba(15,23,42,0.14)]">
               <p class="px-2 pb-2 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Notifications</p>
-              <p class="rounded-xl bg-slate-50 px-2 py-3 text-sm font-bold text-slate-500">No new notifications yet.</p>
+              <p class="rounded-lg bg-slate-50 px-2 py-3 text-sm font-bold text-slate-500">No new notifications yet.</p>
               <a href="${pageLinks.notifications}" class="mt-2 inline-flex text-xs font-bold text-blue-600">View all</a>
             </div>
           </div>
-          <div class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-right">
+          <div class="rounded-lg border border-slate-300 bg-slate-50 px-4 py-2.5 text-right">
             <p class="text-[10px] font-black uppercase tracking-[0.14em] text-slate-500">Wallet</p>
             <p data-wallet-balance class="text-sm font-extrabold text-slate-900">${money(readWallet())}</p>
           </div>
-          <a href="${pageLinks.addFund}" class="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-extrabold text-white hover:bg-blue-700">Deposit</a>
+          <a href="${pageLinks.addFund}" class="rounded-lg bg-slate-950 px-5 py-2.5 text-sm font-extrabold text-white hover:bg-slate-800">Deposit</a>
         </div>
       </header>
     `;
