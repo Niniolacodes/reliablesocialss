@@ -447,18 +447,18 @@
           <span class="hero-dot"></span>
         </div>
 
-        <p class="text-blue-600 font-bold text-base mb-6">
+        <p id="heroTagline" class="text-blue-600 font-bold text-base mb-6">
           Personal & Business boost with Reliable Socials
         </p>
 
-        <h1 class="text-[40px] sm:text-[56px] lg:text-[72px] leading-[1.05] tracking-[-3px] font-extrabold text-slate-700 mb-10">
+        <h1 id="heroHeadline" class="text-[40px] sm:text-[56px] lg:text-[72px] leading-[1.05] tracking-[-3px] font-extrabold text-slate-700 mb-10">
           <span class="text-blue-600">Grow Faster,</span><br />
           Spend Less.<br />
           Use Reliable Socials!
         </h1>
 
         <div class="flex flex-col sm:flex-row gap-4 mb-14 lg:mb-0">
-          <a href="register.html" class="bg-blue-600 text-white px-7 py-4 rounded-xl font-extrabold text-center hover:bg-blue-700">Register</a>
+          <a id="heroCta" href="register.html" class="bg-blue-600 text-white px-7 py-4 rounded-xl font-extrabold text-center hover:bg-blue-700">Register</a>
 
           <a href="#" class="bg-slate-100 text-slate-400 px-7 py-4 rounded-xl font-extrabold text-center hover:bg-slate-200">
             Download App
@@ -682,6 +682,12 @@
     const heroIcon = document.getElementById("heroIcon");
     const heroTitle = document.getElementById("heroTitle");
     const heroText = document.getElementById("heroText");
+    const heroTagline = document.getElementById("heroTagline");
+    const heroHeadline = document.getElementById("heroHeadline");
+    const heroCta = document.getElementById("heroCta");
+    const benefitsIntro = document.getElementById("benefitsIntro");
+    const benefitsHeading = document.getElementById("benefitsHeading");
+    const benefitsList = document.getElementById("benefitsList");
     const heroSwitchItems = [heroIcon, heroTitle, heroText];
     const heroDots = document.querySelectorAll(".hero-dot");
     const otpDigits = document.querySelectorAll(".otp-digit");
@@ -705,6 +711,38 @@
       });
     };
 
+    const loadContent = async () => {
+      try {
+        const response = await fetch('/api/content');
+        const data = await response.json();
+        if (data?.hero) {
+          const hero = data.hero;
+          if (heroTagline) heroTagline.textContent = hero.subtitle || heroTagline.textContent;
+          if (heroHeadline) heroHeadline.innerHTML = hero.title ? `<span class="text-blue-600">${hero.title}</span><br />Spend Less.<br />Use Reliable Socials!` : heroHeadline.innerHTML;
+          if (heroCta) heroCta.textContent = hero.cta || heroCta.textContent;
+        }
+
+        const benefitsSection = (data?.sections || []).find((section) => section.id === 'benefits');
+        if (benefitsSection) {
+          if (benefitsIntro) benefitsIntro.textContent = benefitsSection.intro || benefitsIntro.textContent;
+          if (benefitsHeading) benefitsHeading.innerHTML = benefitsSection.heading || benefitsHeading.innerHTML;
+          if (benefitsList && Array.isArray(benefitsSection.items)) {
+            benefitsList.innerHTML = benefitsSection.items.map((item, index) => `
+              <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out ${index === 1 ? 'delay-200' : index === 2 ? 'delay-300' : ''} flex gap-6">
+                <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.05)]"></div>
+                <div>
+                  <h3 class="text-xl font-extrabold text-blue-600 mb-4">${item.title || ''}</h3>
+                  <p class="text-slate-500 text-lg leading-8">${item.description || ''}</p>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+      } catch (error) {
+        console.error('Unable to load editable content', error);
+      }
+    };
+
     const showNextHeroSlide = () => {
       heroSwitchItems.forEach((item) => item.classList.add("is-switching"));
 
@@ -722,6 +760,7 @@
 
     updateOtpDigits();
     setInterval(updateOtpDigits, 950);
+    loadContent();
   </script>
 
 
@@ -750,7 +789,7 @@
 <section id="benefits" class="bg-[#eef3fb] py-20 overflow-hidden">
   <div class="max-w-7xl mx-auto px-5 lg:px-10">
 
-    <h2 class="scroll-animate opacity-0 -translate-y-12 transition-all duration-1000 ease-out text-center text-2xl md:text-3xl font-extrabold text-slate-500 mb-20">
+    <h2 id="benefitsIntro" class="scroll-animate opacity-0 -translate-y-12 transition-all duration-1000 ease-out text-center text-2xl md:text-3xl font-extrabold text-slate-500 mb-20">
       Join over 200,000 satisfied customers who enjoy our service!
     </h2>
 
@@ -777,13 +816,12 @@
 
       <!-- RIGHT TEXT -->
       <div class="scroll-animate opacity-0 translate-x-20 transition-all duration-1000 ease-out">
-        <h2 class="text-[42px] md:text-[56px] leading-tight tracking-[-3px] font-extrabold text-blue-600 mb-10">
+        <h2 id="benefitsHeading" class="text-[42px] md:text-[56px] leading-tight tracking-[-3px] font-extrabold text-blue-600 mb-10">
           Exclusive Benefits of<br />
           Using Reliable Socials
         </h2>
 
-        <div class="space-y-8">
-
+        <div id="benefitsList" class="space-y-8">
           <div class="scroll-animate opacity-0 translate-y-14 transition-all duration-1000 ease-out flex gap-6">
             <div class="mt-2 w-3 h-3 rounded-full bg-orange-400 shrink-0 shadow-[0_0_0_10px_rgba(59,130,246,0.05)]"></div>
             <div>
@@ -813,7 +851,6 @@
               </p>
             </div>
           </div>
-
         </div>
       </div>
 

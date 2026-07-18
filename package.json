@@ -1,0 +1,25 @@
+{
+  "name": "reliablesocialss",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">\r   <img\r     src=\"https://res.cloudinary.com/dssaejqkg/image/upload/v1774346397/WhatsApp_Image_2026-03-23_at_2.47.54_PM_v5dsv0.jpg\"\r     alt=\"Reliable Socials founder\"\r     width=\"260\"\r   />\r </p>",
+  "main": "auth.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Niniolacodes/reliablesocialss.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Niniolacodes/reliablesocialss/issues"
+  },
+  "homepage": "https://github.com/Niniolacodes/reliablesocialss#readme",
+  "dependencies": {
+    "mysql2": "^3.23.0"
+  }
+}

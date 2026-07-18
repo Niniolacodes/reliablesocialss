@@ -1,0 +1,11 @@
+[
+  {
+    "id": "user_1784392222383",
+    "email": "john.otedola@example.com",
+    "password": "Password123!",
+    "firstName": "John",
+    "lastName": "Otedola",
+    "phone": "+2348000000000",
+    "createdAt": "2026-07-18T16:30:22.383Z"
+  }
+]

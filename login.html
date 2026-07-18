@@ -55,7 +55,7 @@
           <form id="loginForm" class="mt-8 space-y-5" action="dashboard.html">
             <div>
               <label class="mb-2 block text-sm font-bold text-slate-700" for="email">Email</label>
-              <input id="email" type="email" placeholder="you@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+              <input id="email" type="email" placeholder="John.Otedola@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
             </div>
 
             <div>
@@ -108,6 +108,7 @@
     const googleLoginBtn = document.getElementById("googleLoginBtn");
     const emailField = document.getElementById("email");
     const rememberCheckbox = document.querySelector('input[type="checkbox"]');
+    const normalizeText = (value) => String(value || '').trim();
     togglePassword.addEventListener("click", () => {
       const isHidden = password.type === "password";
       password.type = isHidden ? "text" : "password";
@@ -115,15 +116,22 @@
     });
     loginForm?.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const email = normalizeText(emailField?.value || '');
+      const pass = normalizeText(password?.value || '');
+      const hasInvalidChars = /[^A-Za-z0-9@._-]/.test(pass) || /[^A-Za-z0-9@._-]/.test(email);
+      if (!email || !pass) {
+        alert('Please enter your email and password.');
+        return;
+      }
+      if (hasInvalidChars) {
+        alert('Only normal text, numbers, punctuation, and capitalization are allowed.');
+        return;
+      }
       try {
-        await ReliableAuth.loginWithEmail(
-          emailField?.value || "",
-          password?.value || "",
-          !!rememberCheckbox?.checked
-        );
+        await ReliableAuth.loginWithEmail(email, pass, !!rememberCheckbox?.checked);
         window.location.href = "dashboard.html";
       } catch (err) {
-        alert(err?.message || "Unable to sign in right now.");
+        alert(err?.message || "Username or password is wrong.");
       }
     });
 

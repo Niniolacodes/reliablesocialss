@@ -1,18 +1,5 @@
 const AUTH_KEY = "rs_auth";
 const USER_KEY = "rs_user";
-const USERS_KEY = "rs_users";
-
-function readUsers() {
-  try {
-    return JSON.parse(localStorage.getItem(USERS_KEY) || "{}");
-  } catch {
-    return {};
-  }
-}
-
-function writeUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
 
 function cacheUser(userData) {
   localStorage.setItem(AUTH_KEY, "1");
@@ -25,81 +12,60 @@ function clearCache() {
 }
 
 async function loginWithEmail(email, password) {
-  const users = readUsers();
-  const key = (email || "").trim().toLowerCase();
-  const entry = users[key];
-  if (!entry || entry.password !== password) {
-    throw new Error("Invalid email or password.");
+  const response = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || !data.success) {
+    throw new Error(data.error || 'Username or password is wrong.');
   }
-  const user = {
-    uid: entry.uid,
-    email: entry.email,
-    firstName: entry.firstName || "",
-    lastName: entry.lastName || "",
-    phone: entry.phone || "",
-  };
+  const user = data.user || {};
   cacheUser(user);
   return user;
 }
 
 async function registerWithEmail(payload) {
-  const email = (payload?.email || "").trim();
-  const password = payload?.password || "";
-  const firstName = payload?.firstName || "";
-  const lastName = payload?.lastName || "";
-  const phone = payload?.phone || "";
-
-  if (!email || !password) {
-    throw new Error("Email and password are required.");
+  const response = await fetch('/api/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || !data.success) {
+    throw new Error(data.error || 'Unable to create account right now.');
   }
-
-  const users = readUsers();
-  const key = email.toLowerCase();
-  if (users[key]) {
-    throw new Error("Account already exists for this email.");
-  }
-
-  const user = {
-    uid: `local_${Date.now()}`,
-    email,
-    firstName,
-    lastName,
-    phone,
-    password,
-    createdAt: new Date().toISOString(),
-  };
-
-  users[key] = user;
-  writeUsers(users);
-  cacheUser({ uid: user.uid, email, firstName, lastName, phone });
+  const user = data.user || {};
+  cacheUser(user);
   return user;
 }
 
 async function loginWithGoogle() {
   const user = {
-    uid: `local_google_${Date.now()}`,
-    email: "google-user@reliablesocials.local",
-    firstName: "Google",
-    lastName: "User",
+    id: `local_google_${Date.now()}`,
+    email: 'google-user@reliablesocials.local',
+    firstName: 'Google',
+    lastName: 'User',
   };
   cacheUser(user);
   return user;
 }
 
-function requireAuth(redirectTo = "login.html") {
-  if (localStorage.getItem(AUTH_KEY) !== "1") {
+function requireAuth(redirectTo = 'login.html') {
+  if (localStorage.getItem(AUTH_KEY) !== '1') {
     window.location.href = redirectTo;
   }
 }
 
-async function logout(redirectTo = "login.html") {
+async function logout(redirectTo = 'login.html') {
   clearCache();
   window.location.href = redirectTo;
 }
 
-function bindLogout(selector = "[data-logout]", redirectTo = "login.html") {
+function bindLogout(selector = '[data-logout]', redirectTo = 'login.html') {
   document.querySelectorAll(selector).forEach((el) => {
-    el.addEventListener("click", async (e) => {
+    el.addEventListener('click', async (e) => {
       e.preventDefault();
       await logout(redirectTo);
     });

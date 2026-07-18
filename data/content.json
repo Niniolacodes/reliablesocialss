@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "title": "Reliable Socials",
+    "subtitle": "Grow faster, spend less, and manage your digital boost from one sharp dashboard.",
+    "cta": "Create Account"
+  },
+  "sections": [
+    {
+      "id": "benefits",
+      "intro": "Join over 200,000 satisfied customers who enjoy our service!",
+      "heading": "Exclusive Benefits of<br />Using Reliable Socials",
+      "items": [
+        {
+          "title": "Instant Transactions",
+          "description": "Buy with ease, deposit instantly. Get what you need in seconds - fast."
+        },
+        {
+          "title": "Most Affordable in the Market",
+          "description": "Affordable prices guaranteed - no one can match us."
+        },
+        {
+          "title": "Guaranteed Security",
+          "description": "Your security, our priority - guaranteed protection for every transaction."
+        }
+      ]
+    }
+  ]
+}

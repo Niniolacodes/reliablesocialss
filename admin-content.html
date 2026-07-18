@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Editor | Reliable Socials</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 p-6 text-slate-100">
+  <div class="mx-auto max-w-5xl">
+    <div class="mb-8 flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-300">Backend edit</p>
+        <h1 class="text-3xl font-extrabold">Manage landing page content</h1>
+      </div>
+      <a href="index.html" class="rounded-xl border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold">Back to site</a>
+    </div>
+
+    <form id="contentForm" class="space-y-6 rounded-[28px] border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur">
+      <section class="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <h2 class="mb-3 text-xl font-bold">Hero block</h2>
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="text-sm font-semibold">Title
+            <input id="heroTitle" class="mt-2 h-11 w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3" />
+          </label>
+          <label class="text-sm font-semibold">CTA
+            <input id="heroCta" class="mt-2 h-11 w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3" />
+          </label>
+          <label class="text-sm font-semibold md:col-span-2">Subtitle
+            <textarea id="heroSubtitle" rows="3" class="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <section class="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <div class="mb-3 flex items-center justify-between">
+          <h2 class="text-xl font-bold">Benefits section</h2>
+          <button type="button" id="addBenefit" class="rounded-lg bg-cyan-500 px-3 py-2 text-sm font-semibold text-slate-950">Add item</button>
+        </div>
+        <label class="mb-4 block text-sm font-semibold">Intro text
+          <input id="benefitsIntro" class="mt-2 h-11 w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3" />
+        </label>
+        <label class="mb-4 block text-sm font-semibold">Heading HTML
+          <textarea id="benefitsHeading" rows="2" class="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2"></textarea>
+        </label>
+        <div id="benefitsItems" class="space-y-3"></div>
+      </section>
+
+      <button type="submit" class="w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-extrabold text-white">Save content</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('contentForm');
+    const benefitsItems = document.getElementById('benefitsItems');
+    const addBenefit = document.getElementById('addBenefit');
+
+    async function loadContent() {
+      const response = await fetch('/api/content');
+      const data = await response.json();
+      document.getElementById('heroTitle').value = data?.hero?.title || '';
+      document.getElementById('heroSubtitle').value = data?.hero?.subtitle || '';
+      document.getElementById('heroCta').value = data?.hero?.cta || '';
+      document.getElementById('benefitsIntro').value = data?.sections?.find((section) => section.id === 'benefits')?.intro || '';
+      document.getElementById('benefitsHeading').value = data?.sections?.find((section) => section.id === 'benefits')?.heading || '';
+      renderBenefits(data?.sections?.find((section) => section.id === 'benefits')?.items || []);
+    }
+
+    function renderBenefits(items) {
+      benefitsItems.innerHTML = items.map((item, index) => `
+        <div class="rounded-xl border border-white/10 bg-slate-950/70 p-3">
+          <div class="mb-2 flex items-center justify-between">
+            <p class="text-sm font-semibold text-cyan-300">Item ${index + 1}</p>
+            <button type="button" data-remove="${index}" class="text-xs font-semibold text-rose-300">Remove</button>
+          </div>
+          <div class="grid gap-3 md:grid-cols-2">
+            <label class="text-sm font-semibold">Title
+              <input data-title="${index}" class="mt-2 h-10 w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3" value="${item.title || ''}" />
+            </label>
+            <label class="text-sm font-semibold">Description
+              <input data-description="${index}" class="mt-2 h-10 w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3" value="${item.description || ''}" />
+            </label>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    addBenefit.addEventListener('click', () => {
+      const items = Array.from(benefitsItems.querySelectorAll('[data-title]')).map((input, index) => ({
+        title: input.value,
+        description: benefitsItems.querySelector(`[data-description="${index}"]`)?.value || '',
+      }));
+      items.push({ title: 'New Benefit', description: 'Add your message here.' });
+      renderBenefits(items);
+    });
+
+    benefitsItems.addEventListener('click', (event) => {
+      if (event.target.dataset.remove !== undefined) {
+        const index = Number(event.target.dataset.remove);
+        const items = Array.from(benefitsItems.querySelectorAll('[data-title]')).map((input, inputIndex) => ({
+          title: input.value,
+          description: benefitsItems.querySelector(`[data-description="${inputIndex}"]`)?.value || '',
+        }));
+        items.splice(index, 1);
+        renderBenefits(items);
+      }
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const items = Array.from(benefitsItems.querySelectorAll('[data-title]')).map((input, index) => ({
+        title: input.value,
+        description: benefitsItems.querySelector(`[data-description="${index}"]`)?.value || '',
+      }));
+      const payload = {
+        hero: {
+          title: document.getElementById('heroTitle').value,
+          subtitle: document.getElementById('heroSubtitle').value,
+          cta: document.getElementById('heroCta').value,
+        },
+        sections: [
+          {
+            id: 'benefits',
+            intro: document.getElementById('benefitsIntro').value,
+            heading: document.getElementById('benefitsHeading').value,
+            items,
+          },
+        ],
+      };
+      const response = await fetch('/api/content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json();
+      alert(result?.success ? 'Content saved successfully.' : result?.error || 'Unable to save content.');
+    });
+
+    loadContent();
+  </script>
+</body>
+</html>

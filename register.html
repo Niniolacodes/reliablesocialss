@@ -29,17 +29,17 @@
         <form id="registerForm" class="mt-8 grid gap-5 sm:grid-cols-2">
           <div class="sm:col-span-2">
             <label for="regEmail" class="mb-2 block text-sm font-bold text-slate-700">Email Address</label>
-            <input id="regEmail" type="email" placeholder="you@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+            <input id="regEmail" type="email" placeholder="John.Otedola@example.com" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
           </div>
 
           <div>
             <label for="firstName" class="mb-2 block text-sm font-bold text-slate-700">First Name</label>
-            <input id="firstName" type="text" placeholder="Niniola" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+            <input id="firstName" type="text" placeholder="John" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
           </div>
 
           <div>
             <label for="lastName" class="mb-2 block text-sm font-bold text-slate-700">Last Name</label>
-            <input id="lastName" type="text" placeholder="A." class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+            <input id="lastName" type="text" placeholder="Otedola" class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-medium outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
           </div>
 
           <div class="sm:col-span-2">
@@ -76,20 +76,34 @@
   <script>
     const ReliableAuth = window.ReliableAuth;
     const registerForm = document.getElementById("registerForm");
+    const normalizeText = (value) => String(value || '').trim();
     registerForm?.addEventListener("submit", (e) => {
       e.preventDefault();
-      const password = document.getElementById("regPassword")?.value || "";
-      const confirm = document.getElementById("confirmPassword")?.value || "";
+      const password = normalizeText(document.getElementById("regPassword")?.value || "");
+      const confirm = normalizeText(document.getElementById("confirmPassword")?.value || "");
+      const email = normalizeText(document.getElementById("regEmail")?.value || "");
+      const firstName = normalizeText(document.getElementById("firstName")?.value || "");
+      const lastName = normalizeText(document.getElementById("lastName")?.value || "");
+      const phone = normalizeText(document.getElementById("phone")?.value || "");
+      if (!email || !password || !firstName || !lastName) {
+        alert('Please complete all required fields.');
+        return;
+      }
       if (password !== confirm) {
         alert("Passwords do not match.");
         return;
       }
+      const hasInvalidChars = /[^A-Za-z0-9@._-]/.test(password) || /[^A-Za-z0-9@._-]/.test(email) || /[^A-Za-z0-9 .,'-]/.test(firstName) || /[^A-Za-z0-9 .,'-]/.test(lastName) || /[^A-Za-z0-9+(). -]/.test(phone);
+      if (hasInvalidChars) {
+        alert('Only normal text, numbers, punctuation, and capitalization are allowed.');
+        return;
+      }
       ReliableAuth.registerWithEmail({
-        email: document.getElementById("regEmail")?.value || "",
+        email,
         password,
-        firstName: document.getElementById("firstName")?.value || "",
-        lastName: document.getElementById("lastName")?.value || "",
-        phone: document.getElementById("phone")?.value || "",
+        firstName,
+        lastName,
+        phone,
       })
         .then(() => {
           window.location.href = "dashboard.html";
