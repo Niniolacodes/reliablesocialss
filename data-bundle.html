@@ -376,6 +376,8 @@
       },
     };
 
+    let VTU_DATA_SERVICES = [];
+    const VTU_DATA_PLANS = {};
     const HISTORY_KEY = "rs_data_history";
     const defaultHistory = [];
 
@@ -415,11 +417,69 @@
     }
 
     function getPlans() {
+      const service = getSelectedService();
+      if (service) return VTU_DATA_PLANS[service.service_id] || [];
       return DATA_PLANS[networkEl.value]?.[dataTypeEl.value] || [];
     }
 
     function getSelectedPlan() {
       return getPlans().find((plan) => plan.id === planEl.value) || null;
+    }
+
+    function getSelectedService() {
+      const selectedNetwork = networkEl.value.toLowerCase();
+      const selectedType = dataTypeEl.value.toLowerCase();
+      const typeAliases = {
+        corporate: ["corporate", "cg"],
+        gifting: ["gifting"],
+        sme: ["sme", "sme2"],
+      };
+      return VTU_DATA_SERVICES.find((service) => {
+        const name = String(service.network_name || service.network || service.name || "").toLowerCase();
+        const dataType = String(service.data_type || "").toLowerCase();
+        const networkMatches = name === selectedNetwork || name.includes(selectedNetwork);
+        const typeMatches = !selectedType || (typeAliases[selectedType] || [selectedType]).some((alias) => dataType === alias || dataType.includes(alias));
+        return networkMatches && typeMatches;
+      }) || null;
+    }
+
+    function normalizeRemotePlan(plan) {
+      const name = String(plan.name || plan.plan_name || plan.description || "Data plan");
+      const price = Number(plan.price || plan.amount || 0);
+      return {
+        id: `vtugate-${plan.code || plan.plan_code}`,
+        serviceId: plan.service_id,
+        planCode: String(plan.code || plan.plan_code || ""),
+        size: name,
+        validity: "VTUGATE",
+        price,
+        remote: true,
+      };
+    }
+
+    async function loadVtuServices() {
+      try {
+        const response = await fetch("/api/vtu/services?serviceType=data");
+        const data = await response.json().catch(() => ({}));
+        if (response.ok && data.success && Array.isArray(data.services)) {
+          VTU_DATA_SERVICES = data.services;
+        }
+      } catch {
+        VTU_DATA_SERVICES = [];
+      }
+    }
+
+    async function loadVtuPlansForSelectedService() {
+      const service = getSelectedService();
+      if (!service || VTU_DATA_PLANS[service.service_id]) return;
+      const response = await fetch(`/api/vtu/data-plans?serviceId=${encodeURIComponent(service.service_id)}`);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.success || !Array.isArray(data.plans)) {
+        throw new Error(data.error || "Unable to load VTUGATE plans.");
+      }
+      VTU_DATA_PLANS[service.service_id] = data.plans
+        .map((plan) => normalizeRemotePlan({ ...plan, service_id: service.service_id }))
+        .filter((plan) => plan.planCode && plan.price > 0);
     }
 
     function setMessage(type, text) {
@@ -441,7 +501,17 @@
       return cleaned;
     }
 
-    function populatePlans() {
+    async function populatePlans() {
+      const service = getSelectedService();
+      if (service) {
+        planEl.disabled = true;
+        planEl.innerHTML = '<option value="">Loading VTUGATE plans...</option>';
+        try {
+          await loadVtuPlansForSelectedService();
+        } catch (error) {
+          setMessage("error", error.message || "Unable to load VTUGATE plans.");
+        }
+      }
       const plans = getPlans();
       planEl.innerHTML = "";
       if (!plans.length) {
@@ -456,7 +526,7 @@
       plans.forEach((plan) => {
         const option = document.createElement("option");
         option.value = plan.id;
-        option.textContent = `${plan.size} - ${plan.validity} - ${formatMoney(plan.price)}`;
+        option.textContent = plan.remote ? `${plan.size} - ${formatMoney(plan.price)}` : `${plan.size} - ${plan.validity} - ${formatMoney(plan.price)}`;
         planEl.appendChild(option);
       });
       updateSummary();
@@ -466,7 +536,7 @@
       const selectedPlan = getSelectedPlan();
       summaryNetwork.textContent = networkEl.value || "Not selected";
       summaryType.textContent = dataTypeEl.value || "Not selected";
-      summaryPlan.textContent = selectedPlan ? `${selectedPlan.size} - ${selectedPlan.validity}` : "Choose plan";
+      summaryPlan.textContent = selectedPlan ? selectedPlan.remote ? selectedPlan.size : `${selectedPlan.size} - ${selectedPlan.validity}` : "Choose plan";
       summaryAmount.textContent = selectedPlan ? formatMoney(selectedPlan.price) : formatMoney(0);
       buyDataText.textContent = selectedPlan ? `Buy Data - ${formatMoney(selectedPlan.price)}` : "Buy Data";
     }
@@ -523,10 +593,10 @@
     });
 
     document.querySelectorAll(".quick-plan").forEach((button) => {
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
         networkEl.value = button.dataset.quickNetwork;
         dataTypeEl.value = button.dataset.quickType;
-        populatePlans();
+        await populatePlans();
         planEl.value = button.dataset.quickPlan;
         updateSummary();
         clearMessage();
@@ -574,7 +644,8 @@
             network: networkEl.value,
             dataType: dataTypeEl.value,
             planId: selectedPlan.id,
-            productCode: selectedPlan.productCode || selectedPlan.id,
+            serviceId: selectedPlan.serviceId,
+            planCode: selectedPlan.planCode || selectedPlan.productCode || selectedPlan.id,
             phone,
             amount: selectedPlan.price,
           }),
@@ -624,9 +695,12 @@
       button.disabled = false;
     });
 
-    writeWallet(readWallet());
-    populatePlans();
-    renderHistory();
+    (async () => {
+      writeWallet(readWallet());
+      await loadVtuServices();
+      await populatePlans();
+      renderHistory();
+    })();
   </script>
   <script>
     const notifBtnDesktop = document.getElementById("notifBtnDesktop");

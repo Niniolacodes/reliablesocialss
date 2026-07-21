@@ -140,6 +140,7 @@ async function callVtuGate(endpoint, payload) {
 }
 
 function isProviderSuccess(data) {
+  if (data && data.status === true) return true;
   const text = JSON.stringify(data || {}).toLowerCase();
   return text.includes('success') && !text.includes('insufficient') && !text.includes('invalid') && !text.includes('fail');
 }
@@ -149,6 +150,10 @@ function normalizePhone(value) {
   if (cleaned.startsWith('+234')) return `0${cleaned.slice(4)}`;
   if (cleaned.startsWith('234')) return `0${cleaned.slice(3)}`;
   return cleaned;
+}
+
+function publicProviderError(data, fallback) {
+  return data?.message || data?.error || fallback;
 }
 
 let dbConnection = null;
@@ -332,33 +337,65 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  if (pathname === '/api/vtu/services' && req.method === 'GET') {
+    const serviceType = String(reqUrl.searchParams.get('serviceType') || 'data').trim().toLowerCase();
+    const provider = await callVtuGate('/api/v1/fetchservices', { service_type: serviceType });
+    const success = provider.ok && isProviderSuccess(provider.data);
+    return sendJson(res, success ? 200 : provider.status, {
+      success,
+      error: success ? undefined : publicProviderError(provider.data, 'Unable to fetch VTUGATE services.'),
+      services: Array.isArray(provider.data?.data) ? provider.data.data : [],
+      provider: provider.data,
+    });
+  }
+
+  if (pathname === '/api/vtu/data-plans' && req.method === 'GET') {
+    const serviceId = String(reqUrl.searchParams.get('serviceId') || '').trim();
+    if (!serviceId) {
+      return sendJson(res, 400, { success: false, error: 'serviceId is required.' });
+    }
+    const provider = await callVtuGate('/api/v1/fetchdataplans', { service_id: serviceId });
+    const success = provider.ok && isProviderSuccess(provider.data);
+    const plans = Array.isArray(provider.data?.data?.data_plans)
+      ? provider.data.data.data_plans
+      : Array.isArray(provider.data?.data?.plans)
+        ? provider.data.data.plans
+        : Array.isArray(provider.data?.data)
+          ? provider.data.data
+          : [];
+    return sendJson(res, success ? 200 : provider.status, {
+      success,
+      error: success ? undefined : publicProviderError(provider.data, 'Unable to fetch VTUGATE data plans.'),
+      plans,
+      provider: provider.data,
+    });
+  }
+
   if (pathname === '/api/vtu/buy-data' && req.method === 'POST') {
     try {
       const payload = await readBody(req);
-      const network = String(payload.network || '').trim();
-      const dataType = String(payload.dataType || '').trim();
       const phone = normalizePhone(payload.phone);
-      const productCode = String(payload.productCode || payload.planId || '').trim();
+      const serviceId = String(payload.serviceId || '').trim();
+      const planCode = String(payload.planCode || payload.productCode || payload.planId || '').trim();
       const amount = Number(payload.amount || 0);
 
-      if (!network || !dataType || !productCode || !amount) {
-        return sendJson(res, 400, { success: false, error: 'Network, data type, plan, and amount are required.' });
+      if (!serviceId || !planCode || !amount) {
+        return sendJson(res, 400, { success: false, error: 'Service, plan, and amount are required.' });
       }
       if (!/^0[789][01]\d{8}$/.test(phone)) {
         return sendJson(res, 400, { success: false, error: 'Enter a valid Nigerian phone number.' });
       }
 
       const provider = await callVtuGate('/api/v1/buydata', {
-        network,
-        data_type: dataType,
-        phone,
-        product_code: productCode,
+        service_id: serviceId,
+        phone_number: phone,
+        plan_code: planCode,
         amount,
       });
       const success = provider.ok && isProviderSuccess(provider.data);
       return sendJson(res, success ? 200 : provider.status, {
         success,
-        error: success ? undefined : provider.data?.error || provider.data?.message || 'VTUGATE could not complete this data purchase.',
+        error: success ? undefined : publicProviderError(provider.data, 'VTUGATE could not complete this data purchase.'),
         provider: provider.data,
       });
     } catch (error) {
