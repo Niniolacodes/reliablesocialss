@@ -533,7 +533,7 @@
       });
     });
 
-    dataForm.addEventListener("submit", (event) => {
+    dataForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       const selectedPlan = getSelectedPlan();
       const phone = normalizePhone(phoneEl.value.trim());
@@ -554,6 +554,42 @@
         setMessage("error", "Enter a valid Nigerian phone number.");
         return;
       }
+      if (readWallet() < selectedPlan.price) {
+        walletBalanceEl.textContent = formatMoney(readWallet());
+        setMessage("error", "Insufficient balance");
+        return;
+      }
+
+      const button = document.getElementById("buyDataBtn");
+      button.disabled = true;
+      buyDataText.textContent = "Processing...";
+      clearMessage();
+
+      let providerData = {};
+      try {
+        const response = await fetch("/api/vtu/buy-data", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            network: networkEl.value,
+            dataType: dataTypeEl.value,
+            planId: selectedPlan.id,
+            productCode: selectedPlan.productCode || selectedPlan.id,
+            phone,
+            amount: selectedPlan.price,
+          }),
+        });
+        providerData = await response.json().catch(() => ({}));
+        if (!response.ok || !providerData.success) {
+          throw new Error(providerData.error || "Data purchase failed. Please try again.");
+        }
+      } catch (error) {
+        setMessage("error", error.message || "Data purchase failed. Please try again.");
+        updateSummary();
+        button.disabled = false;
+        return;
+      }
+
       const spend = ReliableDashboard.spendWallet(selectedPlan.price, {
         type: "Data Bundle",
         description: `${networkEl.value} ${dataTypeEl.value} ${selectedPlan.size}`,
@@ -561,6 +597,8 @@
       if (!spend.ok) {
         walletBalanceEl.textContent = formatMoney(readWallet());
         setMessage("error", "Insufficient balance");
+        button.disabled = false;
+        updateSummary();
         return;
       }
 
@@ -568,6 +606,7 @@
       const purchase = {
         date: currentDateTime(),
         reference: spend.transaction.reference,
+        providerReference: providerData.provider?.reference || providerData.provider?.ref || providerData.provider?.transaction_id || "",
         network: networkEl.value,
         type: dataTypeEl.value,
         plan: `${selectedPlan.size} - ${selectedPlan.validity}`,
@@ -582,6 +621,7 @@
       phoneEl.value = "";
       planEl.value = "";
       updateSummary();
+      button.disabled = false;
     });
 
     writeWallet(readWallet());

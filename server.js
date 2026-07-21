@@ -8,6 +8,21 @@ const rootDir = __dirname;
 const dataDir = path.join(rootDir, 'data');
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
+function loadEnvFile() {
+  const envPath = path.join(rootDir, '.env');
+  if (!fs.existsSync(envPath)) return;
+  fs.readFileSync(envPath, 'utf8').split(/\r?\n/).forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#') || !trimmed.includes('=')) return;
+    const index = trimmed.indexOf('=');
+    const key = trimmed.slice(0, index).trim();
+    const value = trimmed.slice(index + 1).trim();
+    if (key && process.env[key] === undefined) process.env[key] = value;
+  });
+}
+
+loadEnvFile();
+
 const defaultContent = {
   hero: {
     title: 'Reliable Socials',
@@ -78,6 +93,62 @@ function serveStatic(req, res) {
     return;
   }
   sendJson(res, 404, { success: false, error: 'Not found' });
+}
+
+async function callVtuGate(endpoint, payload) {
+  const apiKey = process.env.VTUGATE_API_KEY;
+  const baseUrl = (process.env.VTUGATE_API_BASE_URL || 'https://api.vtugate.com').replace(/\/+$/, '');
+  if (!apiKey) {
+    return {
+      ok: false,
+      status: 500,
+      data: { success: false, error: 'VTUGATE_API_KEY is not configured.' },
+    };
+  }
+
+  const body = new URLSearchParams();
+  body.set('api_key', apiKey);
+  Object.entries(payload).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') body.set(key, String(value));
+  });
+
+  try {
+    const response = await fetch(`${baseUrl}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${apiKey}`,
+        'X-API-Key': apiKey,
+      },
+      body,
+    });
+    const text = await response.text();
+    let data;
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch {
+      data = { message: text };
+    }
+    return { ok: response.ok, status: response.status, data };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 502,
+      data: { success: false, error: 'Unable to reach VTUGATE right now.' },
+    };
+  }
+}
+
+function isProviderSuccess(data) {
+  const text = JSON.stringify(data || {}).toLowerCase();
+  return text.includes('success') && !text.includes('insufficient') && !text.includes('invalid') && !text.includes('fail');
+}
+
+function normalizePhone(value) {
+  const cleaned = String(value || '').replace(/[\s-]/g, '');
+  if (cleaned.startsWith('+234')) return `0${cleaned.slice(4)}`;
+  if (cleaned.startsWith('234')) return `0${cleaned.slice(3)}`;
+  return cleaned;
 }
 
 let dbConnection = null;
@@ -258,6 +329,66 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET' || req.method === 'HEAD') {
       getContentPayload().then((content) => sendJson(res, 200, content)).catch(() => sendJson(res, 503, { success: false, error: 'Unable to load content from MySQL.' }));
       return;
+    }
+  }
+
+  if (pathname === '/api/vtu/buy-data' && req.method === 'POST') {
+    try {
+      const payload = await readBody(req);
+      const network = String(payload.network || '').trim();
+      const dataType = String(payload.dataType || '').trim();
+      const phone = normalizePhone(payload.phone);
+      const productCode = String(payload.productCode || payload.planId || '').trim();
+      const amount = Number(payload.amount || 0);
+
+      if (!network || !dataType || !productCode || !amount) {
+        return sendJson(res, 400, { success: false, error: 'Network, data type, plan, and amount are required.' });
+      }
+      if (!/^0[789][01]\d{8}$/.test(phone)) {
+        return sendJson(res, 400, { success: false, error: 'Enter a valid Nigerian phone number.' });
+      }
+
+      const provider = await callVtuGate('/api/v1/buydata', {
+        network,
+        data_type: dataType,
+        phone,
+        product_code: productCode,
+        amount,
+      });
+      const success = provider.ok && isProviderSuccess(provider.data);
+      return sendJson(res, success ? 200 : provider.status, {
+        success,
+        error: success ? undefined : provider.data?.error || provider.data?.message || 'VTUGATE could not complete this data purchase.',
+        provider: provider.data,
+      });
+    } catch (error) {
+      return sendJson(res, 400, { success: false, error: 'Invalid request body.' });
+    }
+  }
+
+  if (pathname === '/api/vtu/buy-airtime' && req.method === 'POST') {
+    try {
+      const payload = await readBody(req);
+      const network = String(payload.network || '').trim();
+      const phone = normalizePhone(payload.phone);
+      const amount = Number(payload.amount || 0);
+
+      if (!network || amount < 50) {
+        return sendJson(res, 400, { success: false, error: 'Network and an airtime amount of at least ₦50 are required.' });
+      }
+      if (!/^0[789][01]\d{8}$/.test(phone)) {
+        return sendJson(res, 400, { success: false, error: 'Enter a valid Nigerian phone number.' });
+      }
+
+      const provider = await callVtuGate('/api/v1/buyairtime', { network, phone, amount });
+      const success = provider.ok && isProviderSuccess(provider.data);
+      return sendJson(res, success ? 200 : provider.status, {
+        success,
+        error: success ? undefined : provider.data?.error || provider.data?.message || 'VTUGATE could not complete this airtime purchase.',
+        provider: provider.data,
+      });
+    } catch (error) {
+      return sendJson(res, 400, { success: false, error: 'Invalid request body.' });
     }
   }
 
